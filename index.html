@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Fast Wedding Invite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <section id="introScreen" class="screen active">
+        <video id="introVideo" class="bg-video" autoplay muted loop playsinline>
+          <source src="/assets/video/intro.mp4" type="video/mp4" />
+        </video>
+
+        <div class="screen-overlay dark">
+          <div class="intro-content">
+            <div class="intro-badge">WEDDING RACE</div>
+            <h1 class="intro-title">Свадебная гонка</h1>
+            <button id="startIntroBtn" class="primary-btn">Ну давай прокатимся</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="formScreen" class="screen">
+        <div class="screen-overlay solid">
+          <div class="panel form-panel">
+            <h2>Регистрация гонщика</h2>
+            <p class="muted">Введи имя и фамилию. Заезд один: ты на Skyline, бот на Supra.</p>
+            <input
+              id="playerNameInput"
+              class="text-input"
+              type="text"
+              placeholder="Имя и фамилия"
+              maxlength="60"
+            />
+            <button id="startRaceBtn" class="primary-btn">На старт</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="screen">
+        <div class="game-backplates" aria-hidden="true">
+          <video
+            id="stageBackplate"
+            class="game-bg-video game-bg-stage"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+          >
+            <source src="/assets/trailer/video/runway-sunset.mp4" type="video/mp4" />
+          </video>
+          <video
+            id="raceBackplate"
+            class="game-bg-video game-bg-race"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+          >
+            <source src="/assets/trailer/video/desert-road-sunset.mp4" type="video/mp4" />
+          </video>
+          <video
+            id="dustBackplate"
+            class="game-dust-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+          >
+            <source src="/assets/trailer/video/desert-dust.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div id="gameCanvasWrap"></div>
+
+        <div class="game-cinematic-fx" aria-hidden="true">
+          <div class="game-fx-glow"></div>
+          <div class="game-fx-vignette"></div>
+          <div class="game-fx-grain"></div>
+          <div class="game-fx-bars"></div>
+        </div>
+
+        <div id="hud" class="hud hidden">
+          <div id="countdownOverlay" class="countdown-overlay hidden">
+            <div id="countdownText" class="countdown-text">3</div>
+          </div>
+
+          <div class="hud-compat-hidden" aria-hidden="true">
+            <div id="playerCarName"></div>
+            <div id="opponentCarName"></div>
+            <div id="raceTimer">00.00</div>
+            <div id="playerProgress"></div>
+            <div id="botProgress"></div>
+            <div id="gearValue">1</div>
+            <div id="shiftFeedback">READY</div>
+            <div id="raceStatus">Stage to start</div>
+            <div id="rpmFill"></div>
+            <div id="launchMarker"></div>
+            <div id="launchNeedle"></div>
+            <div id="launchLabel">Tap SHIFT in the green zone</div>
+          </div>
+
+          <div class="hud-minimal">
+            <button id="nosBtn" class="hud-control hud-control-nos" disabled>NOS</button>
+
+            <div class="hud-speedometer-wrap">
+              <div class="speedometer">
+                <div class="speedometer-shadow"></div>
+                <div id="speedNeedle" class="speed-needle"></div>
+                <div class="speedometer-center">
+                  <div id="rpmValue" class="rpm-value-main">0.00</div>
+                  <div class="speed-small speed-small-rpm">RPM</div>
+                  <div class="speed-small speed-small-gap">km/h</div>
+                  <div id="speedValue" class="speed-value-main">0</div>
+                </div>
+              </div>
+            </div>
+
+            <button id="shiftBtn" class="hud-control hud-control-shift">SHIFT</button>
+          </div>
+
+          <div id="debugPanel" class="debug-panel hidden">
+            <div class="debug-title">DEBUG</div>
+            <pre id="debugContent" class="debug-content"></pre>
+          </div>
+        </div>
+
+        <div id="resultOverlay" class="result-overlay hidden">
+          <div class="panel result-panel">
+            <div id="resultTitle" class="result-title">ФИНИШ</div>
+            <div id="resultSubtitle" class="muted"></div>
+            <button id="continueToInviteBtn" class="primary-btn">Открыть приглашение</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="inviteScreen" class="screen">
+        <div class="invite-bg">
+          <video class="invite-bg-video" autoplay muted loop playsinline preload="auto">
+            <source src="/assets/trailer/video/desert-road-sunset.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div class="screen-overlay dark invite-overlay">
+          <div class="invite-shell">
+            <header class="invite-hero">
+              <div class="invite-hero-topline">Race Wars Wedding</div>
+
+              <div class="invite-date-lockup">
+                <div class="invite-day">22</div>
+                <div class="invite-date-meta">
+                  <div class="invite-month">June 2026</div>
+                  <div class="invite-location">Санкт-Петербург • Русское оружие</div>
+                </div>
+              </div>
+
+              <div class="invite-hero-copyblock">
+                <div class="invite-kicker">Главный заезд нашей жизни</div>
+                <h2 class="invite-headline">Ты приглашен на свадьбу в стиле «Форсаж»</h2>
+                <p class="invite-lead">
+                  После короткой квалификации начинается главный старт вечера. Ночь,
+                  когда две траектории сольются в одну семейную историю.
+                </p>
+              </div>
+
+              <div class="invite-hero-meta">
+                <div class="invite-chip">Пропуск пилота: <span id="inviteGuestName">Пилот</span></div>
+                <div class="invite-chip" id="inviteRaceBadge">Квалификация пройдена</div>
+              </div>
+            </header>
+
+            <section class="invite-section invite-note">
+              <div class="invite-section-kicker">С любовью и запахом жженой резины</div>
+              <p id="inviteRaceSummary" class="invite-note-copy">
+                Skyline прошел дистанцию. Теперь главный старт вечера ждет тебя уже не на трассе, а за нашим свадебным столом.
+              </p>
+            </section>
+
+            <section class="invite-section invite-countdown">
+              <div class="invite-section-kicker">До церемонии</div>
+              <h3 class="invite-section-title">Обратный отсчет</h3>
+              <p class="invite-rsvp-copy">
+                Старт церемонии — 22 июня 2026 года в 11:00.
+              </p>
+
+              <div class="invite-countdown-grid">
+                <div class="invite-count-card">
+                  <span id="countDays" class="invite-count-value">00</span>
+                  <span class="invite-count-label">дней</span>
+                </div>
+                <div class="invite-count-card">
+                  <span id="countHours" class="invite-count-value">00</span>
+                  <span class="invite-count-label">часов</span>
+                </div>
+                <div class="invite-count-card">
+                  <span id="countMinutes" class="invite-count-value">00</span>
+                  <span class="invite-count-label">минут</span>
+                </div>
+                <div class="invite-count-card">
+                  <span id="countSeconds" class="invite-count-value">00</span>
+                  <span class="invite-count-label">секунд</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="invite-section">
+              <div class="invite-section-kicker">Программа дня</div>
+              <h3 class="invite-section-title">Сценарий вечера</h3>
+
+              <div class="invite-timeline">
+                <div class="invite-timeline-row">
+                  <div class="invite-timeline-time">10:30</div>
+                  <div class="invite-timeline-copy">
+                    <strong>Сбор гостей</strong>
+                    <span>Пит-лейн открывается. Встречаемся, знакомимся, ловим первые кадры и настраиваемся на старт дня.</span>
+                  </div>
+                </div>
+                <div class="invite-timeline-row">
+                  <div class="invite-timeline-time">11:00</div>
+                  <div class="invite-timeline-copy">
+                    <strong>Церемония</strong>
+                    <span>Момент, когда стартует новая семейная история и все аплодисменты работают громче любого выхлопа.</span>
+                  </div>
+                </div>
+                <div class="invite-timeline-row">
+                  <div class="invite-timeline-time">12:00</div>
+                  <div class="invite-timeline-copy">
+                    <strong>Фото и аперитив</strong>
+                    <span>Легкий разгон после церемонии: поздравления, фотографии и первые тосты в теплой атмосфере.</span>
+                  </div>
+                </div>
+                <div class="invite-timeline-row">
+                  <div class="invite-timeline-time">13:00</div>
+                  <div class="invite-timeline-copy">
+                    <strong>Банкет и вечерняя программа</strong>
+                    <span>Ужин, музыка, танцы и весь тот самый драйв, ради которого хочется остаться до финальных титров.</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="invite-section invite-section-split">
+              <div class="invite-slab invite-venue">
+                <div class="invite-section-kicker">Место для старта</div>
+                <h3 class="invite-section-title">Русское оружие</h3>
+                <p class="invite-venue-address">
+                  Санкт-Петербург. Ресторан, где мы собираем всех своих на один громкий,
+                  красивый и очень личный заезд.
+                </p>
+                <a
+                  class="invite-route-link"
+                  href="https://yandex.ru/maps/?text=%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B5%20%D0%BE%D1%80%D1%83%D0%B6%D0%B8%D0%B5%20%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Построить маршрут
+                </a>
+              </div>
+
+              <div class="invite-slab invite-details">
+                <div class="invite-section-kicker">Детали</div>
+                <div class="invite-detail-row">
+                  <span>Тема вечера</span>
+                  <strong>Fast & Furious / Race Wars</strong>
+                </div>
+                <div class="invite-detail-row">
+                  <span>Дресс-код</span>
+                  <strong>Молочный, шампань, серебро, графит, черный</strong>
+                </div>
+                <div class="invite-detail-row">
+                  <span>Настрой</span>
+                  <strong>Хром, вечерний свет, дорогой уличный вайб</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="invite-section invite-dresscode">
+              <div class="invite-section-kicker">Палитра вечера</div>
+              <h3 class="invite-section-title">Дресс-код</h3>
+              <p class="invite-rsvp-copy">
+                Ниже оттенки, на которые можно ориентироваться при выборе образа.
+              </p>
+
+              <div class="invite-dress-grid">
+                <div class="invite-dress-card">
+                  <div class="invite-dress-photo invite-swatch-ivory"></div>
+                  <div class="invite-dress-name">Молочный</div>
+                </div>
+                <div class="invite-dress-card">
+                  <div class="invite-dress-photo invite-swatch-champagne"></div>
+                  <div class="invite-dress-name">Шампань</div>
+                </div>
+                <div class="invite-dress-card">
+                  <div class="invite-dress-photo invite-swatch-silver"></div>
+                  <div class="invite-dress-name">Серебро</div>
+                </div>
+                <div class="invite-dress-card">
+                  <div class="invite-dress-photo invite-swatch-steel"></div>
+                  <div class="invite-dress-name">Графит</div>
+                </div>
+                <div class="invite-dress-card">
+                  <div class="invite-dress-photo invite-swatch-black"></div>
+                  <div class="invite-dress-name">Черный</div>
+                </div>
+              </div>
+            </section>
+
+            <section class="invite-section invite-rsvp">
+              <div class="invite-section-kicker">Финальный чек-ин</div>
+              <h3 class="invite-section-title">Сможешь приехать?</h3>
+              <p class="invite-rsvp-copy">
+                Дай знать, займешь ли ты место на стартовой решетке нашего вечера.
+              </p>
+              <div class="rsvp-actions">
+                <button id="yesBtn" class="primary-btn">Да, буду</button>
+                <button id="noBtn" class="secondary-btn">Не смогу</button>
+              </div>
+              <div id="rsvpStatus" class="muted invite-rsvp-status"></div>
+            </section>
+
+            <footer class="invite-footer">
+              <div class="invite-section-kicker">До встречи</div>
+              <div class="invite-footer-title">Ждем тебя на старте 22 июня 2026</div>
+            </footer>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
