@@ -19,7 +19,7 @@ import {
 import { clamp, lerp } from './utils.js';
 import { createScene } from './sceneSetup.js';
 
-const CAMERA_YAW_OFFSET = THREE.MathUtils.degToRad(325);
+const CAMERA_YAW_OFFSET = THREE.MathUtils.degToRad(250);
 const CAMERA_RADIUS_SCALE = 0.84;
 const WORLD_TRAVEL_SCALE = 0.42;
 const WORLD_GAP_SCALE = 0.12;
