@@ -13,12 +13,12 @@ function createCanvasTexture(width, height, draw) {
 
 function createRoadTexture() {
   const texture = createCanvasTexture(1024, 1024, (ctx, width, height) => {
-    ctx.fillStyle = '#32363b';
+    ctx.fillStyle = '#6e716c';
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < 220; i += 1) {
-      const shade = 44 + Math.floor(Math.random() * 28);
-      const alpha = 0.08 + Math.random() * 0.08;
+      const shade = 98 + Math.floor(Math.random() * 38);
+      const alpha = 0.05 + Math.random() * 0.06;
       ctx.fillStyle = `rgba(${shade}, ${shade}, ${shade}, ${alpha})`;
       const x = Math.random() * width;
       const y = Math.random() * height;
@@ -27,7 +27,7 @@ function createRoadTexture() {
       ctx.fillRect(x, y, w, h);
     }
 
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
     ctx.lineWidth = 6;
     for (let y = 0; y < height; y += 96) {
       ctx.beginPath();
@@ -48,12 +48,12 @@ function createRoadTexture() {
 function createGroundTexture() {
   const texture = createCanvasTexture(1024, 1024, (ctx, width, height) => {
     const gradient = ctx.createLinearGradient(0, 0, 0, height);
-    gradient.addColorStop(0, '#d6ba84');
-    gradient.addColorStop(1, '#b58c52');
+    gradient.addColorStop(0, '#e5c797');
+    gradient.addColorStop(1, '#c69456');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
-    ctx.strokeStyle = 'rgba(145, 102, 51, 0.16)';
+    ctx.strokeStyle = 'rgba(160, 114, 62, 0.12)';
     ctx.lineWidth = 3;
     for (let y = 20; y < height; y += 34) {
       ctx.beginPath();
@@ -63,8 +63,8 @@ function createGroundTexture() {
     }
 
     for (let i = 0; i < 180; i += 1) {
-      const alpha = 0.05 + Math.random() * 0.06;
-      ctx.fillStyle = `rgba(130, 90, 45, ${alpha})`;
+      const alpha = 0.03 + Math.random() * 0.04;
+      ctx.fillStyle = `rgba(148, 100, 48, ${alpha})`;
       const x = Math.random() * width;
       const y = Math.random() * height;
       const size = 6 + Math.random() * 18;
@@ -115,24 +115,24 @@ function rotatePointAroundY(pointX, pointZ, pivotX, pivotZ, angleRad, radiusScal
 function createSkyCard(scene) {
   const skyTexture = createCanvasTexture(2048, 1024, (ctx, width, height) => {
     const gradient = ctx.createLinearGradient(0, 0, 0, height);
-    gradient.addColorStop(0, '#86c8ff');
-    gradient.addColorStop(0.35, '#b9e2ff');
-    gradient.addColorStop(0.7, '#e3f4ff');
-    gradient.addColorStop(1, '#f7e8c0');
+    gradient.addColorStop(0, '#c6e6ff');
+    gradient.addColorStop(0.34, '#e7f5ff');
+    gradient.addColorStop(0.68, '#fff8ec');
+    gradient.addColorStop(1, '#f2d4ab');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
     const glow = ctx.createRadialGradient(width * 0.68, height * 0.28, 24, width * 0.68, height * 0.28, width * 0.18);
-    glow.addColorStop(0, 'rgba(255,249,227,0.96)');
-    glow.addColorStop(0.4, 'rgba(255,236,183,0.42)');
-    glow.addColorStop(1, 'rgba(255,236,183,0)');
+    glow.addColorStop(0, 'rgba(255,252,239,1)');
+    glow.addColorStop(0.4, 'rgba(255,242,203,0.58)');
+    glow.addColorStop(1, 'rgba(255,242,203,0)');
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, width, height);
 
     const haze = ctx.createLinearGradient(0, height * 0.58, 0, height);
-    haze.addColorStop(0, 'rgba(255,244,214,0)');
-    haze.addColorStop(0.48, 'rgba(240,221,173,0.24)');
-    haze.addColorStop(1, 'rgba(209,184,122,0.56)');
+    haze.addColorStop(0, 'rgba(255,246,224,0)');
+    haze.addColorStop(0.48, 'rgba(247,225,177,0.34)');
+    haze.addColorStop(1, 'rgba(224,188,126,0.68)');
     ctx.fillStyle = haze;
     ctx.fillRect(0, height * 0.54, width, height * 0.46);
   });
@@ -148,7 +148,7 @@ function createSkyCard(scene) {
   sky.position.set(0, 78, -250);
   scene.add(sky);
 
-  const sunTexture = createGlowTexture('rgba(255,250,226,0.98)', 'rgba(255,232,170,0)');
+  const sunTexture = createGlowTexture('rgba(255,252,238,1)', 'rgba(255,238,188,0)');
   const sun = new THREE.Mesh(
     new THREE.PlaneGeometry(44, 44),
     new THREE.MeshBasicMaterial({
@@ -165,7 +165,7 @@ function createSkyCard(scene) {
   const flare = new THREE.Mesh(
     new THREE.PlaneGeometry(220, 72),
     new THREE.MeshBasicMaterial({
-      map: createGlowTexture('rgba(255,239,189,0.34)', 'rgba(255,239,189,0)', 1024),
+      map: createGlowTexture('rgba(255,245,212,0.48)', 'rgba(255,245,212,0)', 1024),
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
@@ -219,8 +219,8 @@ function createBackdropLayers(scene) {
       y: 42,
       z: -240,
       opacity: 0.9,
-      fill: '#8ea0a8',
-      shadow: '#6f7b84',
+      fill: '#d7cab3',
+      shadow: '#b3a592',
       peaks: 10
     },
     {
@@ -229,8 +229,8 @@ function createBackdropLayers(scene) {
       y: 30,
       z: -190,
       opacity: 0.88,
-      fill: '#b39b74',
-      shadow: '#8e7959',
+      fill: '#cfbb93',
+      shadow: '#b49c71',
       peaks: 8
     },
     {
@@ -239,8 +239,8 @@ function createBackdropLayers(scene) {
       y: 20,
       z: -138,
       opacity: 0.82,
-      fill: '#cfb27e',
-      shadow: '#a78958',
+      fill: '#ddb97d',
+      shadow: '#bf965c',
       peaks: 7
     }
   ];
@@ -262,7 +262,7 @@ function createBackdropLayers(scene) {
   const horizonMist = new THREE.Mesh(
     new THREE.PlaneGeometry(460, 64),
     new THREE.MeshBasicMaterial({
-      map: createGlowTexture('rgba(255,241,208,0.28)', 'rgba(255,241,208,0)', 1024),
+      map: createGlowTexture('rgba(255,244,216,0.42)', 'rgba(255,244,216,0)', 1024),
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
@@ -353,9 +353,9 @@ function createRunway(scene) {
     new THREE.PlaneGeometry(15.8, 920),
     new THREE.MeshStandardMaterial({
       map: asphaltMap,
-      color: 0x2d3136,
+      color: 0x888579,
       metalness: 0.05,
-      roughness: 0.98,
+      roughness: 0.94,
       emissive: 0x000000,
       emissiveIntensity: 0
     })
@@ -367,7 +367,7 @@ function createRunway(scene) {
 
   const shoulderMaterial = new THREE.MeshStandardMaterial({
     map: sandMap,
-    color: 0xc6a56b,
+    color: 0xdeba82,
     roughness: 1,
     metalness: 0
   });
@@ -416,6 +416,7 @@ export function createScene(rendererWrap) {
   const cameraYaw = THREE.MathUtils.degToRad(260);
   const cameraRadiusScale = 0.84;
   const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xe6f4ff);
   scene.fog = null;
 
   const camera = new THREE.PerspectiveCamera(
@@ -436,10 +437,10 @@ export function createScene(rendererWrap) {
 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x000000, 0);
+  renderer.setClearColor(0xe6f4ff, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.08;
+  renderer.toneMappingExposure = 1.42;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -451,8 +452,8 @@ export function createScene(rendererWrap) {
   createBackdropLayers(scene);
   const dustField = createDustField(scene);
 
-  const sunLight = new THREE.DirectionalLight(0xfffbef, 2.9);
-  sunLight.position.set(26, 30, 18);
+  const sunLight = new THREE.DirectionalLight(0xfffcf2, 4.4);
+  sunLight.position.set(34, 36, 20);
   sunLight.castShadow = true;
   sunLight.shadow.mapSize.set(2048, 2048);
   sunLight.shadow.camera.left = -18;
@@ -461,15 +462,15 @@ export function createScene(rendererWrap) {
   sunLight.shadow.camera.bottom = -18;
   scene.add(sunLight);
 
-  const hemi = new THREE.HemisphereLight(0x9ed8ff, 0xc2a170, 1.8);
+  const hemi = new THREE.HemisphereLight(0xd8efff, 0xe4bf88, 2.35);
   scene.add(hemi);
 
-  const rimLight = new THREE.PointLight(0xbbe4ff, 8, 34, 2);
-  rimLight.position.set(-8, 4.5, 12);
+  const rimLight = new THREE.PointLight(0xe8f6ff, 10, 42, 2);
+  rimLight.position.set(-10, 6, 16);
   scene.add(rimLight);
 
-  const amberFill = new THREE.PointLight(0xffefc5, 7, 38, 2);
-  amberFill.position.set(10, 3, 10);
+  const amberFill = new THREE.PointLight(0xfff1cf, 9, 44, 2);
+  amberFill.position.set(14, 4, 12);
   scene.add(amberFill);
 
   return {
