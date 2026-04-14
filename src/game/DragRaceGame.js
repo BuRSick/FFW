@@ -171,7 +171,7 @@ export class DragRaceGame {
   }
 
   setupAudio() {
-    const fallbackSfx = '/assets/trailer/audio/drag-race-sfx.mp3';
+    const fallbackSfx = 'assets/trailer/audio/drag-race-sfx.mp3';
 
     this.audio.engine = new Audio(fallbackSfx);
     this.audio.engine.loop = true;

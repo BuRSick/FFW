@@ -401,14 +401,14 @@ function createRunwayMarkings(scene) {
 function createRunway(scene, textureLoader) {
   const asphaltMap = loadRepeatedTexture(
     textureLoader,
-    '/assets/trailer/textures/aerial-asphalt-diffuse.jpg',
+    'assets/trailer/textures/aerial-asphalt-diffuse.jpg',
     1.8,
     38,
     { rotation: Math.PI / 2 }
   );
   const sandMap = loadRepeatedTexture(
     textureLoader,
-    '/assets/trailer/textures/aerial-sand-diffuse.jpg',
+    'assets/trailer/textures/aerial-sand-diffuse.jpg',
     3.2,
     34,
     { rotation: Math.PI / 2 }
