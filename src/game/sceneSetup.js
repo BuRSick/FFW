@@ -1,18 +1,5 @@
 import * as THREE from 'three';
 
-const ASSET_BASE = import.meta.env.BASE_URL;
-
-function loadRepeatedTexture(loader, url, repeatX, repeatY, options = {}) {
-  const texture = loader.load(url);
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(repeatX, repeatY);
-  texture.rotation = options.rotation ?? 0;
-  texture.center.set(0.5, 0.5);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
-}
-
 function createCanvasTexture(width, height, draw) {
   const canvas = document.createElement('canvas');
   canvas.width = width;
@@ -21,6 +8,77 @@ function createCanvasTexture(width, height, draw) {
   draw(ctx, width, height);
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
+function createRoadTexture() {
+  const texture = createCanvasTexture(1024, 1024, (ctx, width, height) => {
+    ctx.fillStyle = '#32363b';
+    ctx.fillRect(0, 0, width, height);
+
+    for (let i = 0; i < 220; i += 1) {
+      const shade = 44 + Math.floor(Math.random() * 28);
+      const alpha = 0.08 + Math.random() * 0.08;
+      ctx.fillStyle = `rgba(${shade}, ${shade}, ${shade}, ${alpha})`;
+      const x = Math.random() * width;
+      const y = Math.random() * height;
+      const w = 8 + Math.random() * 16;
+      const h = 4 + Math.random() * 12;
+      ctx.fillRect(x, y, w, h);
+    }
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = 6;
+    for (let y = 0; y < height; y += 96) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y + 24);
+      ctx.stroke();
+    }
+  });
+
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(1.6, 36);
+  texture.rotation = Math.PI / 2;
+  texture.center.set(0.5, 0.5);
+  return texture;
+}
+
+function createGroundTexture() {
+  const texture = createCanvasTexture(1024, 1024, (ctx, width, height) => {
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, '#d6ba84');
+    gradient.addColorStop(1, '#b58c52');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.strokeStyle = 'rgba(145, 102, 51, 0.16)';
+    ctx.lineWidth = 3;
+    for (let y = 20; y < height; y += 34) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y + 10);
+      ctx.stroke();
+    }
+
+    for (let i = 0; i < 180; i += 1) {
+      const alpha = 0.05 + Math.random() * 0.06;
+      ctx.fillStyle = `rgba(130, 90, 45, ${alpha})`;
+      const x = Math.random() * width;
+      const y = Math.random() * height;
+      const size = 6 + Math.random() * 18;
+      ctx.beginPath();
+      ctx.arc(x, y, size * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  });
+
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(2.8, 30);
+  texture.rotation = Math.PI / 2;
+  texture.center.set(0.5, 0.5);
   return texture;
 }
 
@@ -169,25 +227,24 @@ function rotatePointAroundY(pointX, pointZ, pivotX, pivotZ, angleRad, radiusScal
 function createSkyCard(scene) {
   const skyTexture = createCanvasTexture(2048, 1024, (ctx, width, height) => {
     const gradient = ctx.createLinearGradient(0, 0, 0, height);
-    gradient.addColorStop(0, '#2b1e1f');
-    gradient.addColorStop(0.22, '#8a4d37');
-    gradient.addColorStop(0.48, '#cf8d5a');
-    gradient.addColorStop(0.74, '#efba74');
-    gradient.addColorStop(1, '#f2c887');
+    gradient.addColorStop(0, '#86c8ff');
+    gradient.addColorStop(0.35, '#b9e2ff');
+    gradient.addColorStop(0.7, '#e3f4ff');
+    gradient.addColorStop(1, '#f7e8c0');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
-    const glow = ctx.createRadialGradient(width * 0.52, height * 0.58, 20, width * 0.52, height * 0.58, width * 0.24);
-    glow.addColorStop(0, 'rgba(255,236,195,0.95)');
-    glow.addColorStop(0.4, 'rgba(255,183,104,0.34)');
-    glow.addColorStop(1, 'rgba(255,183,104,0)');
+    const glow = ctx.createRadialGradient(width * 0.68, height * 0.28, 24, width * 0.68, height * 0.28, width * 0.18);
+    glow.addColorStop(0, 'rgba(255,249,227,0.96)');
+    glow.addColorStop(0.4, 'rgba(255,236,183,0.42)');
+    glow.addColorStop(1, 'rgba(255,236,183,0)');
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, width, height);
 
-    const haze = ctx.createLinearGradient(0, height * 0.54, 0, height);
-    haze.addColorStop(0, 'rgba(255,214,154,0)');
-    haze.addColorStop(0.5, 'rgba(244,184,112,0.22)');
-    haze.addColorStop(1, 'rgba(185,114,63,0.58)');
+    const haze = ctx.createLinearGradient(0, height * 0.58, 0, height);
+    haze.addColorStop(0, 'rgba(255,244,214,0)');
+    haze.addColorStop(0.48, 'rgba(240,221,173,0.24)');
+    haze.addColorStop(1, 'rgba(209,184,122,0.56)');
     ctx.fillStyle = haze;
     ctx.fillRect(0, height * 0.54, width, height * 0.46);
   });
@@ -203,7 +260,7 @@ function createSkyCard(scene) {
   sky.position.set(0, 78, -250);
   scene.add(sky);
 
-  const sunTexture = createGlowTexture('rgba(255,227,173,0.95)', 'rgba(255,195,121,0)');
+  const sunTexture = createGlowTexture('rgba(255,250,226,0.98)', 'rgba(255,232,170,0)');
   const sun = new THREE.Mesh(
     new THREE.PlaneGeometry(44, 44),
     new THREE.MeshBasicMaterial({
@@ -214,21 +271,21 @@ function createSkyCard(scene) {
       toneMapped: false
     })
   );
-  sun.position.set(14, 39, -170);
+  sun.position.set(52, 50, -170);
   scene.add(sun);
 
   const flare = new THREE.Mesh(
     new THREE.PlaneGeometry(220, 72),
     new THREE.MeshBasicMaterial({
-      map: createGlowTexture('rgba(255,202,120,0.45)', 'rgba(255,202,120,0)', 1024),
+      map: createGlowTexture('rgba(255,239,189,0.34)', 'rgba(255,239,189,0)', 1024),
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       toneMapped: false
     })
   );
-  flare.position.set(8, 20, -160);
-  flare.scale.set(1.1, 0.38, 1);
+  flare.position.set(28, 18, -160);
+  flare.scale.set(0.95, 0.28, 1);
   scene.add(flare);
 }
 
@@ -274,8 +331,8 @@ function createBackdropLayers(scene) {
       y: 42,
       z: -240,
       opacity: 0.9,
-      fill: '#725037',
-      shadow: '#473223',
+      fill: '#8ea0a8',
+      shadow: '#6f7b84',
       peaks: 10
     },
     {
@@ -284,8 +341,8 @@ function createBackdropLayers(scene) {
       y: 30,
       z: -190,
       opacity: 0.88,
-      fill: '#916542',
-      shadow: '#5a3d2a',
+      fill: '#b39b74',
+      shadow: '#8e7959',
       peaks: 8
     },
     {
@@ -294,8 +351,8 @@ function createBackdropLayers(scene) {
       y: 20,
       z: -138,
       opacity: 0.82,
-      fill: '#b07c4d',
-      shadow: '#825936',
+      fill: '#cfb27e',
+      shadow: '#a78958',
       peaks: 7
     }
   ];
@@ -317,7 +374,7 @@ function createBackdropLayers(scene) {
   const horizonMist = new THREE.Mesh(
     new THREE.PlaneGeometry(460, 64),
     new THREE.MeshBasicMaterial({
-      map: createGlowTexture('rgba(255,221,168,0.45)', 'rgba(255,221,168,0)', 1024),
+      map: createGlowTexture('rgba(255,241,208,0.28)', 'rgba(255,241,208,0)', 1024),
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
@@ -400,31 +457,19 @@ function createRunwayMarkings(scene) {
   return { markings, finishLineZ };
 }
 
-function createRunway(scene, textureLoader) {
-  const asphaltMap = loadRepeatedTexture(
-    textureLoader,
-    `${ASSET_BASE}assets/trailer/textures/aerial-asphalt-diffuse.jpg`,
-    1.8,
-    38,
-    { rotation: Math.PI / 2 }
-  );
-  const sandMap = loadRepeatedTexture(
-    textureLoader,
-    `${ASSET_BASE}assets/trailer/textures/aerial-sand-diffuse.jpg`,
-    3.2,
-    34,
-    { rotation: Math.PI / 2 }
-  );
+function createRunway(scene) {
+  const asphaltMap = createRoadTexture();
+  const sandMap = createGroundTexture();
 
   const runway = new THREE.Mesh(
     new THREE.PlaneGeometry(15.8, 920),
     new THREE.MeshStandardMaterial({
       map: asphaltMap,
-      color: 0x171a20,
-      metalness: 0.24,
-      roughness: 0.88,
-      emissive: 0x0b0f15,
-      emissiveIntensity: 0.34
+      color: 0x2d3136,
+      metalness: 0.05,
+      roughness: 0.98,
+      emissive: 0x000000,
+      emissiveIntensity: 0
     })
   );
   runway.rotation.x = -Math.PI / 2;
@@ -432,24 +477,9 @@ function createRunway(scene, textureLoader) {
   runway.receiveShadow = true;
   scene.add(runway);
 
-  const sheen = new THREE.Mesh(
-    new THREE.PlaneGeometry(12.4, 920),
-    new THREE.MeshBasicMaterial({
-      color: 0x5d7488,
-      transparent: true,
-      opacity: 0.08,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      toneMapped: false
-    })
-  );
-  sheen.rotation.x = -Math.PI / 2;
-  sheen.position.set(0, 0.012, -110);
-  scene.add(sheen);
-
   const shoulderMaterial = new THREE.MeshStandardMaterial({
     map: sandMap,
-    color: 0xa17546,
+    color: 0xc6a56b,
     roughness: 1,
     metalness: 0
   });
@@ -474,49 +504,9 @@ function createRunway(scene, textureLoader) {
   const runwayMarkPack = createRunwayMarkings(scene);
 
   const runwayLights = new THREE.Group();
-  const amberLightMaterial = new THREE.MeshBasicMaterial({
-    color: 0xf8bd6d,
-    transparent: true,
-    opacity: 0.65,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-    toneMapped: false
-  });
-
-  for (let z = -340; z <= 120; z += 7) {
-    for (const x of [-8.1, 8.1]) {
-      const light = new THREE.Mesh(new THREE.PlaneGeometry(0.22, 1.45), amberLightMaterial);
-      light.rotation.x = -Math.PI / 2;
-      light.position.set(x, 0.028, z);
-      runwayLights.add(light);
-    }
-  }
   scene.add(runwayLights);
 
   const sideStreaks = new THREE.Group();
-  for (let z = -340; z <= 120; z += 12) {
-    const streak = new THREE.Mesh(
-      new THREE.PlaneGeometry(1.6, 12),
-      new THREE.MeshBasicMaterial({
-        color: 0x8cd5ff,
-        transparent: true,
-        opacity: 0.08,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        toneMapped: false
-      })
-    );
-    streak.rotation.x = -Math.PI / 2;
-    streak.position.set(9.4, 0.02, z);
-    sideStreaks.add(streak);
-
-    const amber = streak.clone();
-    amber.position.x = -9.4;
-    amber.material = streak.material.clone();
-    amber.material.color = new THREE.Color(0xffc16f);
-    amber.material.opacity = 0.09;
-    sideStreaks.add(amber);
-  }
   scene.add(sideStreaks);
 
   return {
@@ -530,25 +520,6 @@ function createRunway(scene, textureLoader) {
 
 function createDustField(scene) {
   const dustGroup = new THREE.Group();
-  const dustTexture = createGlowTexture('rgba(255,214,155,0.48)', 'rgba(255,214,155,0)', 512);
-
-  for (let i = 0; i < 16; i += 1) {
-    const side = i % 2 === 0 ? -1 : 1;
-    const puff = new THREE.Mesh(
-      new THREE.PlaneGeometry(16 + (i % 3) * 6, 7 + (i % 4) * 2),
-      new THREE.MeshBasicMaterial({
-        map: dustTexture,
-        transparent: true,
-        opacity: 0.2 + (i % 3) * 0.03,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        toneMapped: false
-      })
-    );
-    puff.position.set(side * (13 + (i % 4) * 2.4), 3.4 + (i % 3) * 0.45, -20 - i * 24);
-    dustGroup.add(puff);
-  }
-
   scene.add(dustGroup);
   return dustGroup;
 }
@@ -557,7 +528,7 @@ export function createScene(rendererWrap) {
   const cameraYaw = THREE.MathUtils.degToRad(280);
   const cameraRadiusScale = 0.84;
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0xc38d57, 62, 240);
+  scene.fog = new THREE.Fog(0xd7e8f7, 95, 300);
 
   const camera = new THREE.PerspectiveCamera(
     44,
@@ -588,14 +559,15 @@ export function createScene(rendererWrap) {
   rendererWrap.appendChild(renderer.domElement);
   const axisOverlay = createAxisOverlay(rendererWrap);
 
-  const textureLoader = new THREE.TextureLoader();
-  const runwayPack = createRunway(scene, textureLoader);
+  const runwayPack = createRunway(scene);
+  createSkyCard(scene);
+  createBackdropLayers(scene);
   const dustField = createDustField(scene);
   const axisGuide = createAxisGuide(scene);
   const cameraAxisGuide = createCameraAxisGuide(camera);
 
-  const sunLight = new THREE.DirectionalLight(0xffe4be, 3.25);
-  sunLight.position.set(-28, 22, 18);
+  const sunLight = new THREE.DirectionalLight(0xfffbef, 2.9);
+  sunLight.position.set(26, 30, 18);
   sunLight.castShadow = true;
   sunLight.shadow.mapSize.set(2048, 2048);
   sunLight.shadow.camera.left = -18;
@@ -604,15 +576,15 @@ export function createScene(rendererWrap) {
   sunLight.shadow.camera.bottom = -18;
   scene.add(sunLight);
 
-  const hemi = new THREE.HemisphereLight(0xffc88c, 0x5e3e24, 1.5);
+  const hemi = new THREE.HemisphereLight(0x9ed8ff, 0xc2a170, 1.8);
   scene.add(hemi);
 
-  const rimLight = new THREE.PointLight(0x79d4ff, 22, 40, 2);
-  rimLight.position.set(7, 3.5, 18);
+  const rimLight = new THREE.PointLight(0xbbe4ff, 8, 34, 2);
+  rimLight.position.set(-8, 4.5, 12);
   scene.add(rimLight);
 
-  const amberFill = new THREE.PointLight(0xffaa61, 18, 50, 2);
-  amberFill.position.set(-10, 2.5, 8);
+  const amberFill = new THREE.PointLight(0xffefc5, 7, 38, 2);
+  amberFill.position.set(10, 3, 10);
   scene.add(amberFill);
 
   return {

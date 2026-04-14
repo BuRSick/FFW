@@ -151,15 +151,11 @@ export class DragRaceGame {
 
     for (const media of Object.values(this.trailerMedia)) {
       if (!media) continue;
-      media.muted = true;
-      media.loop = true;
-      media.playsInline = true;
-      media.currentTime = 0;
-      media.play().catch(() => {});
-    }
-
-    if (this.trailerMedia.dust) {
-      this.trailerMedia.dust.playbackRate = 0.82;
+      media.pause();
+      media.removeAttribute('src');
+      media.querySelectorAll('source').forEach((source) => source.removeAttribute('src'));
+      media.load();
+      media.style.display = 'none';
     }
 
     this.updateTrailerPhase();
