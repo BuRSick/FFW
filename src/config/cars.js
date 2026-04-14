@@ -4,7 +4,7 @@ export const cars = [
   {
     id: 'skyline',
     name: 'Nissan Skyline GT-R R34',
-    modelPath: `${assetBase}assets/models/skyline.glb`,
+    modelPath: `${assetBase}assets/models/skyline-lite.glb`,
     color: 0xc8cdd6,
     acceleration: 0.02,
     power: 36,
@@ -21,7 +21,7 @@ export const cars = [
   {
     id: 'supra',
     name: 'Toyota Supra MK4',
-    modelPath: `${assetBase}assets/models/supra.glb`,
+    modelPath: `${assetBase}assets/models/supra-lite.glb`,
     color: 0xff8f2a,
     acceleration: 0.021,
     power: 35,

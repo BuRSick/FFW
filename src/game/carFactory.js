@@ -10,16 +10,7 @@ function shouldUseSimpleCars() {
   if (typeof window === 'undefined') return false;
 
   const params = new URLSearchParams(window.location.search);
-  const preset = params.get('cars');
-  if (preset === 'full') return false;
-  if (preset === 'simple') return true;
-
-  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  const saveDataEnabled = Boolean(connection?.saveData);
-  const slowNetwork = ['slow-2g', '2g', '3g'].includes(connection?.effectiveType);
-  const mobileDevice = window.matchMedia('(max-width: 900px)').matches;
-
-  return saveDataEnabled || slowNetwork || mobileDevice;
+  return params.get('cars') === 'simple';
 }
 
 function applyCarMaterial(root, color) {
