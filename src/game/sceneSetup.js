@@ -525,10 +525,10 @@ function createDustField(scene) {
 }
 
 export function createScene(rendererWrap) {
-  const cameraYaw = THREE.MathUtils.degToRad(300);
+  const cameraYaw = THREE.MathUtils.degToRad(325);
   const cameraRadiusScale = 0.84;
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0xd7e8f7, 95, 300);
+  scene.fog = null;
 
   const camera = new THREE.PerspectiveCamera(
     44,
