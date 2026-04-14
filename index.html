@@ -18,7 +18,7 @@
   <body>
     <div id="app">
       <section id="introScreen" class="screen active">
-        <video id="introVideo" class="bg-video" autoplay muted loop playsinline>
+        <video id="introVideo" class="bg-video" autoplay muted loop playsinline preload="metadata">
           <source src="%BASE_URL%assets/video/intro.mp4" type="video/mp4" />
         </video>
 
@@ -57,7 +57,7 @@
             muted
             loop
             playsinline
-            preload="auto"
+            preload="none"
           >
             <source src="%BASE_URL%assets/trailer/video/runway-sunset.mp4" type="video/mp4" />
           </video>
@@ -68,7 +68,7 @@
             muted
             loop
             playsinline
-            preload="auto"
+            preload="none"
           >
             <source src="%BASE_URL%assets/trailer/video/desert-road-sunset.mp4" type="video/mp4" />
           </video>
@@ -79,7 +79,7 @@
             muted
             loop
             playsinline
-            preload="auto"
+            preload="none"
           >
             <source src="%BASE_URL%assets/trailer/video/desert-dust.mp4" type="video/mp4" />
           </video>
@@ -150,7 +150,7 @@
 
       <section id="inviteScreen" class="screen">
         <div class="invite-bg">
-          <video class="invite-bg-video" autoplay muted loop playsinline preload="auto">
+          <video class="invite-bg-video" autoplay muted loop playsinline preload="none">
             <source src="%BASE_URL%assets/trailer/video/desert-road-sunset.mp4" type="video/mp4" />
           </video>
         </div>
