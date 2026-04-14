@@ -1,5 +1,7 @@
+const assetBase = import.meta.env.BASE_URL;
+
 const CUTSCENE_MAP = new Map([
-['default', { id: 'default', character: 'street-racer', videoPath: 'assets/cutscenes/default.mp4' }]
+['default', { id: 'default', character: 'street-racer', videoPath: `${assetBase}assets/cutscenes/default.mp4` }]
 ]);
 
 function normalizeName(value) {

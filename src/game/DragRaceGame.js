@@ -25,6 +25,7 @@ const WORLD_TRAVEL_SCALE = 0.42;
 const WORLD_GAP_SCALE = 0.12;
 const MAX_WORLD_TRAVEL = 220;
 const VISIBLE_TRACK_LENGTH = MAX_WORLD_TRAVEL / WORLD_TRAVEL_SCALE;
+const ASSET_BASE = import.meta.env.BASE_URL;
 
 function rotatePointAroundY(pointX, pointZ, pivotX, pivotZ, angleRad, radiusScale = 1) {
   const dx = (pointX - pivotX) * radiusScale;
@@ -171,7 +172,7 @@ export class DragRaceGame {
   }
 
   setupAudio() {
-    const fallbackSfx = 'assets/trailer/audio/drag-race-sfx.mp3';
+    const fallbackSfx = `${ASSET_BASE}assets/trailer/audio/drag-race-sfx.mp3`;
 
     this.audio.engine = new Audio(fallbackSfx);
     this.audio.engine.loop = true;

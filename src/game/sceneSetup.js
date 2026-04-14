@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+
 function loadRepeatedTexture(loader, url, repeatX, repeatY, options = {}) {
   const texture = loader.load(url);
   texture.wrapS = THREE.RepeatWrapping;
@@ -401,14 +403,14 @@ function createRunwayMarkings(scene) {
 function createRunway(scene, textureLoader) {
   const asphaltMap = loadRepeatedTexture(
     textureLoader,
-    'assets/trailer/textures/aerial-asphalt-diffuse.jpg',
+    `${ASSET_BASE}assets/trailer/textures/aerial-asphalt-diffuse.jpg`,
     1.8,
     38,
     { rotation: Math.PI / 2 }
   );
   const sandMap = loadRepeatedTexture(
     textureLoader,
-    'assets/trailer/textures/aerial-sand-diffuse.jpg',
+    `${ASSET_BASE}assets/trailer/textures/aerial-sand-diffuse.jpg`,
     3.2,
     34,
     { rotation: Math.PI / 2 }
