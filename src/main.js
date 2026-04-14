@@ -8,6 +8,7 @@ import { DragRaceGame } from './game/DragRaceGame.js';
 import { initForm } from './ui/form.js';
 import { initIntro } from './ui/intro.js';
 import { initInvite } from './ui/invite.js';
+import { playPreRaceVideo } from './ui/preRaceVideo.js';
 
 let currentGame = null;
 
@@ -25,6 +26,8 @@ function boot() {
     appState.raceTime = 0;
     appState.hasUsedNos = false;
 
+    showScreen('preRaceVideoScreen');
+    await playPreRaceVideo();
     showScreen('gameScreen');
 
     currentGame?.destroy();
