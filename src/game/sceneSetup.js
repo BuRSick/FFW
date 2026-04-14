@@ -100,118 +100,6 @@ function createGlowTexture(innerColor, outerColor = 'rgba(255,255,255,0)', size 
   });
 }
 
-function createAxisLabelSprite(text, color) {
-  const texture = createCanvasTexture(128, 128, (ctx, width, height) => {
-    ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = 'rgba(10, 12, 18, 0.7)';
-    ctx.beginPath();
-    ctx.arc(width * 0.5, height * 0.5, width * 0.34, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.lineWidth = 8;
-    ctx.strokeStyle = 'rgba(255,255,255,0.28)';
-    ctx.stroke();
-    ctx.fillStyle = color;
-    ctx.font = 'bold 62px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(text, width * 0.5, height * 0.54);
-  });
-
-  const material = new THREE.SpriteMaterial({
-    map: texture,
-    depthTest: false,
-    depthWrite: false
-  });
-
-  const sprite = new THREE.Sprite(material);
-  sprite.scale.set(0.82, 0.82, 0.82);
-  return sprite;
-}
-
-function createAxisGuide(scene) {
-  const guide = new THREE.Group();
-  guide.position.set(-6.2, 0.04, 11.2);
-
-  const axes = new THREE.AxesHelper(5.2);
-  axes.material.depthTest = false;
-  axes.renderOrder = 10;
-  guide.add(axes);
-
-  const origin = new THREE.Mesh(
-    new THREE.SphereGeometry(0.12, 18, 18),
-    new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      depthTest: false,
-      toneMapped: false
-    })
-  );
-  origin.renderOrder = 11;
-  guide.add(origin);
-
-  const xLabel = createAxisLabelSprite('X', '#ff5b57');
-  xLabel.position.set(5.9, 0.34, 0);
-  xLabel.renderOrder = 12;
-  guide.add(xLabel);
-
-  const yLabel = createAxisLabelSprite('Y', '#57d66b');
-  yLabel.position.set(0, 5.95, 0);
-  yLabel.renderOrder = 12;
-  guide.add(yLabel);
-
-  const zLabel = createAxisLabelSprite('Z', '#4fa3ff');
-  zLabel.position.set(0, 0.34, 5.9);
-  zLabel.renderOrder = 12;
-  guide.add(zLabel);
-
-  scene.add(guide);
-  return guide;
-}
-
-function createCameraAxisGuide(camera) {
-  const guide = new THREE.Group();
-  guide.position.set(-2.8, -1.35, -4.8);
-
-  const axes = new THREE.AxesHelper(0.75);
-  axes.material.depthTest = false;
-  axes.renderOrder = 1000;
-  guide.add(axes);
-
-  const xLabel = createAxisLabelSprite('X', '#ff5b57');
-  xLabel.position.set(0.92, 0.02, 0);
-  xLabel.scale.set(0.14, 0.14, 0.14);
-  xLabel.renderOrder = 1001;
-  guide.add(xLabel);
-
-  const yLabel = createAxisLabelSprite('Y', '#57d66b');
-  yLabel.position.set(0, 0.92, 0);
-  yLabel.scale.set(0.14, 0.14, 0.14);
-  yLabel.renderOrder = 1001;
-  guide.add(yLabel);
-
-  const zLabel = createAxisLabelSprite('Z', '#4fa3ff');
-  zLabel.position.set(0, 0.02, 0.92);
-  zLabel.scale.set(0.14, 0.14, 0.14);
-  zLabel.renderOrder = 1001;
-  guide.add(zLabel);
-
-  camera.add(guide);
-  return guide;
-}
-
-function createAxisOverlay(rendererWrap) {
-  const overlay = document.createElement('div');
-  overlay.className = 'axis-overlay';
-  overlay.setAttribute('aria-hidden', 'true');
-  overlay.innerHTML = `
-    <div class="axis-overlay-title">AXES</div>
-    <div class="axis-overlay-row axis-overlay-row-x"><span>X</span><i></i></div>
-    <div class="axis-overlay-row axis-overlay-row-y"><span>Y</span><i></i></div>
-    <div class="axis-overlay-row axis-overlay-row-z"><span>Z</span><i></i></div>
-  `;
-  rendererWrap.appendChild(overlay);
-  return overlay;
-}
-
 function rotatePointAroundY(pointX, pointZ, pivotX, pivotZ, angleRad, radiusScale = 1) {
   const dx = (pointX - pivotX) * radiusScale;
   const dz = (pointZ - pivotZ) * radiusScale;
@@ -525,7 +413,7 @@ function createDustField(scene) {
 }
 
 export function createScene(rendererWrap) {
-  const cameraYaw = THREE.MathUtils.degToRad(250);
+  const cameraYaw = THREE.MathUtils.degToRad(260);
   const cameraRadiusScale = 0.84;
   const scene = new THREE.Scene();
   scene.fog = null;
@@ -557,14 +445,11 @@ export function createScene(rendererWrap) {
 
   rendererWrap.innerHTML = '';
   rendererWrap.appendChild(renderer.domElement);
-  const axisOverlay = createAxisOverlay(rendererWrap);
 
   const runwayPack = createRunway(scene);
   createSkyCard(scene);
   createBackdropLayers(scene);
   const dustField = createDustField(scene);
-  const axisGuide = createAxisGuide(scene);
-  const cameraAxisGuide = createCameraAxisGuide(camera);
 
   const sunLight = new THREE.DirectionalLight(0xfffbef, 2.9);
   sunLight.position.set(26, 30, 18);
@@ -595,9 +480,6 @@ export function createScene(rendererWrap) {
     runwayMarks: runwayPack.runwayMarks,
     runwayLights: runwayPack.runwayLights,
     sideStreaks: runwayPack.sideStreaks,
-    dustField,
-    axisGuide,
-    cameraAxisGuide,
-    axisOverlay
+    dustField
   };
 }

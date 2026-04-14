@@ -19,7 +19,7 @@ import {
 import { clamp, lerp } from './utils.js';
 import { createScene } from './sceneSetup.js';
 
-const CAMERA_YAW_OFFSET = THREE.MathUtils.degToRad(250);
+const CAMERA_YAW_OFFSET = THREE.MathUtils.degToRad(260);
 const CAMERA_RADIUS_SCALE = 0.84;
 const WORLD_TRAVEL_SCALE = 0.42;
 const WORLD_GAP_SCALE = 0.12;
@@ -79,7 +79,6 @@ export class DragRaceGame {
     this.handleShift = this.handleShift.bind(this);
     this.handleNos = this.handleNos.bind(this);
     this.handleResize = this.handleResize.bind(this);
-    this.handleDebugToggle = this.handleDebugToggle.bind(this);
     this.loop = this.loop.bind(this);
   }
 
@@ -108,8 +107,6 @@ export class DragRaceGame {
     this.hud.shiftBtn.addEventListener('click', this.handleShift);
     this.hud.nosBtn.addEventListener('click', this.handleNos);
     window.addEventListener('resize', this.handleResize);
-    window.addEventListener('keydown', this.handleDebugToggle);
-
     this.running = true;
     this.clock.start();
 
@@ -141,7 +138,6 @@ export class DragRaceGame {
     this.finishSequenceTimer = 0;
     this.finishSnapshot = null;
     this.updateTrailerPhase();
-    this.renderDebugPanel();
   }
 
   setupTrailerMedia() {
@@ -374,41 +370,6 @@ export class DragRaceGame {
     this.hud.speedNeedle.classList.toggle('shift-ready', shiftReady);
   }
 
-  handleDebugToggle(event) {
-    if (event.repeat) return;
-    if (event.key?.toLowerCase() !== 'd') return;
-    this.debugEnabled = !this.debugEnabled;
-    this.renderDebugPanel();
-  }
-
-  renderDebugPanel() {
-    if (!this.hud.debugPanel || !this.hud.debugContent) return;
-
-    this.hud.debugPanel.classList.toggle('hidden', !this.debugEnabled);
-    if (!this.debugEnabled) return;
-
-    const camera = this.scenePack?.camera;
-    const look = this.cameraLookTarget;
-    const playerPos = this.playerCarModel?.position;
-    const botPos = this.botCarModel?.position;
-    const trackRatio = this.trackLength > 0 ? this.player.distance / this.trackLength : 0;
-
-    const fmt = (value, digits = 2) => Number.isFinite(value) ? value.toFixed(digits) : '--';
-
-    this.hud.debugContent.textContent = [
-      `mode       ${this.cameraMode}`,
-      `time       ${fmt(this.elapsed)} / track ${fmt(this.trackLength, 1)}`,
-      `player spd ${fmt(this.player.speed, 1)}  rpm ${fmt(this.player.rpm)}  gear ${this.player.gear}`,
-      `bot    spd ${fmt(this.bot.speed, 1)}  rpm ${fmt(this.bot.rpm)}  gear ${this.bot.gear}`,
-      `player dst ${fmt(this.player.distance, 1)}  ratio ${fmt(trackRatio * 100, 1)}%`,
-      `bot    dst ${fmt(this.bot.distance, 1)}  gap ${fmt(this.player.distance - this.bot.distance, 1)}`,
-      `player xyz ${fmt(playerPos?.x)} ${fmt(playerPos?.y)} ${fmt(playerPos?.z)}`,
-      `bot    xyz ${fmt(botPos?.x)} ${fmt(botPos?.y)} ${fmt(botPos?.z)}`,
-      `camera xyz ${fmt(camera?.position.x)} ${fmt(camera?.position.y)} ${fmt(camera?.position.z)}`,
-      `lookAt xyz ${fmt(look?.x)} ${fmt(look?.y)} ${fmt(look?.z)}`
-    ].join('\n');
-  }
-
   finishRace() {
     if (this.finishSequenceActive || this.resultShown) return;
 
@@ -471,7 +432,6 @@ export class DragRaceGame {
 
     this.updateEngineAudio();
     this.animateCars(dt);
-    this.renderDebugPanel();
 
     if (this.finishSequenceTimer >= this.finishSequenceDuration) {
       this.showRaceResult();
@@ -529,7 +489,6 @@ export class DragRaceGame {
     this.updateShiftReadyIndicator();
     this.updateEngineAudio();
     this.animateCars(dt);
-    this.renderDebugPanel();
 
     if (this.player.distance >= this.trackLength || this.bot.distance >= this.trackLength) {
       this.finishRace();
@@ -638,9 +597,11 @@ export class DragRaceGame {
     }
 
     if (this.cameraMode === 'race') {
+      const finishPullback = clamp(Math.max(this.player.distance, this.bot.distance) / this.trackLength, 0, 1);
+      const finishPullbackBoost = clamp((finishPullback - 0.72) / 0.28, 0, 1);
       targetX = 9.6 + microShakeX + leadOffset * 0.22;
-      targetY = 2.2 + microShakeY;
-      targetZ = followZ + 6.25 - speedKick * 0.44;
+      targetY = 2.32 + microShakeY + finishPullbackBoost * 0.18;
+      targetZ = followZ + 6.9 + speedKick * 0.2 + finishPullbackBoost * 3.6;
       lookX = 0.12 + leadOffset * 0.22;
       lookY = 1.04;
       lookZ = followZ - 1.15;
@@ -682,7 +643,6 @@ export class DragRaceGame {
     if (!this.running) return;
     const dt = Math.min(this.clock.getDelta(), 0.033);
     this.updateWorld(dt);
-    this.renderDebugPanel();
     this.scenePack.renderer.render(this.scenePack.scene, this.scenePack.camera);
     requestAnimationFrame(this.loop);
   }
@@ -704,7 +664,6 @@ export class DragRaceGame {
     this.hud.shiftBtn.removeEventListener('click', this.handleShift);
     this.hud.nosBtn.removeEventListener('click', this.handleNos);
     window.removeEventListener('resize', this.handleResize);
-    window.removeEventListener('keydown', this.handleDebugToggle);
     this.gameScreen?.classList.remove('game-phase-race');
     for (const media of Object.values(this.trailerMedia)) {
       media?.pause();

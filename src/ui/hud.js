@@ -18,8 +18,6 @@ export function createHudBindings() {
     launchLabel: document.getElementById('launchLabel'),
     shiftBtn: document.getElementById('shiftBtn'),
     nosBtn: document.getElementById('nosBtn'),
-    debugPanel: document.getElementById('debugPanel'),
-    debugContent: document.getElementById('debugContent'),
     resultOverlay: document.getElementById('resultOverlay'),
     resultTitle: document.getElementById('resultTitle'),
     resultSubtitle: document.getElementById('resultSubtitle'),
