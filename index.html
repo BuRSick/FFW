@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
@@ -25,29 +25,28 @@
         <div class="screen-overlay dark">
           <div class="intro-content">
             <div class="intro-badge">WEDDING RACE</div>
-            <h1 class="intro-title">Свадебная гонка</h1>
-            <button id="startIntroBtn" class="primary-btn">Ну давай прокатимся</button>
+            <h1 class="intro-title">Добро пожаловать на гоночные войны</h1>
+            <p class="intro-copy">
+              Чтобы стать членом семьи, тебе нужно пройти испытание.
+              Прежде чем к нему перейти, тебе необходимо зарегистрироваться.
+            </p>
+
+            <div class="panel intro-register-panel">
+              <h2>Регистрация гонщика</h2>
+              <p class="muted">Введи имя и фамилию, а затем выходи на старт.</p>
+              <input
+                id="playerNameInput"
+                class="text-input"
+                type="text"
+                placeholder="Имя и фамилия"
+                maxlength="60"
+              />
+            </div>
+
+            <button id="startRaceBtn" class="primary-btn">Ну давай прокатимся</button>
           </div>
         </div>
       </section>
-
-      <section id="formScreen" class="screen">
-        <div class="screen-overlay solid">
-          <div class="panel form-panel">
-            <h2>Регистрация гонщика</h2>
-            <p class="muted">Введи имя и фамилию. Заезд один: ты на Skyline, бот на Supra.</p>
-            <input
-              id="playerNameInput"
-              class="text-input"
-              type="text"
-              placeholder="Имя и фамилия"
-              maxlength="60"
-            />
-            <button id="startRaceBtn" class="primary-btn">На старт</button>
-          </div>
-        </div>
-      </section>
-
       <section id="preRaceVideoScreen" class="screen">
         <video
           id="preRaceVideo"
@@ -58,8 +57,8 @@
           <source src="%BASE_URL%assets/video/video2.mp4" type="video/mp4" />
         </video>
 
-        <button id="preRaceVideoSkipBtn" class="pre-race-skip-btn" type="button" aria-label="Пропустить видео">
-          ×
+        <button id="preRaceVideoSkipBtn" class="pre-race-skip-btn" type="button" aria-label="РџСЂРѕРїСѓСЃС‚РёС‚СЊ РІРёРґРµРѕ">
+          Г—
         </button>
       </section>
 
@@ -141,90 +140,90 @@
                 <div class="invite-day">22</div>
                 <div class="invite-date-meta">
                   <div class="invite-month">June 2026</div>
-                  <div class="invite-location">Санкт-Петербург • Русское оружие</div>
+                  <div class="invite-location">РЎР°РЅРєС‚-РџРµС‚РµСЂР±СѓСЂРі вЂў Р СѓСЃСЃРєРѕРµ РѕСЂСѓР¶РёРµ</div>
                 </div>
               </div>
 
               <div class="invite-hero-copyblock">
-                <div class="invite-kicker">Главный заезд нашей жизни</div>
-                <h2 class="invite-headline">Ты приглашен на свадьбу в стиле «Форсаж»</h2>
+                <div class="invite-kicker">Р“Р»Р°РІРЅС‹Р№ Р·Р°РµР·Рґ РЅР°С€РµР№ Р¶РёР·РЅРё</div>
+                <h2 class="invite-headline">РўС‹ РїСЂРёРіР»Р°С€РµРЅ РЅР° СЃРІР°РґСЊР±Сѓ РІ СЃС‚РёР»Рµ В«Р¤РѕСЂСЃР°Р¶В»</h2>
                 <p class="invite-lead">
-                  После короткой квалификации начинается главный старт вечера. Ночь,
-                  когда две траектории сольются в одну семейную историю.
+                  РџРѕСЃР»Рµ РєРѕСЂРѕС‚РєРѕР№ РєРІР°Р»РёС„РёРєР°С†РёРё РЅР°С‡РёРЅР°РµС‚СЃСЏ РіР»Р°РІРЅС‹Р№ СЃС‚Р°СЂС‚ РІРµС‡РµСЂР°. РќРѕС‡СЊ,
+                  РєРѕРіРґР° РґРІРµ С‚СЂР°РµРєС‚РѕСЂРёРё СЃРѕР»СЊСЋС‚СЃСЏ РІ РѕРґРЅСѓ СЃРµРјРµР№РЅСѓСЋ РёСЃС‚РѕСЂРёСЋ.
                 </p>
               </div>
 
               <div class="invite-hero-meta">
-                <div class="invite-chip">Пропуск пилота: <span id="inviteGuestName">Пилот</span></div>
-                <div class="invite-chip" id="inviteRaceBadge">Квалификация пройдена</div>
+                <div class="invite-chip">РџСЂРѕРїСѓСЃРє РїРёР»РѕС‚Р°: <span id="inviteGuestName">РџРёР»РѕС‚</span></div>
+                <div class="invite-chip" id="inviteRaceBadge">РљРІР°Р»РёС„РёРєР°С†РёСЏ РїСЂРѕР№РґРµРЅР°</div>
               </div>
             </header>
 
             <section class="invite-section invite-note">
-              <div class="invite-section-kicker">С любовью и запахом жженой резины</div>
+              <div class="invite-section-kicker">РЎ Р»СЋР±РѕРІСЊСЋ Рё Р·Р°РїР°С…РѕРј Р¶Р¶РµРЅРѕР№ СЂРµР·РёРЅС‹</div>
               <p id="inviteRaceSummary" class="invite-note-copy">
-                Skyline прошел дистанцию. Теперь главный старт вечера ждет тебя уже не на трассе, а за нашим свадебным столом.
+                Skyline РїСЂРѕС€РµР» РґРёСЃС‚Р°РЅС†РёСЋ. РўРµРїРµСЂСЊ РіР»Р°РІРЅС‹Р№ СЃС‚Р°СЂС‚ РІРµС‡РµСЂР° Р¶РґРµС‚ С‚РµР±СЏ СѓР¶Рµ РЅРµ РЅР° С‚СЂР°СЃСЃРµ, Р° Р·Р° РЅР°С€РёРј СЃРІР°РґРµР±РЅС‹Рј СЃС‚РѕР»РѕРј.
               </p>
             </section>
 
             <section class="invite-section invite-countdown">
-              <div class="invite-section-kicker">До церемонии</div>
-              <h3 class="invite-section-title">Обратный отсчет</h3>
+              <div class="invite-section-kicker">Р”Рѕ С†РµСЂРµРјРѕРЅРёРё</div>
+              <h3 class="invite-section-title">РћР±СЂР°С‚РЅС‹Р№ РѕС‚СЃС‡РµС‚</h3>
               <p class="invite-rsvp-copy">
-                Старт церемонии — 22 июня 2026 года в 11:00.
+                РЎС‚Р°СЂС‚ С†РµСЂРµРјРѕРЅРёРё вЂ” 22 РёСЋРЅСЏ 2026 РіРѕРґР° РІ 11:00.
               </p>
 
               <div class="invite-countdown-grid">
                 <div class="invite-count-card">
                   <span id="countDays" class="invite-count-value">00</span>
-                  <span class="invite-count-label">дней</span>
+                  <span class="invite-count-label">РґРЅРµР№</span>
                 </div>
                 <div class="invite-count-card">
                   <span id="countHours" class="invite-count-value">00</span>
-                  <span class="invite-count-label">часов</span>
+                  <span class="invite-count-label">С‡Р°СЃРѕРІ</span>
                 </div>
                 <div class="invite-count-card">
                   <span id="countMinutes" class="invite-count-value">00</span>
-                  <span class="invite-count-label">минут</span>
+                  <span class="invite-count-label">РјРёРЅСѓС‚</span>
                 </div>
                 <div class="invite-count-card">
                   <span id="countSeconds" class="invite-count-value">00</span>
-                  <span class="invite-count-label">секунд</span>
+                  <span class="invite-count-label">СЃРµРєСѓРЅРґ</span>
                 </div>
               </div>
             </section>
 
             <section class="invite-section">
-              <div class="invite-section-kicker">Программа дня</div>
-              <h3 class="invite-section-title">Сценарий вечера</h3>
+              <div class="invite-section-kicker">РџСЂРѕРіСЂР°РјРјР° РґРЅСЏ</div>
+              <h3 class="invite-section-title">РЎС†РµРЅР°СЂРёР№ РІРµС‡РµСЂР°</h3>
 
               <div class="invite-timeline">
                 <div class="invite-timeline-row">
                   <div class="invite-timeline-time">10:30</div>
                   <div class="invite-timeline-copy">
-                    <strong>Сбор гостей</strong>
-                    <span>Пит-лейн открывается. Встречаемся, знакомимся, ловим первые кадры и настраиваемся на старт дня.</span>
+                    <strong>РЎР±РѕСЂ РіРѕСЃС‚РµР№</strong>
+                    <span>РџРёС‚-Р»РµР№РЅ РѕС‚РєСЂС‹РІР°РµС‚СЃСЏ. Р’СЃС‚СЂРµС‡Р°РµРјСЃСЏ, Р·РЅР°РєРѕРјРёРјСЃСЏ, Р»РѕРІРёРј РїРµСЂРІС‹Рµ РєР°РґСЂС‹ Рё РЅР°СЃС‚СЂР°РёРІР°РµРјСЃСЏ РЅР° СЃС‚Р°СЂС‚ РґРЅСЏ.</span>
                   </div>
                 </div>
                 <div class="invite-timeline-row">
                   <div class="invite-timeline-time">11:00</div>
                   <div class="invite-timeline-copy">
-                    <strong>Церемония</strong>
-                    <span>Момент, когда стартует новая семейная история и все аплодисменты работают громче любого выхлопа.</span>
+                    <strong>Р¦РµСЂРµРјРѕРЅРёСЏ</strong>
+                    <span>РњРѕРјРµРЅС‚, РєРѕРіРґР° СЃС‚Р°СЂС‚СѓРµС‚ РЅРѕРІР°СЏ СЃРµРјРµР№РЅР°СЏ РёСЃС‚РѕСЂРёСЏ Рё РІСЃРµ Р°РїР»РѕРґРёСЃРјРµРЅС‚С‹ СЂР°Р±РѕС‚Р°СЋС‚ РіСЂРѕРјС‡Рµ Р»СЋР±РѕРіРѕ РІС‹С…Р»РѕРїР°.</span>
                   </div>
                 </div>
                 <div class="invite-timeline-row">
                   <div class="invite-timeline-time">12:00</div>
                   <div class="invite-timeline-copy">
-                    <strong>Фото и аперитив</strong>
-                    <span>Легкий разгон после церемонии: поздравления, фотографии и первые тосты в теплой атмосфере.</span>
+                    <strong>Р¤РѕС‚Рѕ Рё Р°РїРµСЂРёС‚РёРІ</strong>
+                    <span>Р›РµРіРєРёР№ СЂР°Р·РіРѕРЅ РїРѕСЃР»Рµ С†РµСЂРµРјРѕРЅРёРё: РїРѕР·РґСЂР°РІР»РµРЅРёСЏ, С„РѕС‚РѕРіСЂР°С„РёРё Рё РїРµСЂРІС‹Рµ С‚РѕСЃС‚С‹ РІ С‚РµРїР»РѕР№ Р°С‚РјРѕСЃС„РµСЂРµ.</span>
                   </div>
                 </div>
                 <div class="invite-timeline-row">
                   <div class="invite-timeline-time">13:00</div>
                   <div class="invite-timeline-copy">
-                    <strong>Банкет и вечерняя программа</strong>
-                    <span>Ужин, музыка, танцы и весь тот самый драйв, ради которого хочется остаться до финальных титров.</span>
+                    <strong>Р‘Р°РЅРєРµС‚ Рё РІРµС‡РµСЂРЅСЏСЏ РїСЂРѕРіСЂР°РјРјР°</strong>
+                    <span>РЈР¶РёРЅ, РјСѓР·С‹РєР°, С‚Р°РЅС†С‹ Рё РІРµСЃСЊ С‚РѕС‚ СЃР°РјС‹Р№ РґСЂР°Р№РІ, СЂР°РґРё РєРѕС‚РѕСЂРѕРіРѕ С…РѕС‡РµС‚СЃСЏ РѕСЃС‚Р°С‚СЊСЃСЏ РґРѕ С„РёРЅР°Р»СЊРЅС‹С… С‚РёС‚СЂРѕРІ.</span>
                   </div>
                 </div>
               </div>
@@ -232,11 +231,11 @@
 
             <section class="invite-section invite-section-split">
               <div class="invite-slab invite-venue">
-                <div class="invite-section-kicker">Место для старта</div>
-                <h3 class="invite-section-title">Русское оружие</h3>
+                <div class="invite-section-kicker">РњРµСЃС‚Рѕ РґР»СЏ СЃС‚Р°СЂС‚Р°</div>
+                <h3 class="invite-section-title">Р СѓСЃСЃРєРѕРµ РѕСЂСѓР¶РёРµ</h3>
                 <p class="invite-venue-address">
-                  Санкт-Петербург. Ресторан, где мы собираем всех своих на один громкий,
-                  красивый и очень личный заезд.
+                  РЎР°РЅРєС‚-РџРµС‚РµСЂР±СѓСЂРі. Р РµСЃС‚РѕСЂР°РЅ, РіРґРµ РјС‹ СЃРѕР±РёСЂР°РµРј РІСЃРµС… СЃРІРѕРёС… РЅР° РѕРґРёРЅ РіСЂРѕРјРєРёР№,
+                  РєСЂР°СЃРёРІС‹Р№ Рё РѕС‡РµРЅСЊ Р»РёС‡РЅС‹Р№ Р·Р°РµР·Рґ.
                 </p>
                 <a
                   class="invite-route-link"
@@ -244,74 +243,74 @@
                   target="_blank"
                   rel="noreferrer noopener"
                 >
-                  Построить маршрут
+                  РџРѕСЃС‚СЂРѕРёС‚СЊ РјР°СЂС€СЂСѓС‚
                 </a>
               </div>
 
               <div class="invite-slab invite-details">
-                <div class="invite-section-kicker">Детали</div>
+                <div class="invite-section-kicker">Р”РµС‚Р°Р»Рё</div>
                 <div class="invite-detail-row">
-                  <span>Тема вечера</span>
+                  <span>РўРµРјР° РІРµС‡РµСЂР°</span>
                   <strong>Fast & Furious / Race Wars</strong>
                 </div>
                 <div class="invite-detail-row">
-                  <span>Дресс-код</span>
-                  <strong>Молочный, шампань, серебро, графит, черный</strong>
+                  <span>Р”СЂРµСЃСЃ-РєРѕРґ</span>
+                  <strong>РњРѕР»РѕС‡РЅС‹Р№, С€Р°РјРїР°РЅСЊ, СЃРµСЂРµР±СЂРѕ, РіСЂР°С„РёС‚, С‡РµСЂРЅС‹Р№</strong>
                 </div>
                 <div class="invite-detail-row">
-                  <span>Настрой</span>
-                  <strong>Хром, вечерний свет, дорогой уличный вайб</strong>
+                  <span>РќР°СЃС‚СЂРѕР№</span>
+                  <strong>РҐСЂРѕРј, РІРµС‡РµСЂРЅРёР№ СЃРІРµС‚, РґРѕСЂРѕРіРѕР№ СѓР»РёС‡РЅС‹Р№ РІР°Р№Р±</strong>
                 </div>
               </div>
             </section>
 
             <section class="invite-section invite-dresscode">
-              <div class="invite-section-kicker">Палитра вечера</div>
-              <h3 class="invite-section-title">Дресс-код</h3>
+              <div class="invite-section-kicker">РџР°Р»РёС‚СЂР° РІРµС‡РµСЂР°</div>
+              <h3 class="invite-section-title">Р”СЂРµСЃСЃ-РєРѕРґ</h3>
               <p class="invite-rsvp-copy">
-                Ниже оттенки, на которые можно ориентироваться при выборе образа.
+                РќРёР¶Рµ РѕС‚С‚РµРЅРєРё, РЅР° РєРѕС‚РѕСЂС‹Рµ РјРѕР¶РЅРѕ РѕСЂРёРµРЅС‚РёСЂРѕРІР°С‚СЊСЃСЏ РїСЂРё РІС‹Р±РѕСЂРµ РѕР±СЂР°Р·Р°.
               </p>
 
               <div class="invite-dress-grid">
                 <div class="invite-dress-card">
                   <div class="invite-dress-photo invite-swatch-ivory"></div>
-                  <div class="invite-dress-name">Молочный</div>
+                  <div class="invite-dress-name">РњРѕР»РѕС‡РЅС‹Р№</div>
                 </div>
                 <div class="invite-dress-card">
                   <div class="invite-dress-photo invite-swatch-champagne"></div>
-                  <div class="invite-dress-name">Шампань</div>
+                  <div class="invite-dress-name">РЁР°РјРїР°РЅСЊ</div>
                 </div>
                 <div class="invite-dress-card">
                   <div class="invite-dress-photo invite-swatch-silver"></div>
-                  <div class="invite-dress-name">Серебро</div>
+                  <div class="invite-dress-name">РЎРµСЂРµР±СЂРѕ</div>
                 </div>
                 <div class="invite-dress-card">
                   <div class="invite-dress-photo invite-swatch-steel"></div>
-                  <div class="invite-dress-name">Графит</div>
+                  <div class="invite-dress-name">Р“СЂР°С„РёС‚</div>
                 </div>
                 <div class="invite-dress-card">
                   <div class="invite-dress-photo invite-swatch-black"></div>
-                  <div class="invite-dress-name">Черный</div>
+                  <div class="invite-dress-name">Р§РµСЂРЅС‹Р№</div>
                 </div>
               </div>
             </section>
 
             <section class="invite-section invite-rsvp">
-              <div class="invite-section-kicker">Финальный чек-ин</div>
-              <h3 class="invite-section-title">Сможешь приехать?</h3>
+              <div class="invite-section-kicker">Р¤РёРЅР°Р»СЊРЅС‹Р№ С‡РµРє-РёРЅ</div>
+              <h3 class="invite-section-title">РЎРјРѕР¶РµС€СЊ РїСЂРёРµС…Р°С‚СЊ?</h3>
               <p class="invite-rsvp-copy">
-                Дай знать, займешь ли ты место на стартовой решетке нашего вечера.
+                Р”Р°Р№ Р·РЅР°С‚СЊ, Р·Р°Р№РјРµС€СЊ Р»Рё С‚С‹ РјРµСЃС‚Рѕ РЅР° СЃС‚Р°СЂС‚РѕРІРѕР№ СЂРµС€РµС‚РєРµ РЅР°С€РµРіРѕ РІРµС‡РµСЂР°.
               </p>
               <div class="rsvp-actions">
-                <button id="yesBtn" class="primary-btn">Да, буду</button>
-                <button id="noBtn" class="secondary-btn">Не смогу</button>
+                <button id="yesBtn" class="primary-btn">Р”Р°, Р±СѓРґСѓ</button>
+                <button id="noBtn" class="secondary-btn">РќРµ СЃРјРѕРіСѓ</button>
               </div>
               <div id="rsvpStatus" class="muted invite-rsvp-status"></div>
             </section>
 
             <footer class="invite-footer">
-              <div class="invite-section-kicker">До встречи</div>
-              <div class="invite-footer-title">Ждем тебя на старте 22 июня 2026</div>
+              <div class="invite-section-kicker">Р”Рѕ РІСЃС‚СЂРµС‡Рё</div>
+              <div class="invite-footer-title">Р–РґРµРј С‚РµР±СЏ РЅР° СЃС‚Р°СЂС‚Рµ 22 РёСЋРЅСЏ 2026</div>
             </footer>
           </div>
         </div>
@@ -319,3 +318,4 @@
     </div>
   </body>
 </html>
+

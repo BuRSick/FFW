@@ -204,8 +204,31 @@ html, body, #app {
 }
 
 .intro-content {
+  width: min(92vw, 760px);
   text-align: center;
   padding: 24px;
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+}
+
+.intro-copy {
+  max-width: 30ch;
+  margin: 0;
+  font-size: clamp(17px, 2.2vw, 24px);
+  line-height: 1.55;
+  color: rgba(239, 245, 255, 0.9);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.24);
+}
+
+.intro-register-panel {
+  width: min(92vw, 520px);
+  text-align: left;
+}
+
+.intro-register-panel h2 {
+  margin: 0 0 8px;
+  font-size: clamp(24px, 3vw, 34px);
 }
 
 .intro-badge {

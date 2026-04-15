@@ -1,6 +1,5 @@
 const screenIds = [
   'introScreen',
-  'formScreen',
   'preRaceVideoScreen',
   'gameScreen',
   'inviteScreen'
