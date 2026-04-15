@@ -25,7 +25,6 @@ const WORLD_TRAVEL_SCALE = 0.42;
 const WORLD_GAP_SCALE = 0.12;
 const MAX_WORLD_TRAVEL = 220;
 const VISIBLE_TRACK_LENGTH = MAX_WORLD_TRAVEL / WORLD_TRAVEL_SCALE;
-const ASSET_BASE = import.meta.env.BASE_URL;
 
 function rotatePointAroundY(pointX, pointZ, pivotX, pivotZ, angleRad, radiusScale = 1) {
   const dx = (pointX - pivotX) * radiusScale;
@@ -73,8 +72,7 @@ export class DragRaceGame {
     this.launchBoostTime = 0;
     this.debugEnabled = false;
     this.cameraLookTarget = null;
-    this.audioPrimed = false;
-    this.audio = { engine: null, launch: null, shift: null };
+    this.prepared = false;
     this.trailerMedia = { stage: null, race: null, dust: null };
     this.handleShift = this.handleShift.bind(this);
     this.handleNos = this.handleNos.bind(this);
@@ -82,7 +80,9 @@ export class DragRaceGame {
     this.loop = this.loop.bind(this);
   }
 
-  async init() {
+  async prepare() {
+    if (this.prepared) return;
+
     this.scenePack = createScene(this.wrap);
     this.playerCarModel = await createCarModel(this.playerCarConfig);
     this.botCarModel = await createCarModel(this.botCarConfig);
@@ -100,18 +100,26 @@ export class DragRaceGame {
     this.scenePack.scene.add(this.playerCarModel);
     this.scenePack.scene.add(this.botCarModel);
     this.setupTrailerMedia();
-    this.setupAudio();
-    await this.primeAudio();
     this.resetHud();
 
     this.hud.shiftBtn.addEventListener('click', this.handleShift);
     this.hud.nosBtn.addEventListener('click', this.handleNos);
     window.addEventListener('resize', this.handleResize);
+    this.prepared = true;
+  }
+
+  async start() {
+    await this.prepare();
     this.running = true;
     this.clock.start();
 
     await this.playIntroSequence();
     this.loop();
+  }
+
+  async init() {
+    await this.prepare();
+    await this.start();
   }
 
   resetHud() {
@@ -161,53 +169,6 @@ export class DragRaceGame {
     if (!this.gameScreen) return;
     const racePhase = this.cameraMode === 'race' || this.finishSequenceActive || this.resultShown;
     this.gameScreen.classList.toggle('game-phase-race', racePhase);
-  }
-
-  setupAudio() {
-    const fallbackSfx = `${ASSET_BASE}assets/trailer/audio/drag-race-sfx.mp3`;
-
-    this.audio.engine = new Audio(fallbackSfx);
-    this.audio.engine.loop = true;
-    this.audio.engine.volume = 0.24;
-    this.audio.engine.playbackRate = 0.82;
-
-    this.audio.launch = new Audio(fallbackSfx);
-    this.audio.launch.volume = 0.45;
-    this.audio.launch.playbackRate = 1.08;
-
-    this.audio.shift = new Audio(fallbackSfx);
-    this.audio.shift.volume = 0.32;
-    this.audio.shift.playbackRate = 1.2;
-  }
-
-  async primeAudio() {
-    if (this.audioPrimed) return;
-
-    for (const audioEl of Object.values(this.audio)) {
-      if (!audioEl) continue;
-
-      const originalMuted = audioEl.muted;
-      const originalVolume = audioEl.volume;
-      audioEl.muted = true;
-      audioEl.volume = 0;
-
-      try {
-        await audioEl.play();
-      } catch {}
-
-      audioEl.pause();
-      audioEl.currentTime = 0;
-      audioEl.muted = originalMuted;
-      audioEl.volume = originalVolume;
-    }
-
-    this.audioPrimed = true;
-  }
-
-  safePlay(audioEl) {
-    if (!audioEl) return;
-    audioEl.currentTime = 0;
-    audioEl.play().catch(() => {});
   }
 
   async playIntroSequence() {
@@ -293,8 +254,6 @@ export class DragRaceGame {
     this.hud.launchLabel.textContent = `Launch: ${this.player.launchRating || 'AUTO'}`;
     this.updateTrailerPhase();
     this.flashStart();
-    this.safePlay(this.audio.launch);
-    this.audio.engine?.play().catch(() => {});
     this.clock.start();
   }
 
@@ -336,7 +295,6 @@ export class DragRaceGame {
     const result = shiftRacer(this.player);
     if (result.result === 'LOCKED') return;
     if (this.player.speed < prevSpeed) this.player.speed = prevSpeed + Math.max(6, result.bonus * 0.5);
-    this.safePlay(this.audio.shift);
     this.hud.shiftFeedback.textContent = result.result;
     this.hud.raceStatus.textContent =
       result.result === 'PERFECT' ? 'Clean shift. Keep chaining.' :
@@ -402,8 +360,6 @@ export class DragRaceGame {
 
     this.resultShown = true;
     this.running = false;
-    this.audio.engine?.pause();
-
     const { result, playerWon, time } = this.finishSnapshot;
     this.hud.resultTitle.textContent = 'ФИНИШ';
     this.hud.resultSubtitle.textContent = playerWon
@@ -430,7 +386,6 @@ export class DragRaceGame {
     this.hud.speedNeedle.style.transform = `translate(-31%, -55%) rotate(${speedToNeedleAngle(this.player.rpm, 1)}deg)`;
     this.hud.speedNeedle.classList.remove('shift-ready');
 
-    this.updateEngineAudio();
     this.animateCars(dt);
 
     if (this.finishSequenceTimer >= this.finishSequenceDuration) {
@@ -450,7 +405,6 @@ export class DragRaceGame {
       this.hud.rpmFill.style.width = ratioToPercent(this.player.rpm);
       this.hud.launchNeedle.style.left = ratioToPercent(this.player.rpm);
       this.hud.speedNeedle.style.transform = `translate(-31%, -55%) rotate(${speedToNeedleAngle(this.player.rpm, 1)}deg)`;
-      this.updateEngineAudio();
       this.animateCars(dt);
       this.updateShiftReadyIndicator();
       return;
@@ -487,20 +441,11 @@ export class DragRaceGame {
     this.hud.launchNeedle.style.left = ratioToPercent(this.player.rpm);
     this.hud.speedNeedle.style.transform = `translate(-31%, -55%) rotate(${speedToNeedleAngle(this.player.rpm, 1)}deg)`;
     this.updateShiftReadyIndicator();
-    this.updateEngineAudio();
     this.animateCars(dt);
 
     if (this.player.distance >= this.trackLength || this.bot.distance >= this.trackLength) {
       this.finishRace();
     }
-  }
-
-  updateEngineAudio() {
-    if (!this.audio.engine) return;
-    const targetRate = 0.82 + this.player.rpm * 0.46;
-    const targetVolume = 0.18 + this.player.rpm * 0.16;
-    this.audio.engine.playbackRate = lerp(this.audio.engine.playbackRate, targetRate, 0.1);
-    this.audio.engine.volume = lerp(this.audio.engine.volume, targetVolume, 0.1);
   }
 
   applyRaceDirector() {
@@ -658,7 +603,6 @@ export class DragRaceGame {
   destroy() {
     this.running = false;
     this.launchLocked = false;
-    this.audio.engine?.pause();
     this.hud.hud.classList.add('hidden');
     this.hud.resultOverlay.classList.add('hidden');
     this.hud.shiftBtn.removeEventListener('click', this.handleShift);

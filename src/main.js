@@ -26,10 +26,6 @@ function boot() {
     appState.raceTime = 0;
     appState.hasUsedNos = false;
 
-    showScreen('preRaceVideoScreen');
-    await playPreRaceVideo();
-    showScreen('gameScreen');
-
     currentGame?.destroy();
 
     currentGame = new DragRaceGame({
@@ -40,7 +36,12 @@ function boot() {
       }
     });
 
-    await currentGame.init();
+    showScreen('preRaceVideoScreen');
+    const preparePromise = currentGame.prepare();
+    await playPreRaceVideo();
+    showScreen('gameScreen');
+    await preparePromise;
+    await currentGame.start();
   });
 
   initInvite();
