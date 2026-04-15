@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+﻿import * as THREE from 'three';
 import { appState } from '../core/state.js';
 import {
   createHudBindings,
@@ -360,16 +360,9 @@ export class DragRaceGame {
 
     this.resultShown = true;
     this.running = false;
-    const { result, playerWon, time } = this.finishSnapshot;
-    this.hud.resultTitle.textContent = 'ФИНИШ';
-    this.hud.resultSubtitle.textContent = playerWon
-      ? `Заезд завершен за ${time.toFixed(2)} с. Приглашение для ${appState.playerName} уже открыто.`
-      : `Supra пришла чуть раньше. Твое время: ${time.toFixed(2)} с. Приглашение уже ждет дальше.`;
-    this.hud.resultOverlay.classList.remove('hidden');
-    this.hud.continueToInviteBtn.onclick = () => {
-      this.destroy();
-      this.onFinish?.({ result, time });
-    };
+    const { result, time } = this.finishSnapshot;
+    this.destroy();
+    this.onFinish?.({ result, time });
   }
 
   updatePostFinish(dt) {
@@ -616,3 +609,4 @@ export class DragRaceGame {
     this.wrap.innerHTML = '';
   }
 }
+

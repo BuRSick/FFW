@@ -9,8 +9,10 @@
 }
 
 @font-face {
-  font-family: 'Antique Olive LT Nord Italic';
-  src: url('/assets/fonts/antique-olive-lt-nord-italic.ttf') format('truetype');
+  font-family: 'FF Title';
+  src:
+    url('/assets/fonts/antiqueolivestd-norditalic.woff2') format('woff2'),
+    url('/assets/fonts/antiqueolivestd-norditalic.ttf') format('truetype');
   font-display: swap;
 }
 
@@ -37,6 +39,11 @@ html, body, #app {
 
 .screen.active {
   display: block;
+}
+
+.ff-title {
+  font-family: 'FF Title', 'Bebas Neue', serif;
+  letter-spacing: 0.04em;
 }
 
 .hidden {
@@ -117,6 +124,48 @@ html, body, #app {
 .bg-video {
   object-fit: cover;
   pointer-events: none;
+}
+
+#openingScreen {
+  background: #000;
+}
+
+.opening-screen-shell {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+  background: #000;
+}
+
+.opening-screen-title,
+.opening-screen-subtitle {
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.opening-screen-title {
+  font-size: clamp(34px, 6.4vw, 82px);
+}
+
+.opening-screen-subtitle {
+  font-size: clamp(28px, 5vw, 66px);
+}
+
+.opening-screen-btn {
+  margin-top: 24px;
+}
+
+.intro-video {
+  filter: brightness(0.84) saturate(0.88) contrast(1.02);
+}
+
+.intro-overlay {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(5, 8, 14, 0.76));
 }
 
 .pre-race-video {
@@ -224,6 +273,7 @@ html, body, #app {
 .intro-register-panel {
   width: min(92vw, 520px);
   text-align: left;
+  background: rgba(9, 14, 24, 0.74);
 }
 
 .intro-register-panel h2 {

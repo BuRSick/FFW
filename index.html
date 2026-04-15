@@ -17,14 +17,23 @@
   </head>
   <body>
     <div id="app">
-      <section id="introScreen" class="screen active">
-        <video id="introVideo" class="bg-video" autoplay muted loop playsinline preload="metadata">
-          <source src="%BASE_URL%assets/video/intro.mp4" type="video/mp4" />
+      <section id="openingScreen" class="screen active">
+        <div class="opening-screen-shell">
+          <div class="opening-screen-title ff-title">Rostislav & Viktoriia</div>
+          <div class="opening-screen-subtitle ff-title">Fast & Furious</div>
+          <div class="opening-screen-subtitle ff-title">Wedding</div>
+          <button id="openInviteBtn" class="primary-btn opening-screen-btn">Открыть приглашение</button>
+        </div>
+      </section>
+
+      <section id="introScreen" class="screen">
+        <video id="introVideo" class="bg-video intro-video" autoplay muted loop playsinline preload="auto">
+          <source src="%BASE_URL%assets/video/video1.mp4" type="video/mp4" />
         </video>
 
-        <div class="screen-overlay dark">
+        <div class="screen-overlay dark intro-overlay">
           <div class="intro-content">
-            <div class="intro-badge">WEDDING RACE</div>
+            <div class="intro-badge">RACE WARS</div>
             <h1 class="intro-title">Добро пожаловать на гоночные войны</h1>
             <p class="intro-copy">
               Чтобы стать членом семьи, тебе нужно пройти испытание.
@@ -47,6 +56,7 @@
           </div>
         </div>
       </section>
+
       <section id="preRaceVideoScreen" class="screen">
         <video
           id="preRaceVideo"
@@ -57,11 +67,10 @@
           <source src="%BASE_URL%assets/video/video2.mp4" type="video/mp4" />
         </video>
 
-        <button id="preRaceVideoSkipBtn" class="pre-race-skip-btn" type="button" aria-label="РџСЂРѕРїСѓСЃС‚РёС‚СЊ РІРёРґРµРѕ">
-          Г—
+        <button id="preRaceVideoSkipBtn" class="pre-race-skip-btn" type="button" aria-label="Пропустить видео">
+          ×
         </button>
       </section>
-
       <section id="gameScreen" class="screen">
         <div class="game-backplates" aria-hidden="true"></div>
 
@@ -122,6 +131,21 @@
             <button id="continueToInviteBtn" class="primary-btn">Открыть приглашение</button>
           </div>
         </div>
+      </section>
+
+      <section id="postRaceVideoScreen" class="screen">
+        <video
+          id="postRaceVideo"
+          class="bg-video pre-race-video"
+          playsinline
+          preload="auto"
+        >
+          <source src="%BASE_URL%assets/video/video3.mp4" type="video/mp4" />
+        </video>
+
+        <button id="postRaceVideoSkipBtn" class="pre-race-skip-btn" type="button" aria-label="Пропустить видео">
+          ×
+        </button>
       </section>
 
       <section id="inviteScreen" class="screen">
@@ -318,4 +342,5 @@
     </div>
   </body>
 </html>
+
 

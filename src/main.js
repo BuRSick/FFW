@@ -6,12 +6,17 @@ import { showScreen } from './core/router.js';
 import { appState } from './core/state.js';
 import { DragRaceGame } from './game/DragRaceGame.js';
 import { initForm } from './ui/form.js';
+import { initIntro } from './ui/intro.js';
 import { initInvite } from './ui/invite.js';
-import { playPreRaceVideo } from './ui/preRaceVideo.js';
+import { playVideoOverlay } from './ui/videoOverlay.js';
 
 let currentGame = null;
 
 function boot() {
+  initIntro(() => {
+    showScreen('introScreen');
+  });
+
   initForm(async (playerName) => {
     appState.playerName = playerName;
     appState.playerCar = getPlayerCar();
@@ -26,21 +31,29 @@ function boot() {
     currentGame = new DragRaceGame({
       playerCar: appState.playerCar,
       botCar: appState.botCar,
-      onFinish: () => {
+      onFinish: async () => {
+        showScreen('postRaceVideoScreen');
+        await playVideoOverlay({
+          videoId: 'postRaceVideo',
+          skipButtonId: 'postRaceVideoSkipBtn'
+        });
         showScreen('inviteScreen');
       }
     });
 
     showScreen('preRaceVideoScreen');
     const preparePromise = currentGame.prepare();
-    await playPreRaceVideo();
+    await playVideoOverlay({
+      videoId: 'preRaceVideo',
+      skipButtonId: 'preRaceVideoSkipBtn'
+    });
     showScreen('gameScreen');
     await preparePromise;
     await currentGame.start();
   });
 
   initInvite();
-  showScreen('introScreen');
+  showScreen('openingScreen');
 }
 
 boot();
