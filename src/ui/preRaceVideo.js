@@ -1,6 +1,6 @@
 export function playPreRaceVideo() {
   const video = document.getElementById('preRaceVideo');
-  const playBtn = document.getElementById('preRaceVideoPlayBtn');
+  const skipBtn = document.getElementById('preRaceVideoSkipBtn');
 
   if (!video) {
     return Promise.resolve();
@@ -14,7 +14,7 @@ export function playPreRaceVideo() {
       video.currentTime = 0;
       video.removeEventListener('ended', handleEnd);
       video.removeEventListener('error', handleEnd);
-      playBtn?.removeEventListener('click', handleManualPlay);
+      skipBtn?.removeEventListener('click', handleSkip);
     };
 
     const finish = () => {
@@ -25,16 +25,7 @@ export function playPreRaceVideo() {
     };
 
     const handleEnd = () => finish();
-
-    const handleManualPlay = async () => {
-      playBtn?.classList.add('hidden');
-
-      try {
-        await video.play();
-      } catch {
-        finish();
-      }
-    };
+    const handleSkip = () => finish();
 
     video.currentTime = 0;
     video.muted = false;
@@ -44,10 +35,7 @@ export function playPreRaceVideo() {
 
     video.addEventListener('ended', handleEnd, { once: true });
     video.addEventListener('error', handleEnd, { once: true });
-    playBtn?.addEventListener('click', handleManualPlay);
-
-    video.play().catch(() => {
-      playBtn?.classList.remove('hidden');
-    });
+    skipBtn?.addEventListener('click', handleSkip);
+    video.play().catch(() => finish());
   });
 }

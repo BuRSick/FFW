@@ -124,18 +124,24 @@ html, body, #app {
   background: #000;
 }
 
-.pre-race-video-overlay {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.52));
-}
-
-.pre-race-video-panel {
-  text-align: center;
-  padding: 24px;
-}
-
-.pre-race-video-title {
-  max-width: 14ch;
-  margin-inline: auto;
+.pre-race-skip-btn {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  z-index: 5;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.38);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
 }
 
 #inviteScreen {
