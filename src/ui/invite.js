@@ -1,4 +1,4 @@
-import { sendVote } from '../services/api.js';
+﻿import { sendVote } from '../services/api.js';
 import { appState } from '../core/state.js';
 
 const CEREMONY_DATE = new Date('2026-06-22T11:00:00+03:00');
