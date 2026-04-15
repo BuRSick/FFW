@@ -11,6 +11,46 @@ import { initInvite } from './ui/invite.js';
 import { playVideoOverlay } from './ui/videoOverlay.js';
 
 let currentGame = null;
+let introBackgroundTime = 0;
+
+function getIntroVideo() {
+  return document.getElementById('introVideo');
+}
+
+function getRaceBackgroundVideo() {
+  return document.getElementById('raceBackgroundVideo');
+}
+
+function pauseIntroVideo() {
+  const introVideo = getIntroVideo();
+  if (!introVideo) return;
+
+  introBackgroundTime = introVideo.currentTime || 0;
+  introVideo.pause();
+}
+
+async function startRaceBackgroundVideo() {
+  const raceVideo = getRaceBackgroundVideo();
+  if (!raceVideo) return;
+
+  raceVideo.style.display = 'block';
+  raceVideo.currentTime = introBackgroundTime || 0;
+  raceVideo.muted = false;
+  raceVideo.volume = 1;
+
+  try {
+    await raceVideo.play();
+  } catch {}
+}
+
+function stopRaceBackgroundVideo() {
+  const raceVideo = getRaceBackgroundVideo();
+  if (!raceVideo) return;
+
+  raceVideo.pause();
+  raceVideo.currentTime = 0;
+  raceVideo.style.display = 'none';
+}
 
 function boot() {
   initIntro(() => {
@@ -26,12 +66,15 @@ function boot() {
     appState.raceTime = 0;
     appState.hasUsedNos = false;
 
+    pauseIntroVideo();
     currentGame?.destroy();
+    stopRaceBackgroundVideo();
 
     currentGame = new DragRaceGame({
       playerCar: appState.playerCar,
       botCar: appState.botCar,
       onFinish: async () => {
+        stopRaceBackgroundVideo();
         showScreen('postRaceVideoScreen');
         await playVideoOverlay({
           videoId: 'postRaceVideo',
@@ -49,6 +92,7 @@ function boot() {
     });
     showScreen('gameScreen');
     await preparePromise;
+    await startRaceBackgroundVideo();
     await currentGame.start();
   });
 
