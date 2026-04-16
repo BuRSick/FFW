@@ -2,42 +2,36 @@ export async function sendVote({ name, answer, drinkPreferences = [], foodPrefer
   const endpoint = 'https://script.google.com/macros/s/AKfycbyjhAxrBFXICU0s9bXJ5m6uFjoi-FeKYaygV9JvLYeB64mP3tcbA5eiUTAyTpH55oCE/exec';
 
   try {
-    const payload = new URLSearchParams();
-    payload.set('name', name || '');
-    payload.set('answer', answer || '');
-    payload.set('drinkPreferences', drinkPreferences.join(' | '));
-    payload.set('foodPreference', foodPreference || '');
-    payload.set('createdAt', new Date().toISOString());
-    payload.set('_', String(Date.now()));
+    const payload = {
+      name: name || '',
+      answer: answer || '',
+      drinkPreferences: drinkPreferences.join(' | '),
+      foodPreference: foodPreference || '',
+      createdAt: new Date().toISOString(),
+      _: String(Date.now())
+    };
 
-    if (navigator.sendBeacon) {
-      const body = new Blob([payload.toString()], {
-        type: 'application/x-www-form-urlencoded;charset=UTF-8'
-      });
-
-      if (navigator.sendBeacon(endpoint, body)) {
-        return { ok: true, dispatched: true, transport: 'beacon' };
-      }
-    }
-
-    const url = `${endpoint}?${payload.toString()}`;
-    await fireImageBeacon(url);
-    return { ok: true, dispatched: true };
+    await submitWithHiddenForm(endpoint, payload);
+    return { ok: true, dispatched: true, transport: 'iframe-form' };
   } catch (error) {
     console.error('Vote send error:', error);
     return { ok: false, error };
   }
 }
 
-function fireImageBeacon(src) {
+function submitWithHiddenForm(action, payload) {
   return new Promise((resolve, reject) => {
-    const beacon = new Image();
+    const frameName = `rsvp-submit-frame-${Date.now()}`;
+    const iframe = document.createElement('iframe');
+    const form = document.createElement('form');
     let settled = false;
 
     const finish = (result) => {
       if (settled) return;
       settled = true;
       window.clearTimeout(timeoutId);
+      iframe.remove();
+      form.remove();
       resolve(result);
     };
 
@@ -45,21 +39,42 @@ function fireImageBeacon(src) {
       if (settled) return;
       settled = true;
       window.clearTimeout(timeoutId);
+      iframe.remove();
+      form.remove();
       reject(error);
     };
 
     const timeoutId = window.setTimeout(() => {
       finish({ timeout: true });
-    }, 2500);
+    }, 4000);
 
-    beacon.onload = () => finish({ loaded: true });
-    // Apps Script returns text/html, so image decoding can fail even if the request reached the script.
-    beacon.onerror = () => finish({ fallback: true });
-    beacon.referrerPolicy = 'no-referrer';
-    beacon.src = src;
+    iframe.name = frameName;
+    iframe.hidden = true;
+    iframe.style.display = 'none';
+    iframe.addEventListener('load', () => {
+      finish({ loaded: true });
+    });
 
-    if (!beacon.src) {
-      fail(new Error('Beacon source was not assigned'));
+    form.method = 'POST';
+    form.action = action;
+    form.target = frameName;
+    form.acceptCharset = 'UTF-8';
+    form.style.display = 'none';
+
+    Object.entries(payload).forEach(([key, value]) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+    form.submit();
+
+    if (!document.body.contains(form)) {
+      fail(new Error('Hidden RSVP form was not attached'));
     }
   });
 }
