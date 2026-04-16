@@ -2,15 +2,26 @@ export async function sendVote({ name, answer, drinkPreferences = [], foodPrefer
   const endpoint = 'https://script.google.com/macros/s/AKfycbwCoL6sepvu8FHWGvZVK2uRiUf6-bTEduo-Qe9HIRZkQrdMESdMBL3Dsvje5-5qswYt/exec';
 
   try {
-    const url = new URL(endpoint);
-    url.searchParams.set('name', name || '');
-    url.searchParams.set('answer', answer || '');
-    url.searchParams.set('drinkPreferences', drinkPreferences.join(' | '));
-    url.searchParams.set('foodPreference', foodPreference || '');
-    url.searchParams.set('createdAt', new Date().toISOString());
-    url.searchParams.set('_', String(Date.now()));
+    const payload = new URLSearchParams();
+    payload.set('name', name || '');
+    payload.set('answer', answer || '');
+    payload.set('drinkPreferences', drinkPreferences.join(' | '));
+    payload.set('foodPreference', foodPreference || '');
+    payload.set('createdAt', new Date().toISOString());
+    payload.set('_', String(Date.now()));
 
-    await fireImageBeacon(url.toString());
+    if (navigator.sendBeacon) {
+      const body = new Blob([payload.toString()], {
+        type: 'application/x-www-form-urlencoded;charset=UTF-8'
+      });
+
+      if (navigator.sendBeacon(endpoint, body)) {
+        return { ok: true, dispatched: true, transport: 'beacon' };
+      }
+    }
+
+    const url = `${endpoint}?${payload.toString()}`;
+    await fireImageBeacon(url);
     return { ok: true, dispatched: true };
   } catch (error) {
     console.error('Vote send error:', error);

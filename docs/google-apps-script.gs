@@ -50,6 +50,20 @@ function getPayload_(e) {
     return JSON.parse(rawBody);
   }
 
+  if (rawBody) {
+    const parsedBody = Object.fromEntries(new URLSearchParams(rawBody).entries());
+
+    if (Object.keys(parsedBody).length > 0) {
+      return {
+        name: parsedBody.name || '',
+        answer: parsedBody.answer || '',
+        drinkPreferences: parsedBody.drinkPreferences || '',
+        foodPreference: parsedBody.foodPreference || '',
+        createdAt: parsedBody.createdAt || ''
+      };
+    }
+  }
+
   return {
     name: params.name || '',
     answer: params.answer || '',
