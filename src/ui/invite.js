@@ -14,8 +14,11 @@ export function initInvite() {
   const countHours = document.getElementById('countHours');
   const countMinutes = document.getElementById('countMinutes');
   const countSeconds = document.getElementById('countSeconds');
+  const drinkInputs = Array.from(document.querySelectorAll('input[name="drinkPreference"]'));
+  const foodInputs = Array.from(document.querySelectorAll('input[name="foodPreference"]'));
 
   let countdownTimer = null;
+  let attendanceAnswer = null;
 
   function setCounter(days, hours, minutes, seconds) {
     if (countDays) countDays.textContent = String(days).padStart(2, '0');
@@ -71,16 +74,22 @@ export function initInvite() {
   async function handle(answer) {
     if (!yesBtn || !noBtn || !status) return;
 
+    attendanceAnswer = answer;
     yesBtn.disabled = true;
     noBtn.disabled = true;
     status.textContent = 'Сохраняем ответ...';
+
+    const drinkPreferences = drinkInputs.filter((input) => input.checked).map((input) => input.value);
+    const foodPreference = foodInputs.find((input) => input.checked)?.value || '';
 
     const result = await sendVote({
       name: appState.playerName,
       answer,
       car: appState.playerCar?.name || '',
       result: appState.raceResult,
-      raceTime: appState.raceTime
+      raceTime: appState.raceTime,
+      drinkPreferences,
+      foodPreference
     });
 
     if (result.ok) {
@@ -102,4 +111,16 @@ export function initInvite() {
   renderInvite();
   yesBtn?.addEventListener('click', () => handle('yes'));
   noBtn?.addEventListener('click', () => handle('no'));
+
+  drinkInputs.forEach((input) => {
+    input.addEventListener('change', () => {
+      if (attendanceAnswer) status.textContent = 'Изменения учтутся при следующем сохранении ответа.';
+    });
+  });
+
+  foodInputs.forEach((input) => {
+    input.addEventListener('change', () => {
+      if (attendanceAnswer) status.textContent = 'Изменения учтутся при следующем сохранении ответа.';
+    });
+  });
 }

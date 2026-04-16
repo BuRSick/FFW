@@ -159,8 +159,8 @@
 
       <section id="inviteScreen" class="screen">
         <div class="invite-bg">
-          <video class="invite-bg-video" autoplay muted loop playsinline preload="none">
-            <source src="%BASE_URL%assets/trailer/video/desert-road-sunset.mp4" type="video/mp4" />
+          <video class="invite-bg-video" autoplay muted loop playsinline preload="auto">
+            <source src="%BASE_URL%assets/video/video2.mp4" type="video/mp4" />
           </video>
         </div>
 
@@ -324,6 +324,44 @@
               </div>
             </section>
 
+            <section class="invite-section invite-community">
+              <div class="invite-section-kicker">На связи до и после свадьбы</div>
+              <h3 class="invite-section-title">Группы в мессенджерах</h3>
+              <div class="invite-community-grid">
+                <div class="invite-community-card">
+                  <div class="invite-community-title">MAX-группа</div>
+                  <p class="invite-rsvp-copy">
+                    Мы создали группу нашего праздника, где можно будет узнать дополнительную информацию,
+                    а также поделиться фотографиями и видео в день свадьбы и после.
+                  </p>
+                  <a
+                    class="invite-route-link"
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    Вступить в MAX-группу
+                  </a>
+                </div>
+
+                <div class="invite-community-card">
+                  <div class="invite-community-title">Чат ВКонтакте</div>
+                  <p class="invite-rsvp-copy">
+                    В чате ВКонтакте тоже будем держать связь: напоминания, детали дня
+                    и живые фото с площадки.
+                  </p>
+                  <a
+                    class="invite-route-link"
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    Перейти в чат ВКонтакте
+                  </a>
+                </div>
+              </div>
+            </section>
+
             <section class="invite-section invite-rsvp">
               <div class="invite-section-kicker">Финальный чек-ин</div>
               <h3 class="invite-section-title">Сможешь приехать?</h3>
@@ -334,7 +372,59 @@
                 <button id="yesBtn" class="primary-btn">Да, буду</button>
                 <button id="noBtn" class="secondary-btn">Не смогу</button>
               </div>
+
+              <div class="invite-preferences">
+                <div class="invite-preferences-block">
+                  <h4 class="invite-preferences-title">Предпочтения по напиткам:</h4>
+                  <p class="invite-preferences-hint">Можно выбрать несколько вариантов</p>
+
+                  <label class="invite-option-row">
+                    <input type="checkbox" name="drinkPreference" value="Шампанское" />
+                    <span>Шампанское</span>
+                  </label>
+                  <label class="invite-option-row">
+                    <input type="checkbox" name="drinkPreference" value="Вино белое" />
+                    <span>Вино белое</span>
+                  </label>
+                  <label class="invite-option-row">
+                    <input type="checkbox" name="drinkPreference" value="Вино красное" />
+                    <span>Вино красное</span>
+                  </label>
+                  <label class="invite-option-row">
+                    <input type="checkbox" name="drinkPreference" value="Безалкогольные напитки" />
+                    <span>Безалкогольные напитки</span>
+                  </label>
+                </div>
+
+                <div class="invite-preferences-block">
+                  <h4 class="invite-preferences-title">Предпочтение по еде:</h4>
+
+                  <label class="invite-option-row">
+                    <input type="radio" name="foodPreference" value="Томленые говяжьи щечки с картофельным пюре" />
+                    <span>Томленые говяжьи щечки с картофельным пюре</span>
+                  </label>
+                  <label class="invite-option-row">
+                    <input type="radio" name="foodPreference" value="Утиная грудка с картофелем и соусом демиглас" />
+                    <span>Утиная грудка с картофелем и соусом демиглас</span>
+                  </label>
+                </div>
+              </div>
+
               <div id="rsvpStatus" class="muted invite-rsvp-status"></div>
+            </section>
+
+            <section class="invite-section invite-organizer">
+              <p class="invite-organizer-copy">
+                В случае возникновения вопросов в день торжества, обращайтесь к нашему свадебному
+                организатору <strong>Евгении</strong>
+              </p>
+              <a class="invite-organizer-phone" href="tel:+79811452199">+7 (981) 145-21-99</a>
+
+              <div class="invite-organizer-links">
+                <a class="invite-organizer-icon" href="tel:+79811452199" aria-label="Позвонить Евгении">✆</a>
+                <a class="invite-organizer-icon" href="https://wa.me/79811452199" target="_blank" rel="noreferrer noopener" aria-label="Написать Евгении в WhatsApp">◔</a>
+                <a class="invite-organizer-icon" href="https://t.me/" target="_blank" rel="noreferrer noopener" aria-label="Написать Евгении в Telegram">➤</a>
+              </div>
             </section>
 
             <footer class="invite-footer">

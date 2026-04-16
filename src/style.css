@@ -1572,17 +1572,118 @@ canvas {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px 16px;
+  align-items: start;
 }
 
 .invite-dress-name {
-  border-radius: 999px;
-  padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px 6px 0;
   font-size: 14px;
   font-weight: 600;
   text-align: center;
   color: rgba(248, 240, 229, 0.9);
+}
+
+.invite-community-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.invite-community-card {
+  min-height: 100%;
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 216, 168, 0.12);
+  background:
+    linear-gradient(180deg, rgba(20, 15, 18, 0.72), rgba(9, 8, 12, 0.9)),
+    rgba(12, 9, 12, 0.84);
+}
+
+.invite-community-title,
+.invite-preferences-title {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 30px);
+  color: #fff4de;
+}
+
+.invite-preferences {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.invite-preferences-block {
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.invite-preferences-hint {
+  margin: 8px 0 14px;
+  color: rgba(225, 229, 236, 0.68);
+  font-size: 14px;
+}
+
+.invite-option-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 12px;
+  color: rgba(248, 240, 229, 0.92);
+  line-height: 1.45;
+}
+
+.invite-option-row input {
+  margin: 3px 0 0;
+  width: 20px;
+  height: 20px;
+  accent-color: #ffbf72;
+  flex: 0 0 auto;
+}
+
+.invite-organizer {
+  text-align: center;
+}
+
+.invite-organizer-copy {
+  max-width: 46rem;
+  margin: 0 auto;
+  font-size: clamp(18px, 2.4vw, 26px);
+  line-height: 1.5;
+  color: rgba(248, 240, 229, 0.92);
+}
+
+.invite-organizer-phone {
+  display: inline-block;
+  margin-top: 26px;
+  color: #fff4de;
+  text-decoration: none;
+  font-size: clamp(26px, 3.6vw, 42px);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.invite-organizer-links {
+  margin-top: 26px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.invite-organizer-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #050505;
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
 }
 
 .rsvp-actions {
@@ -1643,6 +1744,11 @@ canvas {
 
   .invite-countdown-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .invite-community-grid,
+  .invite-preferences {
+    grid-template-columns: 1fr;
   }
 
   .invite-dress-labels {
@@ -1802,6 +1908,15 @@ canvas {
 
   .invite-dress-labels {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .invite-community-card,
+  .invite-preferences-block {
+    padding: 18px;
+  }
+
+  .invite-organizer-phone {
+    font-size: clamp(24px, 7vw, 34px);
   }
 
 }
