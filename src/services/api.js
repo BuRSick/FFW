@@ -1,5 +1,5 @@
 export async function sendVote({ name, answer, drinkPreferences = [], foodPreference = '' }) {
-  const endpoint = 'YOUR_GOOGLE_SCRIPT_URL';
+  const endpoint = 'https://script.google.com/macros/s/AKfycbwCoL6sepvu8FHWGvZVK2uRiUf6-bTEduo-Qe9HIRZkQrdMESdMBL3Dsvje5-5qswYt/exec';
 
   const payload = {
     name,
@@ -10,17 +10,15 @@ export async function sendVote({ name, answer, drinkPreferences = [], foodPrefer
   };
 
   try {
-    const response = await fetch(endpoint, {
+    await fetch(endpoint, {
       method: 'POST',
+      mode: 'no-cors',
+      redirect: 'follow',
       headers: {
         'Content-Type': 'text/plain;charset=utf-8'
       },
       body: JSON.stringify(payload)
     });
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
 
     return { ok: true };
   } catch (error) {

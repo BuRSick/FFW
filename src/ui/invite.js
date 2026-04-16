@@ -4,6 +4,7 @@ import { appState } from '../core/state.js';
 const CEREMONY_DATE = new Date('2026-06-22T11:00:00+03:00');
 
 export function initInvite() {
+  const inviteBackgroundVideo = document.querySelector('#inviteScreen .invite-bg-video');
   const yesBtn = document.getElementById('yesBtn');
   const noBtn = document.getElementById('noBtn');
   const status = document.getElementById('rsvpStatus');
@@ -71,6 +72,34 @@ export function initInvite() {
     startCountdown();
   }
 
+  async function syncInviteBackgroundVideo(isInviteScreen) {
+    if (!inviteBackgroundVideo) return;
+
+    if (!isInviteScreen) {
+      inviteBackgroundVideo.pause();
+      return;
+    }
+
+    inviteBackgroundVideo.muted = true;
+    inviteBackgroundVideo.loop = true;
+    inviteBackgroundVideo.playsInline = true;
+    inviteBackgroundVideo.setAttribute('playsinline', '');
+    inviteBackgroundVideo.setAttribute('webkit-playsinline', '');
+    inviteBackgroundVideo.preload = 'auto';
+
+    try {
+      inviteBackgroundVideo.load();
+    } catch {}
+
+    try {
+      inviteBackgroundVideo.currentTime = 0;
+    } catch {}
+
+    try {
+      await inviteBackgroundVideo.play();
+    } catch {}
+  }
+
   async function handle(answer) {
     if (!yesBtn || !noBtn || !status) return;
 
@@ -100,7 +129,10 @@ export function initInvite() {
   }
 
   document.addEventListener('screenchange', (event) => {
-    if (event.detail?.screenId === 'inviteScreen') {
+    const isInviteScreen = event.detail?.screenId === 'inviteScreen';
+    syncInviteBackgroundVideo(isInviteScreen);
+
+    if (isInviteScreen) {
       renderInvite();
     }
   });

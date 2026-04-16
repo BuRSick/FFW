@@ -247,7 +247,7 @@ html, body, #app {
   height: 100%;
   object-fit: cover;
   transform: scale(1.14);
-  filter: brightness(0.34) saturate(0.62) contrast(1.02) blur(1.5px);
+  filter: brightness(0.48) saturate(0.76) contrast(1.04) blur(0.8px);
 }
 
 .screen-overlay {
@@ -1550,33 +1550,47 @@ canvas {
   margin: 10px 0 0;
 }
 
-.invite-dress-board {
+.invite-dress-palette {
   margin-top: 22px;
-  border-radius: 28px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 18px 36px rgba(0, 0, 0, 0.18);
-}
-
-.invite-dress-board-image {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.invite-dress-labels {
-  margin-top: 18px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px 16px;
-  align-items: start;
+  gap: 18px 24px;
+}
+
+.invite-dress-card {
+  display: grid;
+  gap: 10px;
+}
+
+.invite-dress-swatch {
+  aspect-ratio: 0.82;
+  border-radius: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-image: url('/assets/ui/dress-code-colors.png');
+  background-repeat: no-repeat;
+  background-size: 420% 214%;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.invite-dress-swatch-1 { background-position: 0% 0%; }
+.invite-dress-swatch-2 { background-position: 33.33% 0%; }
+.invite-dress-swatch-3 { background-position: 66.66% 0%; }
+.invite-dress-swatch-4 { background-position: 100% 0%; }
+.invite-dress-swatch-5 { background-position: 0% 100%; }
+.invite-dress-swatch-6 { background-position: 33.33% 100%; }
+.invite-dress-swatch-7 { background-position: 66.66% 100%; }
+.invite-dress-swatch-8 { background-position: 100% 100%; }
+
+.invite-dress-swatch::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
 }
 
 .invite-dress-name {
-  padding: 4px 6px 0;
+  padding: 0 6px;
   font-size: 14px;
   font-weight: 600;
   text-align: center;
@@ -1751,7 +1765,7 @@ canvas {
     grid-template-columns: 1fr;
   }
 
-  .invite-dress-labels {
+  .invite-dress-palette {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
@@ -1906,8 +1920,9 @@ canvas {
     min-height: 100px;
   }
 
-  .invite-dress-labels {
+  .invite-dress-palette {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
 
   .invite-community-card,
