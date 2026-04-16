@@ -85,9 +85,6 @@ export function initInvite() {
     const result = await sendVote({
       name: appState.playerName,
       answer,
-      car: appState.playerCar?.name || '',
-      result: appState.raceResult,
-      raceTime: appState.raceTime,
       drinkPreferences,
       foodPreference
     });

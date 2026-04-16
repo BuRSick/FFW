@@ -1,12 +1,9 @@
-export async function sendVote({ name, answer, car, result, raceTime, drinkPreferences = [], foodPreference = '' }) {
+export async function sendVote({ name, answer, drinkPreferences = [], foodPreference = '' }) {
   const endpoint = 'YOUR_GOOGLE_SCRIPT_URL';
 
   const payload = {
     name,
     answer,
-    car,
-    result,
-    raceTime,
     drinkPreferences,
     foodPreference,
     createdAt: new Date().toISOString()
