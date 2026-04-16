@@ -51,7 +51,7 @@ function getPayload_(e) {
   }
 
   if (rawBody) {
-    const parsedBody = Object.fromEntries(new URLSearchParams(rawBody).entries());
+    const parsedBody = parseFormEncoded_(rawBody);
 
     if (Object.keys(parsedBody).length > 0) {
       return {
@@ -101,6 +101,23 @@ function normalizeAttendance_(value) {
   if (value === 'yes') return 'Придет';
   if (value === 'no') return 'Не придет';
   return normalizeText_(value);
+}
+
+function parseFormEncoded_(rawBody) {
+  return String(rawBody || '')
+    .split('&')
+    .filter(Boolean)
+    .reduce(function (acc, pair) {
+      var parts = pair.split('=');
+      var key = decodeURIComponent(String(parts.shift() || '').replace(/\+/g, ' '));
+      var value = decodeURIComponent(String(parts.join('=') || '').replace(/\+/g, ' '));
+
+      if (key) {
+        acc[key] = value;
+      }
+
+      return acc;
+    }, {});
 }
 
 function jsonResponse_(data) {
