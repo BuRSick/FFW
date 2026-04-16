@@ -1,5 +1,5 @@
 export async function sendVote({ name, answer, drinkPreferences = [], foodPreference = '' }) {
-  const endpoint = 'https://script.google.com/macros/s/AKfycbwCoL6sepvu8FHWGvZVK2uRiUf6-bTEduo-Qe9HIRZkQrdMESdMBL3Dsvje5-5qswYt/exec';
+  const endpoint = 'https://script.google.com/macros/s/AKfycbyjhAxrBFXICU0s9bXJ5m6uFjoi-FeKYaygV9JvLYeB64mP3tcbA5eiUTAyTpH55oCE/exec';
 
   try {
     const payload = new URLSearchParams();
