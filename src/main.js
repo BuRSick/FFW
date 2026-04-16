@@ -21,6 +21,20 @@ function getRaceBackgroundVideo() {
   return document.getElementById('raceBackgroundVideo');
 }
 
+function warmVideoElement(id) {
+  const video = document.getElementById(id);
+  if (!video) return;
+
+  video.preload = 'auto';
+  video.playsInline = true;
+  video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
+
+  try {
+    video.load();
+  } catch {}
+}
+
 function pauseIntroVideo() {
   const introVideo = getIntroVideo();
   if (!introVideo) return;
@@ -53,6 +67,9 @@ function stopRaceBackgroundVideo() {
 }
 
 function boot() {
+  warmVideoElement('preRaceVideo');
+  warmVideoElement('postRaceVideo');
+
   initIntro(() => {
     showScreen('introScreen');
   });

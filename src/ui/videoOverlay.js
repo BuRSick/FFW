@@ -28,15 +28,39 @@ export function playVideoOverlay({ videoId, skipButtonId }) {
     const handleSkip = () => finish();
 
     video.currentTime = 0;
-    video.muted = false;
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
     video.volume = 1;
     video.controls = false;
     video.loop = false;
+    video.preload = 'auto';
 
     video.addEventListener('ended', handleEnd, { once: true });
     video.addEventListener('error', handleEnd, { once: true });
     skipBtn?.addEventListener('click', handleSkip);
 
-    video.play().catch(() => finish());
+    try {
+      video.load();
+    } catch {}
+
+    const playWithFallback = async () => {
+      try {
+        video.muted = false;
+        await video.play();
+        return;
+      } catch {}
+
+      try {
+        // Mobile browsers may block post-race autoplay with sound.
+        video.muted = true;
+        await video.play();
+        return;
+      } catch {}
+
+      finish();
+    };
+
+    playWithFallback();
   });
 }

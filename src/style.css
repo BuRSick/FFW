@@ -167,7 +167,7 @@ html, body, #app {
 }
 
 .opening-screen-subtitle {
-  font-size: clamp(28px, 5vw, 66px);
+  font-size: clamp(30px, 5.2vw, 68px);
 }
 
 .opening-screen-btn {
@@ -273,6 +273,7 @@ html, body, #app {
   display: grid;
   gap: 18px;
   justify-items: center;
+  margin-inline: auto;
 }
 
 .intro-copy {
@@ -288,6 +289,7 @@ html, body, #app {
   width: min(92vw, 520px);
   text-align: left;
   background: rgba(9, 14, 24, 0.74);
+  margin-inline: auto;
 }
 
 .intro-register-panel h2 {
@@ -1649,6 +1651,40 @@ canvas {
 }
 
 @media (max-width: 720px) {
+  .intro-overlay {
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+  }
+
+  .intro-content {
+    width: min(100%, 560px);
+    padding: 18px 0 24px;
+    gap: 16px;
+  }
+
+  .intro-title,
+  .intro-copy {
+    margin-inline: auto;
+  }
+
+  .intro-copy {
+    max-width: 26ch;
+  }
+
+  .intro-register-panel {
+    width: min(100%, 520px);
+    text-align: center;
+  }
+
+  .intro-register-panel .text-input {
+    text-align: left;
+  }
+
+  #startRaceBtn {
+    width: min(100%, 520px);
+    margin-inline: auto;
+  }
+
   .hud-corners {
     padding-inline: 10px;
   }

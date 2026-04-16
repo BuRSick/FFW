@@ -445,21 +445,21 @@ export class DragRaceGame {
     const lead = this.bot.distance - this.player.distance;
     const playerFinishRatio = this.trackLength > 0 ? this.player.distance / this.trackLength : 0;
 
-    if (lead > -6) {
-      const softCap = this.player.speed * 0.96 + 4;
+    if (lead > -3.2) {
+      const softCap = this.player.speed * 0.982 + 2.4;
       this.bot.speed = Math.min(this.bot.speed, softCap);
     }
 
-    if (lead > 4) {
-      this.bot.speed *= 0.94;
+    if (lead > 1.4) {
+      this.bot.speed *= 0.955;
     }
 
     if (playerFinishRatio > 0.72) {
-      this.bot.speed *= 0.985;
+      this.bot.speed *= 0.99;
     }
 
     if (playerFinishRatio > 0.88) {
-      this.bot.speed = Math.min(this.bot.speed, this.player.speed * 0.92);
+      this.bot.speed = Math.min(this.bot.speed, this.player.speed * 0.955);
     }
   }
 
