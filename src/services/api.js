@@ -1,13 +1,13 @@
 export async function sendVote({ name, answer, drinkPreferences = [], foodPreference = '' }) {
   const endpoint = 'https://script.google.com/macros/s/AKfycbwCoL6sepvu8FHWGvZVK2uRiUf6-bTEduo-Qe9HIRZkQrdMESdMBL3Dsvje5-5qswYt/exec';
 
-  const payload = {
-    name,
-    answer,
-    drinkPreferences,
-    foodPreference,
+  const payload = new URLSearchParams({
+    name: name || '',
+    answer: answer || '',
+    drinkPreferences: drinkPreferences.join(' | '),
+    foodPreference: foodPreference || '',
     createdAt: new Date().toISOString()
-  };
+  });
 
   try {
     await fetch(endpoint, {
@@ -15,9 +15,9 @@ export async function sendVote({ name, answer, drinkPreferences = [], foodPrefer
       mode: 'no-cors',
       redirect: 'follow',
       headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
       },
-      body: JSON.stringify(payload)
+      body: payload.toString()
     });
 
     return { ok: true };

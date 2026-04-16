@@ -3,20 +3,18 @@ function doPost(e) {
     const sheet = getSheet_();
     ensureHeaders_(sheet);
 
-    const payload = JSON.parse(e.postData.contents || '{}');
+    const payload = getPayload_(e);
     const row = [
       normalizeText_(payload.name),
       normalizeAttendance_(payload.answer),
-      normalizeDrinks_(payload.drinkPreferences),
+      normalizeText_(payload.drinkPreferences),
       normalizeText_(payload.foodPreference),
       new Date()
     ];
 
     sheet.appendRow(row);
 
-    return jsonResponse_({
-      ok: true
-    });
+    return jsonResponse_({ ok: true });
   } catch (error) {
     return jsonResponse_({
       ok: false,
@@ -30,6 +28,23 @@ function doGet() {
     ok: true,
     message: 'Wedding RSVP endpoint is running'
   });
+}
+
+function getPayload_(e) {
+  const params = (e && e.parameter) || {};
+  const rawBody = e && e.postData && e.postData.contents;
+
+  if (rawBody && rawBody.trim().startsWith('{')) {
+    return JSON.parse(rawBody);
+  }
+
+  return {
+    name: params.name || '',
+    answer: params.answer || '',
+    drinkPreferences: params.drinkPreferences || '',
+    foodPreference: params.foodPreference || '',
+    createdAt: params.createdAt || ''
+  };
 }
 
 function getSheet_() {
@@ -61,14 +76,6 @@ function normalizeAttendance_(value) {
   if (value === 'yes') return 'Придет';
   if (value === 'no') return 'Не придет';
   return normalizeText_(value);
-}
-
-function normalizeDrinks_(value) {
-  if (!Array.isArray(value)) return '';
-  return value
-    .map((item) => normalizeText_(item))
-    .filter(Boolean)
-    .join(', ');
 }
 
 function jsonResponse_(data) {
