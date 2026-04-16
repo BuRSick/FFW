@@ -1,3 +1,6 @@
+const SPREADSHEET_ID = '1Qcg1lUG1Sh8MQgsXM80bXgqZduAbpn97DcK-u6aEjv4';
+const SHEET_NAME = 'RSVP';
+
 function doPost(e) {
   try {
     const sheet = getSheet_();
@@ -48,12 +51,11 @@ function getPayload_(e) {
 }
 
 function getSheet_() {
-  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  const sheetName = 'RSVP';
-  const existingSheet = spreadsheet.getSheetByName(sheetName);
+  const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const existingSheet = spreadsheet.getSheetByName(SHEET_NAME);
 
   if (existingSheet) return existingSheet;
-  return spreadsheet.insertSheet(sheetName);
+  return spreadsheet.insertSheet(SHEET_NAME);
 }
 
 function ensureHeaders_(sheet) {
