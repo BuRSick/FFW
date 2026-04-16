@@ -3,8 +3,7 @@ import { appState } from '../core/state.js';
 
 const CEREMONY_DATE = new Date('2026-06-22T11:00:00+03:00');
 
-export function initInvite() {
-  const inviteBackgroundVideo = document.querySelector('#inviteScreen .invite-bg-video');
+export function initInvite({ onConfirmYes } = {}) {
   const yesBtn = document.getElementById('yesBtn');
   const noBtn = document.getElementById('noBtn');
   const status = document.getElementById('rsvpStatus');
@@ -20,6 +19,7 @@ export function initInvite() {
 
   let countdownTimer = null;
   let attendanceAnswer = null;
+  let isSubmitting = false;
 
   function setCounter(days, hours, minutes, seconds) {
     if (countDays) countDays.textContent = String(days).padStart(2, '0');
@@ -70,42 +70,32 @@ export function initInvite() {
     }
 
     startCountdown();
+    updateSubmitAvailability();
   }
 
-  async function syncInviteBackgroundVideo(isInviteScreen) {
-    if (!inviteBackgroundVideo) return;
+  function preferencesReady() {
+    const hasDrink = drinkInputs.some((input) => input.checked);
+    const hasFood = foodInputs.some((input) => input.checked);
+    return hasDrink && hasFood;
+  }
 
-    if (!isInviteScreen) {
-      inviteBackgroundVideo.pause();
-      return;
-    }
-
-    inviteBackgroundVideo.muted = true;
-    inviteBackgroundVideo.loop = true;
-    inviteBackgroundVideo.playsInline = true;
-    inviteBackgroundVideo.setAttribute('playsinline', '');
-    inviteBackgroundVideo.setAttribute('webkit-playsinline', '');
-    inviteBackgroundVideo.preload = 'auto';
-
-    try {
-      inviteBackgroundVideo.load();
-    } catch {}
-
-    try {
-      inviteBackgroundVideo.currentTime = 0;
-    } catch {}
-
-    try {
-      await inviteBackgroundVideo.play();
-    } catch {}
+  function updateSubmitAvailability() {
+    const enabled = preferencesReady() && !isSubmitting;
+    if (yesBtn) yesBtn.disabled = !enabled;
+    if (noBtn) noBtn.disabled = !enabled;
   }
 
   async function handle(answer) {
     if (!yesBtn || !noBtn || !status) return;
+    if (!preferencesReady()) {
+      status.textContent = 'Сначала выбери напитки и блюдо.';
+      updateSubmitAvailability();
+      return;
+    }
 
     attendanceAnswer = answer;
-    yesBtn.disabled = true;
-    noBtn.disabled = true;
+    isSubmitting = true;
+    updateSubmitAvailability();
     status.textContent = 'Сохраняем ответ...';
 
     const drinkPreferences = drinkInputs.filter((input) => input.checked).map((input) => input.value);
@@ -120,17 +110,21 @@ export function initInvite() {
 
     if (result.ok) {
       status.textContent = 'Ответ сохранен. Спасибо, увидимся на старте!';
+      isSubmitting = false;
+      updateSubmitAvailability();
+      if (answer === 'yes') {
+        await onConfirmYes?.();
+      }
       return;
     }
 
-    yesBtn.disabled = false;
-    noBtn.disabled = false;
+    isSubmitting = false;
+    updateSubmitAvailability();
     status.textContent = 'Не удалось сохранить ответ. Проверь подключение и URL скрипта.';
   }
 
   document.addEventListener('screenchange', (event) => {
     const isInviteScreen = event.detail?.screenId === 'inviteScreen';
-    syncInviteBackgroundVideo(isInviteScreen);
 
     if (isInviteScreen) {
       renderInvite();
@@ -143,12 +137,14 @@ export function initInvite() {
 
   drinkInputs.forEach((input) => {
     input.addEventListener('change', () => {
+      updateSubmitAvailability();
       if (attendanceAnswer) status.textContent = 'Изменения учтутся при следующем сохранении ответа.';
     });
   });
 
   foodInputs.forEach((input) => {
     input.addEventListener('change', () => {
+      updateSubmitAvailability();
       if (attendanceAnswer) status.textContent = 'Изменения учтутся при следующем сохранении ответа.';
     });
   });

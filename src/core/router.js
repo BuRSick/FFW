@@ -4,6 +4,7 @@ const screenIds = [
   'preRaceVideoScreen',
   'gameScreen',
   'postRaceVideoScreen',
+  'postConfirmVideoScreen',
   'inviteScreen'
 ];
 

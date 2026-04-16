@@ -1713,6 +1713,13 @@ canvas {
   flex: 1 1 220px;
 }
 
+.invite-rsvp .primary-btn:disabled,
+.invite-rsvp .secondary-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+  box-shadow: none;
+}
+
 .invite-rsvp-status {
   min-height: 22px;
 }

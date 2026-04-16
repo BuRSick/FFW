@@ -157,6 +157,17 @@
         </button>
       </section>
 
+      <section id="postConfirmVideoScreen" class="screen">
+        <video
+          id="postConfirmVideo"
+          class="bg-video pre-race-video"
+          playsinline
+          preload="auto"
+        >
+          <source src="%BASE_URL%assets/video/video4.mp4" type="video/mp4" />
+        </video>
+      </section>
+
       <section id="inviteScreen" class="screen">
         <div class="invite-bg">
           <video class="invite-bg-video" autoplay muted loop playsinline preload="auto">
@@ -380,15 +391,6 @@
 
             <section class="invite-section invite-rsvp">
               <div class="invite-section-kicker">Финальный чек-ин</div>
-              <h3 class="invite-section-title">Сможешь приехать?</h3>
-              <p class="invite-rsvp-copy">
-                Дай знать, займешь ли ты место на стартовой решетке нашего вечера.
-              </p>
-              <div class="rsvp-actions">
-                <button id="yesBtn" class="primary-btn">Да, буду</button>
-                <button id="noBtn" class="secondary-btn">Не смогу</button>
-              </div>
-
               <div class="invite-preferences">
                 <div class="invite-preferences-block">
                   <h4 class="invite-preferences-title">Предпочтения по напиткам:</h4>
@@ -424,6 +426,15 @@
                     <span>Утиная грудка с картофелем и соусом демиглас</span>
                   </label>
                 </div>
+              </div>
+
+              <h3 class="invite-section-title">Сможешь приехать?</h3>
+              <p class="invite-rsvp-copy">
+                Дай знать, займешь ли ты место на стартовой решетке нашего вечера.
+              </p>
+              <div class="rsvp-actions">
+                <button id="yesBtn" class="primary-btn">Да, буду</button>
+                <button id="noBtn" class="secondary-btn">Не смогу</button>
               </div>
 
               <div id="rsvpStatus" class="muted invite-rsvp-status"></div>
