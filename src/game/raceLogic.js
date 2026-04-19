@@ -1,9 +1,9 @@
 import { clamp } from './utils.js';
 
-const BOT_ACCEL_FACTOR = 0.944;
-const BOT_POWER_FACTOR = 0.91;
-const BOT_TOP_SPEED_FACTOR = 0.928;
-const BOT_SHIFT_BONUS_FACTOR = 0.89;
+const BOT_ACCEL_FACTOR = 0.954;
+const BOT_POWER_FACTOR = 0.922;
+const BOT_TOP_SPEED_FACTOR = 0.936;
+const BOT_SHIFT_BONUS_FACTOR = 0.9;
 
 export function createRacer(car) {
   return {

@@ -2,17 +2,17 @@ const assetBase = import.meta.env.BASE_URL;
 
 export const cars = [
   {
-    id: 'skyline',
-    name: 'Nissan Skyline GT-R R34',
-    modelPath: `${assetBase}assets/models/skyline-lite.glb`,
-    color: 0xc8cdd6,
-    acceleration: 0.0188,
-    power: 33.8,
-    grip: 0.985,
-    shiftWindowMin: 0.72,
-    shiftWindowMax: 0.84,
-    maxSpeed: 302,
-    modelScale: 1.0,
+    id: 'charger',
+    name: 'Dodge Charger',
+    modelPath: `${assetBase}assets/models/charger-lite.glb`,
+    color: 0x3e434a,
+    acceleration: 0.0204,
+    power: 34.2,
+    grip: 0.984,
+    shiftWindowMin: 0.73,
+    shiftWindowMax: 0.845,
+    maxSpeed: 306,
+    modelScale: 1.04,
     modelRotationY: Math.PI,
     modelYOffset: 0.0,
     modelOffsetX: 0.0,
@@ -29,7 +29,7 @@ export const cars = [
     shiftWindowMin: 0.73,
     shiftWindowMax: 0.85,
     maxSpeed: 312,
-    modelScale: 1.48,
+    modelScale: 1.776,
     modelRotationY: Math.PI,
     modelYOffset: 0.0,
     modelOffsetX: 0.0,
@@ -38,7 +38,7 @@ export const cars = [
 ];
 
 export const PLAYER_CAR_ID = 'supra';
-export const BOT_CAR_ID = 'skyline';
+export const BOT_CAR_ID = 'charger';
 
 export function getPlayerCar() {
   return cars.find((car) => car.id === PLAYER_CAR_ID) ?? cars[0];
