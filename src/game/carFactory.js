@@ -35,6 +35,23 @@ function applyCarMaterial(root, color) {
   });
 }
 
+function normalizeWheelPivot(mesh) {
+  mesh.geometry?.computeBoundingBox?.();
+  const bbox = mesh.geometry?.boundingBox;
+  if (!bbox) return;
+
+  const center = new THREE.Vector3();
+  bbox.getCenter(center);
+
+  if (center.lengthSq() < 1e-6) {
+    return;
+  }
+
+  mesh.geometry = mesh.geometry.clone();
+  mesh.geometry.translate(-center.x, -center.y, -center.z);
+  mesh.position.add(center);
+}
+
 function collectWheelMeshes(root, car) {
   const wheels = [];
 
@@ -45,6 +62,8 @@ function collectWheelMeshes(root, car) {
     const materialName = sourceMaterial?.name ?? '';
 
     if (obj.userData?.isWheel || WHEEL_NAME_RE.test(obj.name) || WHEEL_NAME_RE.test(materialName)) {
+      normalizeWheelPivot(obj);
+
       if (car?.modelWheelSpinAxis) {
         obj.userData.spinAxis = car.modelWheelSpinAxis;
         wheels.push(obj);
