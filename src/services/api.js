@@ -1,4 +1,11 @@
-export async function sendVote({ name, answer, drinkPreferences = [], allergy = '', transferPreference = '' }) {
+export async function sendVote({
+  name,
+  answer,
+  drinkPreferences = [],
+  allergy = '',
+  transferPreference = '',
+  shootingPreference = ''
+}) {
   const endpoint = 'https://script.google.com/macros/s/AKfycbzRP39oqLpkIShm-38Wk0ZFSl98iR5bmsnnJBoII5ajMopxA39AleACqK2PdjHQ_rDJ/exec';
 
   try {
@@ -8,6 +15,7 @@ export async function sendVote({ name, answer, drinkPreferences = [], allergy = 
       drinkPreferences: drinkPreferences.join(' | '),
       allergy: allergy || '',
       transferPreference: transferPreference || '',
+      shootingPreference: shootingPreference || '',
       createdAt: new Date().toISOString(),
       _: String(Date.now())
     };

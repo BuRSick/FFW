@@ -8,7 +8,14 @@ function doPost(e) {
 function doGet(e) {
   const payload = getPayload_(e);
 
-  if (payload.name || payload.answer || payload.drinkPreferences || payload.allergy || payload.transferPreference) {
+  if (
+    payload.name ||
+    payload.answer ||
+    payload.drinkPreferences ||
+    payload.allergy ||
+    payload.transferPreference ||
+    payload.shootingPreference
+  ) {
     return saveResponse_(payload);
   }
 
@@ -29,6 +36,7 @@ function saveResponse_(payload) {
       normalizeText_(payload.drinkPreferences),
       normalizeText_(payload.allergy),
       normalizeText_(payload.transferPreference),
+      normalizeText_(payload.shootingPreference),
       new Date()
     ];
 
@@ -61,6 +69,7 @@ function getPayload_(e) {
         drinkPreferences: parsedBody.drinkPreferences || '',
         allergy: parsedBody.allergy || '',
         transferPreference: parsedBody.transferPreference || '',
+        shootingPreference: parsedBody.shootingPreference || '',
         createdAt: parsedBody.createdAt || ''
       };
     }
@@ -72,6 +81,7 @@ function getPayload_(e) {
     drinkPreferences: params.drinkPreferences || '',
     allergy: params.allergy || '',
     transferPreference: params.transferPreference || '',
+    shootingPreference: params.shootingPreference || '',
     createdAt: params.createdAt || ''
   };
 }
@@ -85,7 +95,7 @@ function getSheet_() {
 }
 
 function ensureHeaders_(sheet) {
-  const headers = ['Имя', 'Придет/Не придет', 'Предпочтения по напиткам', 'Аллергия', 'Трансфер', 'Дата ответа'];
+  const headers = ['Имя', 'Придет/Не придет', 'Предпочтения по напиткам', 'Аллергия', 'Трансфер', 'Мастер-класс по стрельбе', 'Дата ответа'];
   const currentHeaders = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
 
   const matches = headers.every((header, index) => currentHeaders[index] === header);
@@ -135,6 +145,7 @@ function testWriteRow() {
     answer: 'yes',
     drinkPreferences: 'Шампанское | Белое вино | Виски',
     allergy: 'Нет',
-    transferPreference: 'Да, только туда'
+    transferPreference: 'Да',
+    shootingPreference: 'Да, пойду'
   });
 }

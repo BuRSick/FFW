@@ -1230,8 +1230,8 @@ canvas {
 }
 
 .invite-hero {
-  min-height: min(48svh, 420px);
-  padding: clamp(24px, 4vw, 40px);
+  min-height: min(56svh, 500px);
+  padding: clamp(28px, 4.4vw, 48px);
   border-radius: 32px;
   overflow: hidden;
   display: grid;
@@ -1331,8 +1331,8 @@ canvas {
 
 .invite-headline {
   margin: 8px 0 0;
-  max-width: 14ch;
-  font-size: clamp(28px, 5.2vw, 54px);
+  max-width: 16ch;
+  font-size: clamp(28px, 4.7vw, 50px);
   font-style: normal;
   overflow-wrap: anywhere;
 }
@@ -1391,15 +1391,15 @@ canvas {
 }
 
 .invite-timeline {
-  margin-top: 20px;
+  margin-top: 4px;
   display: grid;
-  gap: 8px;
+  gap: 0;
 }
 
 .invite-timeline-row {
   display: grid;
-  grid-template-columns: clamp(140px, 14vw, 188px) minmax(0, 1fr);
-  gap: 48px;
+  grid-template-columns: clamp(120px, 12vw, 156px) minmax(0, 1fr);
+  gap: 28px;
   align-items: start;
   padding: 18px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -1411,11 +1411,11 @@ canvas {
 
 .invite-timeline-time {
   font-family: var(--invite-display);
-  font-size: clamp(32px, 4.6vw, 60px);
+  font-size: clamp(26px, 3.5vw, 44px);
   letter-spacing: 0.01em;
-  color: #fff4de;
+  color: rgba(225, 229, 236, 0.94);
   font-style: italic;
-  line-height: 0.88;
+  line-height: 0.96;
   padding-top: 2px;
   white-space: nowrap;
 }
@@ -1445,6 +1445,12 @@ canvas {
 
 .invite-venue .invite-section-title {
   margin-bottom: 12px;
+}
+
+.invite-venue-title {
+  max-width: 20ch;
+  margin-top: 20px;
+  font-size: clamp(28px, 4.8vw, 48px);
 }
 
 .invite-route-link {
@@ -1500,6 +1506,11 @@ canvas {
   margin: 10px 0 0;
 }
 
+.invite-program-note {
+  max-width: none;
+  margin-top: 20px;
+}
+
 .invite-dress-palette {
   margin-top: 22px;
   display: grid;
@@ -1508,16 +1519,18 @@ canvas {
 }
 
 .invite-dress-card {
-  display: grid;
+  display: block;
+  width: 100%;
 }
 
 .invite-dress-swatch {
+  width: 100%;
   aspect-ratio: 0.82;
   border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background-image: url('/assets/ui/dress-code-colors.png');
   background-repeat: no-repeat;
-  background-size: 420% 214%;
+  background-size: 400% 200%;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
@@ -1570,11 +1583,19 @@ canvas {
   gap: 18px;
 }
 
+.invite-rsvp-heading {
+  margin-top: 10px;
+}
+
 .invite-preferences-block {
   padding: 22px;
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.03);
+}
+
+.invite-preferences-block-wide {
+  margin-top: 18px;
 }
 
 .invite-preferences-hint {
@@ -1642,37 +1663,6 @@ canvas {
   font-family: var(--invite-copy);
 }
 
-.invite-organizer-phone {
-  display: inline-block;
-  margin-top: 26px;
-  color: #fff4de;
-  text-decoration: none;
-  font-size: clamp(26px, 3.6vw, 42px);
-  font-style: normal;
-  font-weight: 700;
-  font-family: var(--invite-display);
-}
-
-.invite-organizer-links {
-  margin-top: 26px;
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-}
-
-.invite-organizer-icon {
-  width: 52px;
-  height: 52px;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  background: #050505;
-  color: #fff;
-  text-decoration: none;
-  font-size: 24px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
-}
-
 .rsvp-actions {
   display: flex;
   gap: 12px;
@@ -1709,6 +1699,7 @@ canvas {
   margin-top: 10px;
   font-size: clamp(28px, 6vw, 56px);
   font-style: normal;
+  color: #fff4de;
 }
 
 @media (max-width: 900px) {
@@ -1860,7 +1851,7 @@ canvas {
   }
 
   .invite-hero {
-    min-height: 52svh;
+    min-height: 58svh;
     gap: 20px;
     border-radius: 26px;
   }
@@ -1870,7 +1861,19 @@ canvas {
   }
 
   .invite-headline {
-    max-width: 10ch;
+    max-width: 11ch;
+  }
+
+  .invite-date-lockup {
+    gap: 12px;
+  }
+
+  .invite-day {
+    font-size: clamp(68px, 22vw, 130px);
+  }
+
+  .invite-month {
+    font-size: clamp(24px, 10vw, 46px);
   }
 
   .invite-section,
@@ -1882,11 +1885,11 @@ canvas {
 
   .invite-timeline-row {
     grid-template-columns: 1fr;
-    gap: 6px;
+    gap: 8px;
   }
 
   .invite-timeline-time {
-    font-size: 30px;
+    font-size: 26px;
     padding-top: 0;
   }
 
@@ -1894,8 +1897,23 @@ canvas {
     padding-top: 0;
   }
 
+  .invite-venue-title {
+    max-width: none;
+    font-size: clamp(26px, 7.2vw, 38px);
+  }
+
   .rsvp-actions {
-    flex-direction: column;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .invite-rsvp .primary-btn,
+  .invite-rsvp .secondary-btn {
+    min-width: 0;
+    flex: 1 1 0;
+    min-height: 50px;
+    padding: 12px 14px;
+    font-size: 16px;
   }
 
   .invite-count-card {
@@ -1903,17 +1921,12 @@ canvas {
   }
 
   .invite-dress-palette {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .invite-community-card,
   .invite-preferences-block {
     padding: 18px;
   }
-
-  .invite-organizer-phone {
-    font-size: clamp(24px, 7vw, 34px);
-  }
-
 }

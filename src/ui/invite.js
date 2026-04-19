@@ -14,8 +14,9 @@ export function initInvite({ onConfirmYes } = {}) {
   const countSeconds = document.getElementById('countSeconds');
   const drinkInputs = Array.from(document.querySelectorAll('input[name="drinkPreference"]'));
   const transferInputs = Array.from(document.querySelectorAll('input[name="transferPreference"]'));
+  const shootingInputs = Array.from(document.querySelectorAll('input[name="shootingPreference"]'));
   const allergyInput = document.getElementById('allergyInput');
-  const preferenceInputs = [...drinkInputs, ...transferInputs].filter(Boolean);
+  const preferenceInputs = [...drinkInputs, ...transferInputs, ...shootingInputs].filter(Boolean);
 
   let countdownTimer = null;
   let attendanceAnswer = null;
@@ -67,7 +68,8 @@ export function initInvite({ onConfirmYes } = {}) {
   function preferencesReady() {
     const hasDrink = drinkInputs.some((input) => input.checked);
     const hasTransfer = transferInputs.some((input) => input.checked);
-    return hasDrink && hasTransfer;
+    const hasShooting = shootingInputs.some((input) => input.checked);
+    return hasDrink && hasTransfer && hasShooting;
   }
 
   function updateSubmitAvailability() {
@@ -92,7 +94,7 @@ export function initInvite({ onConfirmYes } = {}) {
   async function handle(answer) {
     if (!yesBtn || !noBtn || !status) return;
     if (!preferencesReady()) {
-      status.textContent = 'Сначала выбери напитки и вариант трансфера.';
+      status.textContent = 'Сначала выбери напитки, трансфер и ответ по мастер-классу.';
       updateSubmitAvailability();
       return;
     }
@@ -105,13 +107,15 @@ export function initInvite({ onConfirmYes } = {}) {
     const drinkPreferences = drinkInputs.filter((input) => input.checked).map((input) => input.value);
     const allergy = allergyInput?.value?.trim() || '';
     const transferPreference = transferInputs.find((input) => input.checked)?.value || '';
+    const shootingPreference = shootingInputs.find((input) => input.checked)?.value || '';
 
     const result = await sendVote({
       name: appState.playerName,
       answer,
       drinkPreferences,
       allergy,
-      transferPreference
+      transferPreference,
+      shootingPreference
     });
 
     if (result.ok) {
@@ -150,6 +154,14 @@ export function initInvite({ onConfirmYes } = {}) {
   });
 
   transferInputs.forEach((input) => {
+    input.addEventListener('change', () => {
+      if (isLocked) return;
+      updateSubmitAvailability();
+      if (attendanceAnswer) status.textContent = 'Изменения учтутся при следующем сохранении ответа.';
+    });
+  });
+
+  shootingInputs.forEach((input) => {
     input.addEventListener('change', () => {
       if (isLocked) return;
       updateSubmitAvailability();
