@@ -115,7 +115,7 @@ export function initInvite({ onConfirmYes } = {}) {
     });
 
     if (result.ok) {
-      status.textContent = 'Ответ сохранен. Спасибо! Повторная отправка отключена.';
+      status.textContent = 'Ответ сохранен. Спасибо!';
       setLockedState(true);
       isSubmitting = false;
       if (answer === 'yes') {
