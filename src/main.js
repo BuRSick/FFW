@@ -13,6 +13,12 @@ import { playVideoOverlay } from './ui/videoOverlay.js';
 let currentGame = null;
 let video1PlaybackTime = 0;
 
+function nextPaint() {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  });
+}
+
 function getIntroVideo() {
   return document.getElementById('introVideo');
 }
@@ -89,7 +95,9 @@ async function startInviteBackgroundVideo() {
   if (!inviteVideo) return;
 
   warmVideoNode(inviteVideo);
-  inviteVideo.currentTime = video1PlaybackTime || 0;
+  if (Math.abs((inviteVideo.currentTime || 0) - (video1PlaybackTime || 0)) > 0.35) {
+    inviteVideo.currentTime = video1PlaybackTime || 0;
+  }
   inviteVideo.muted = false;
   inviteVideo.volume = 1;
   inviteVideo.loop = true;
@@ -116,11 +124,40 @@ function pauseInviteBackgroundVideo() {
   inviteVideo.pause();
 }
 
+function installInviteVideoGuards() {
+  const inviteVideo = getInviteBackgroundVideo();
+  if (!inviteVideo || inviteVideo.dataset.guardsInstalled === 'true') return;
+
+  inviteVideo.dataset.guardsInstalled = 'true';
+
+  const recover = async () => {
+    const inviteScreen = document.getElementById('inviteScreen');
+    if (!inviteScreen?.classList.contains('active')) return;
+    await startInviteBackgroundVideo();
+  };
+
+  inviteVideo.addEventListener('ended', () => {
+    inviteVideo.currentTime = 0;
+    recover();
+  });
+  inviteVideo.addEventListener('pause', () => {
+    if (!document.hidden) recover();
+  });
+  inviteVideo.addEventListener('stalled', recover);
+  inviteVideo.addEventListener('suspend', recover);
+  inviteVideo.addEventListener('waiting', recover);
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) recover();
+  });
+}
+
 function boot() {
   warmVideoElement('preRaceVideo');
   warmVideoElement('postRaceVideo');
   warmVideoElement('postConfirmVideo');
   warmVideoNode(getInviteBackgroundVideo());
+  installInviteVideoGuards();
 
   initIntro(() => {
     showScreen('introScreen');
@@ -145,17 +182,20 @@ function boot() {
       onFinish: async () => {
         stopRaceBackgroundVideo();
         showScreen('postRaceVideoScreen');
+        await nextPaint();
         await playVideoOverlay({
           videoId: 'postRaceVideo',
           skipButtonId: 'postRaceVideoSkipBtn'
         });
         showScreen('inviteScreen');
+        await nextPaint();
         await startInviteBackgroundVideo();
       }
     });
 
     showScreen('preRaceVideoScreen');
     const preparePromise = currentGame.prepare();
+    await nextPaint();
     await playVideoOverlay({
       videoId: 'preRaceVideo',
       skipButtonId: 'preRaceVideoSkipBtn'
@@ -170,10 +210,12 @@ function boot() {
     onConfirmYes: async () => {
       pauseInviteBackgroundVideo();
       showScreen('postConfirmVideoScreen');
+      await nextPaint();
       await playVideoOverlay({
         videoId: 'postConfirmVideo'
       });
       showScreen('inviteScreen');
+      await nextPaint();
       await startInviteBackgroundVideo();
     }
   });
