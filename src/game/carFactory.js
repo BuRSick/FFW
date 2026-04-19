@@ -35,7 +35,7 @@ function applyCarMaterial(root, color) {
   });
 }
 
-function collectWheelMeshes(root) {
+function collectWheelMeshes(root, car) {
   const wheels = [];
 
   root.traverse((obj) => {
@@ -143,7 +143,7 @@ export async function createCarModel(car) {
     fallback.rotation.y = car.modelRotationY ?? Math.PI;
     fallback.position.y = car.modelYOffset ?? 0;
     fallback.scale.multiplyScalar(car.modelScale ?? 1);
-    collectWheelMeshes(fallback);
+    collectWheelMeshes(fallback, car);
     return fallback;
   }
 
@@ -165,7 +165,7 @@ export async function createCarModel(car) {
 
     applyCarMaterial(model, car.color);
     normalizeModel(model, car);
-    collectWheelMeshes(model);
+    collectWheelMeshes(model, car);
     return model;
   } catch (error) {
     console.warn(`Failed to load ${car.modelPath}. Using fallback mesh.`, error);
@@ -174,7 +174,7 @@ export async function createCarModel(car) {
     fallback.rotation.y = car.modelRotationY ?? Math.PI;
     fallback.position.y = car.modelYOffset ?? 0;
     fallback.scale.multiplyScalar(car.modelScale ?? 1);
-    collectWheelMeshes(fallback);
+    collectWheelMeshes(fallback, car);
     return fallback;
   }
 }
