@@ -8,14 +8,13 @@ export function initInvite({ onConfirmYes } = {}) {
   const noBtn = document.getElementById('noBtn');
   const status = document.getElementById('rsvpStatus');
   const guestName = document.getElementById('inviteGuestName');
-  const raceSummary = document.getElementById('inviteRaceSummary');
-  const raceBadge = document.getElementById('inviteRaceBadge');
   const countDays = document.getElementById('countDays');
   const countHours = document.getElementById('countHours');
   const countMinutes = document.getElementById('countMinutes');
   const countSeconds = document.getElementById('countSeconds');
   const drinkInputs = Array.from(document.querySelectorAll('input[name="drinkPreference"]'));
-  const foodInputs = Array.from(document.querySelectorAll('input[name="foodPreference"]'));
+  const transferInputs = Array.from(document.querySelectorAll('input[name="transferPreference"]'));
+  const allergyInput = document.getElementById('allergyInput');
 
   let countdownTimer = null;
   let attendanceAnswer = null;
@@ -59,24 +58,14 @@ export function initInvite({ onConfirmYes } = {}) {
       guestName.textContent = appState.playerName || 'Пилот';
     }
 
-    if (raceSummary && raceBadge) {
-      const time = Number(appState.raceTime || 0).toFixed(2);
-      const win = appState.raceResult === 'WIN';
-
-      raceBadge.textContent = win ? 'Квалификация пройдена' : 'Заезд завершен';
-      raceSummary.textContent = win
-        ? `Skyline прошел дистанцию за ${time} с. Теперь главный старт вечера ждет тебя уже не на трассе, а рядом с нами.`
-        : `Даже если Supra пришла чуть раньше, твой пропуск на главный старт вечера уже активирован. Твое время: ${time} с.`;
-    }
-
     startCountdown();
     updateSubmitAvailability();
   }
 
   function preferencesReady() {
     const hasDrink = drinkInputs.some((input) => input.checked);
-    const hasFood = foodInputs.some((input) => input.checked);
-    return hasDrink && hasFood;
+    const hasTransfer = transferInputs.some((input) => input.checked);
+    return hasDrink && hasTransfer;
   }
 
   function updateSubmitAvailability() {
@@ -88,7 +77,7 @@ export function initInvite({ onConfirmYes } = {}) {
   async function handle(answer) {
     if (!yesBtn || !noBtn || !status) return;
     if (!preferencesReady()) {
-      status.textContent = 'Сначала выбери напитки и блюдо.';
+      status.textContent = 'Сначала выбери напитки и вариант трансфера.';
       updateSubmitAvailability();
       return;
     }
@@ -99,13 +88,15 @@ export function initInvite({ onConfirmYes } = {}) {
     status.textContent = 'Сохраняем ответ...';
 
     const drinkPreferences = drinkInputs.filter((input) => input.checked).map((input) => input.value);
-    const foodPreference = foodInputs.find((input) => input.checked)?.value || '';
+    const allergy = allergyInput?.value?.trim() || '';
+    const transferPreference = transferInputs.find((input) => input.checked)?.value || '';
 
     const result = await sendVote({
       name: appState.playerName,
       answer,
       drinkPreferences,
-      foodPreference
+      allergy,
+      transferPreference
     });
 
     if (result.ok) {
@@ -142,10 +133,14 @@ export function initInvite({ onConfirmYes } = {}) {
     });
   });
 
-  foodInputs.forEach((input) => {
+  transferInputs.forEach((input) => {
     input.addEventListener('change', () => {
       updateSubmitAvailability();
       if (attendanceAnswer) status.textContent = 'Изменения учтутся при следующем сохранении ответа.';
     });
+  });
+
+  allergyInput?.addEventListener('input', () => {
+    if (attendanceAnswer) status.textContent = 'Изменения учтутся при следующем сохранении ответа.';
   });
 }

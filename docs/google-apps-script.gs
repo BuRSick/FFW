@@ -1,4 +1,4 @@
-const SPREADSHEET_ID = '1Qcg1lUG1Sh8MQgsXM80bXgqZduAbpn97DcK-u6aEjv4';
+﻿const SPREADSHEET_ID = '1Qcg1lUG1Sh8MQgsXM80bXgqZduAbpn97DcK-u6aEjv4';
 const SHEET_NAME = 'RSVP';
 
 function doPost(e) {
@@ -8,7 +8,7 @@ function doPost(e) {
 function doGet(e) {
   const payload = getPayload_(e);
 
-  if (payload.name || payload.answer || payload.drinkPreferences || payload.foodPreference) {
+  if (payload.name || payload.answer || payload.drinkPreferences || payload.allergy || payload.transferPreference) {
     return saveResponse_(payload);
   }
 
@@ -27,7 +27,8 @@ function saveResponse_(payload) {
       normalizeText_(payload.name),
       normalizeAttendance_(payload.answer),
       normalizeText_(payload.drinkPreferences),
-      normalizeText_(payload.foodPreference),
+      normalizeText_(payload.allergy),
+      normalizeText_(payload.transferPreference),
       new Date()
     ];
 
@@ -58,7 +59,8 @@ function getPayload_(e) {
         name: parsedBody.name || '',
         answer: parsedBody.answer || '',
         drinkPreferences: parsedBody.drinkPreferences || '',
-        foodPreference: parsedBody.foodPreference || '',
+        allergy: parsedBody.allergy || '',
+        transferPreference: parsedBody.transferPreference || '',
         createdAt: parsedBody.createdAt || ''
       };
     }
@@ -68,7 +70,8 @@ function getPayload_(e) {
     name: params.name || '',
     answer: params.answer || '',
     drinkPreferences: params.drinkPreferences || '',
-    foodPreference: params.foodPreference || '',
+    allergy: params.allergy || '',
+    transferPreference: params.transferPreference || '',
     createdAt: params.createdAt || ''
   };
 }
@@ -82,7 +85,7 @@ function getSheet_() {
 }
 
 function ensureHeaders_(sheet) {
-  const headers = ['Имя', 'Придет/Не придет', 'Предпочтения по напиткам', 'Предпочтение по еде', 'Дата ответа'];
+  const headers = ['Имя', 'Придет/Не придет', 'Предпочтения по напиткам', 'Аллергия', 'Трансфер', 'Дата ответа'];
   const currentHeaders = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
 
   const matches = headers.every((header, index) => currentHeaders[index] === header);
@@ -130,7 +133,8 @@ function testWriteRow() {
   saveResponse_({
     name: 'Тестовый гость',
     answer: 'yes',
-    drinkPreferences: 'Шампанское | Вино белое',
-    foodPreference: 'Томленые говяжьи щечки с картофельным пюре'
+    drinkPreferences: 'Шампанское | Белое вино',
+    allergy: 'Нет',
+    transferPreference: 'Да, только туда'
   });
 }

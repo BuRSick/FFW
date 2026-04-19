@@ -1,4 +1,4 @@
-export async function sendVote({ name, answer, drinkPreferences = [], foodPreference = '' }) {
+export async function sendVote({ name, answer, drinkPreferences = [], allergy = '', transferPreference = '' }) {
   const endpoint = 'https://script.google.com/macros/s/AKfycbzRP39oqLpkIShm-38Wk0ZFSl98iR5bmsnnJBoII5ajMopxA39AleACqK2PdjHQ_rDJ/exec';
 
   try {
@@ -6,7 +6,8 @@ export async function sendVote({ name, answer, drinkPreferences = [], foodPrefer
       name: name || '',
       answer: answer || '',
       drinkPreferences: drinkPreferences.join(' | '),
-      foodPreference: foodPreference || '',
+      allergy: allergy || '',
+      transferPreference: transferPreference || '',
       createdAt: new Date().toISOString(),
       _: String(Date.now())
     };
