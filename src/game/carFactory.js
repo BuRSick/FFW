@@ -129,6 +129,8 @@ function attachWheelHelpers(root, car) {
   if (!car.wheelHelper) return;
 
   const { radius, thickness, x, y, zFront, zRear } = car.wheelHelper;
+  const scaleComp = Math.abs(root.scale.x) > 1e-6 ? Math.abs(root.scale.x) : 1;
+  const unit = 1 / scaleComp;
   const wheelMaterial = new THREE.MeshStandardMaterial({
     color: 0x121212,
     roughness: 0.88,
@@ -146,12 +148,12 @@ function attachWheelHelpers(root, car) {
   for (const side of [-1, 1]) {
     for (const z of [zRear, zFront]) {
       const wheelGroup = new THREE.Group();
-      wheelGroup.position.set(side * x, y, z);
+      wheelGroup.position.set(side * x * unit, y * unit, z * unit);
       wheelGroup.userData.isWheel = true;
       wheelGroup.userData.spinAxis = 'x';
 
       const tire = new THREE.Mesh(
-        new THREE.CylinderGeometry(radius, radius, thickness, 28),
+        new THREE.CylinderGeometry(radius * unit, radius * unit, thickness * unit, 28),
         wheelMaterial
       );
       tire.rotation.z = Math.PI / 2;
@@ -159,7 +161,7 @@ function attachWheelHelpers(root, car) {
       tire.receiveShadow = true;
 
       const rim = new THREE.Mesh(
-        new THREE.CylinderGeometry(radius * 0.56, radius * 0.56, thickness * 1.06, 18),
+        new THREE.CylinderGeometry(radius * 0.56 * unit, radius * 0.56 * unit, thickness * 1.06 * unit, 18),
         rimMaterial
       );
       rim.rotation.z = Math.PI / 2;
