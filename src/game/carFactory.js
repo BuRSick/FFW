@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 const loader = new GLTFLoader();
 const UP_AXIS = new THREE.Vector3(0, 1, 0);
 const WHEEL_NAME_RE = /(wheel|tyre|tire|rim)/i;
+const CHARGER_WHEEL_PART_RE = /(tarmac_tyre_tread|tarmac_tyre_wall|tarmac_wheel|discs|caliper)/i;
 const HIDDEN_MESH_NAME_RE = /underlighting/i;
 
 function shouldUseSimpleCars() {
@@ -124,6 +125,56 @@ function createFallbackCar(color) {
   return group;
 }
 
+function attachWheelHelpers(root, car) {
+  if (!car.wheelHelper) return;
+
+  const { radius, thickness, x, y, zFront, zRear } = car.wheelHelper;
+  const wheelMaterial = new THREE.MeshStandardMaterial({
+    color: 0x121212,
+    roughness: 0.88,
+    metalness: 0.08
+  });
+
+  const rimMaterial = new THREE.MeshStandardMaterial({
+    color: 0x3a3f48,
+    roughness: 0.45,
+    metalness: 0.72
+  });
+
+  const wheels = [];
+
+  for (const side of [-1, 1]) {
+    for (const z of [zRear, zFront]) {
+      const wheelGroup = new THREE.Group();
+      wheelGroup.position.set(side * x, y, z);
+      wheelGroup.userData.isWheel = true;
+      wheelGroup.userData.spinAxis = 'x';
+
+      const tire = new THREE.Mesh(
+        new THREE.CylinderGeometry(radius, radius, thickness, 28),
+        wheelMaterial
+      );
+      tire.rotation.z = Math.PI / 2;
+      tire.castShadow = true;
+      tire.receiveShadow = true;
+
+      const rim = new THREE.Mesh(
+        new THREE.CylinderGeometry(radius * 0.56, radius * 0.56, thickness * 1.06, 18),
+        rimMaterial
+      );
+      rim.rotation.z = Math.PI / 2;
+      rim.castShadow = true;
+      rim.receiveShadow = true;
+
+      wheelGroup.add(tire, rim);
+      root.add(wheelGroup);
+      wheels.push(wheelGroup);
+    }
+  }
+
+  root.userData.wheels = wheels;
+}
+
 function normalizeModel(root, car) {
   const box = new THREE.Box3().setFromObject(root);
   const size = new THREE.Vector3();
@@ -179,12 +230,26 @@ export async function createCarModel(car) {
 
       if (car.id === 'supra' && HIDDEN_MESH_NAME_RE.test(obj.name)) {
         obj.visible = false;
+        return;
+      }
+
+      if (car.id === 'charger') {
+        const sourceMaterial = Array.isArray(obj.material) ? obj.material[0] : obj.material;
+        const materialName = sourceMaterial?.name ?? '';
+
+        if (CHARGER_WHEEL_PART_RE.test(obj.name) || CHARGER_WHEEL_PART_RE.test(materialName)) {
+          obj.visible = false;
+        }
       }
     });
 
     applyCarMaterial(model, car.color);
     normalizeModel(model, car);
-    collectWheelMeshes(model, car);
+    if (car.wheelHelper) {
+      attachWheelHelpers(model, car);
+    } else {
+      collectWheelMeshes(model, car);
+    }
     return model;
   } catch (error) {
     console.warn(`Failed to load ${car.modelPath}. Using fallback mesh.`, error);

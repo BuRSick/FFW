@@ -17,7 +17,15 @@ export const cars = [
     modelWheelSpinAxis: 'y',
     modelYOffset: 0.0,
     modelOffsetX: 0.0,
-    modelOffsetZ: 0.0
+    modelOffsetZ: 0.0,
+    wheelHelper: {
+      radius: 0.39,
+      thickness: 0.24,
+      y: 0.39,
+      x: 0.96,
+      zFront: 1.34,
+      zRear: -1.31
+    }
   },
   {
     id: 'supra',
