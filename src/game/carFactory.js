@@ -41,7 +41,10 @@ function collectWheelMeshes(root) {
   root.traverse((obj) => {
     if (!obj.isMesh) return;
 
-    if (obj.userData?.isWheel || WHEEL_NAME_RE.test(obj.name)) {
+    const sourceMaterial = Array.isArray(obj.material) ? obj.material[0] : obj.material;
+    const materialName = sourceMaterial?.name ?? '';
+
+    if (obj.userData?.isWheel || WHEEL_NAME_RE.test(obj.name) || WHEEL_NAME_RE.test(materialName)) {
       obj.geometry?.computeBoundingBox?.();
       const bbox = obj.geometry?.boundingBox;
 

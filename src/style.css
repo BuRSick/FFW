@@ -1567,6 +1567,11 @@ canvas {
   gap: 14px;
 }
 
+.invite-community .invite-route-link {
+  justify-self: start;
+  width: auto;
+}
+
 .invite-community-title,
 .invite-preferences-title {
   margin: 0;

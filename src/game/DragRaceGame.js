@@ -445,7 +445,7 @@ export class DragRaceGame {
     const lead = this.bot.distance - this.player.distance;
     const gapToPlayer = this.player.distance - this.bot.distance;
     const playerFinishRatio = this.trackLength > 0 ? this.player.distance / this.trackLength : 0;
-    const desiredGap = playerFinishRatio > 0.84 ? 0.24 : 0.34;
+    const desiredGap = playerFinishRatio > 0.84 ? 0.38 : 0.52;
     const maxBotDistance = Math.max(0, this.player.distance - desiredGap);
 
     if (lead > -3.2) {
@@ -465,9 +465,9 @@ export class DragRaceGame {
       this.bot.speed = Math.min(this.bot.speed, this.player.speed * 0.955);
     }
 
-    if (gapToPlayer > desiredGap + 0.92) {
-      const catchupBoost = clamp((gapToPlayer - desiredGap - 0.92) * 4.2, 0, 8.5);
-      this.bot.speed = Math.min(this.bot.speed + catchupBoost, this.player.speed + 8);
+    if (gapToPlayer > desiredGap + 1.1) {
+      const catchupBoost = clamp((gapToPlayer - desiredGap - 1.1) * 3.7, 0, 7.2);
+      this.bot.speed = Math.min(this.bot.speed + catchupBoost, this.player.speed + 6.2);
     }
 
     if (this.bot.distance > maxBotDistance) {

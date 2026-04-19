@@ -97,9 +97,9 @@ async function startInviteBackgroundVideo() {
   if (Math.abs((inviteVideo.currentTime || 0) - (video1PlaybackTime || 0)) > 0.35) {
     inviteVideo.currentTime = video1PlaybackTime || 0;
   }
-  inviteVideo.muted = true;
-  inviteVideo.defaultMuted = true;
-  inviteVideo.volume = 0;
+  inviteVideo.muted = false;
+  inviteVideo.defaultMuted = false;
+  inviteVideo.volume = 1;
   inviteVideo.loop = true;
   inviteVideo.autoplay = true;
   inviteVideo.playsInline = true;
@@ -108,7 +108,15 @@ async function startInviteBackgroundVideo() {
 
   try {
     await inviteVideo.play();
-  } catch {}
+  } catch {
+    inviteVideo.muted = true;
+    inviteVideo.defaultMuted = true;
+    inviteVideo.volume = 0;
+
+    try {
+      await inviteVideo.play();
+    } catch {}
+  }
 }
 
 function pauseInviteBackgroundVideo() {
