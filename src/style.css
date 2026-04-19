@@ -618,6 +618,8 @@ canvas {
   font-weight: 900;
   color: #ffffff;
   text-transform: uppercase;
+  font-family: 'FF Title', 'Bebas Neue', serif;
+  letter-spacing: 0.04em;
   text-shadow:
     0 0 24px rgba(255, 255, 255, 0.85),
     0 0 48px rgba(120, 220, 255, 0.45);

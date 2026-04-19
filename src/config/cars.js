@@ -29,7 +29,7 @@ export const cars = [
     shiftWindowMin: 0.73,
     shiftWindowMax: 0.85,
     maxSpeed: 312,
-    modelScale: 1.12,
+    modelScale: 1.23,
     modelRotationY: Math.PI,
     modelYOffset: 0.0,
     modelOffsetX: 0.0,
@@ -37,8 +37,8 @@ export const cars = [
   }
 ];
 
-export const PLAYER_CAR_ID = 'skyline';
-export const BOT_CAR_ID = 'supra';
+export const PLAYER_CAR_ID = 'supra';
+export const BOT_CAR_ID = 'skyline';
 
 export function getPlayerCar() {
   return cars.find((car) => car.id === PLAYER_CAR_ID) ?? cars[0];
