@@ -15,10 +15,12 @@ export function initInvite({ onConfirmYes } = {}) {
   const drinkInputs = Array.from(document.querySelectorAll('input[name="drinkPreference"]'));
   const transferInputs = Array.from(document.querySelectorAll('input[name="transferPreference"]'));
   const allergyInput = document.getElementById('allergyInput');
+  const preferenceInputs = [...drinkInputs, ...transferInputs].filter(Boolean);
 
   let countdownTimer = null;
   let attendanceAnswer = null;
   let isSubmitting = false;
+  let isLocked = false;
 
   function setCounter(days, hours, minutes, seconds) {
     if (countDays) countDays.textContent = String(days).padStart(2, '0');
@@ -69,9 +71,22 @@ export function initInvite({ onConfirmYes } = {}) {
   }
 
   function updateSubmitAvailability() {
-    const enabled = preferencesReady() && !isSubmitting;
+    const enabled = preferencesReady() && !isSubmitting && !isLocked;
     if (yesBtn) yesBtn.disabled = !enabled;
     if (noBtn) noBtn.disabled = !enabled;
+  }
+
+  function setLockedState(locked) {
+    isLocked = locked;
+    preferenceInputs.forEach((input) => {
+      input.disabled = locked;
+    });
+
+    if (allergyInput) {
+      allergyInput.disabled = locked;
+    }
+
+    updateSubmitAvailability();
   }
 
   async function handle(answer) {
@@ -100,9 +115,9 @@ export function initInvite({ onConfirmYes } = {}) {
     });
 
     if (result.ok) {
-      status.textContent = 'Ответ сохранен. Спасибо!';
+      status.textContent = 'Ответ сохранен. Спасибо! Повторная отправка отключена.';
+      setLockedState(true);
       isSubmitting = false;
-      updateSubmitAvailability();
       if (answer === 'yes') {
         await onConfirmYes?.();
       }
@@ -128,6 +143,7 @@ export function initInvite({ onConfirmYes } = {}) {
 
   drinkInputs.forEach((input) => {
     input.addEventListener('change', () => {
+      if (isLocked) return;
       updateSubmitAvailability();
       if (attendanceAnswer) status.textContent = 'Изменения учтутся при следующем сохранении ответа.';
     });
@@ -135,12 +151,14 @@ export function initInvite({ onConfirmYes } = {}) {
 
   transferInputs.forEach((input) => {
     input.addEventListener('change', () => {
+      if (isLocked) return;
       updateSubmitAvailability();
       if (attendanceAnswer) status.textContent = 'Изменения учтутся при следующем сохранении ответа.';
     });
   });
 
   allergyInput?.addEventListener('input', () => {
+    if (isLocked) return;
     if (attendanceAnswer) status.textContent = 'Изменения учтутся при следующем сохранении ответа.';
   });
 }

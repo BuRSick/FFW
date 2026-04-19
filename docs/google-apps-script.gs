@@ -133,7 +133,7 @@ function testWriteRow() {
   saveResponse_({
     name: 'Тестовый гость',
     answer: 'yes',
-    drinkPreferences: 'Шампанское | Белое вино',
+    drinkPreferences: 'Шампанское | Белое вино | Виски',
     allergy: 'Нет',
     transferPreference: 'Да, только туда'
   });

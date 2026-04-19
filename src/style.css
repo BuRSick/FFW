@@ -1228,7 +1228,7 @@ canvas {
 }
 
 .invite-hero {
-  min-height: min(58svh, 520px);
+  min-height: min(48svh, 420px);
   padding: clamp(24px, 4vw, 40px);
   border-radius: 32px;
   overflow: hidden;
@@ -1300,7 +1300,7 @@ canvas {
 }
 
 .invite-day {
-  font-size: clamp(94px, 24vw, 220px);
+  font-size: clamp(76px, 18vw, 168px);
   color: #fff4de;
   text-shadow:
     0 0 34px rgba(255, 194, 119, 0.18),
@@ -1313,7 +1313,7 @@ canvas {
 }
 
 .invite-month {
-  font-size: clamp(34px, 7vw, 72px);
+  font-size: clamp(28px, 5.4vw, 56px);
   color: #ffbf72;
   font-style: italic;
 }
@@ -1329,9 +1329,10 @@ canvas {
 
 .invite-headline {
   margin: 8px 0 0;
-  max-width: 12ch;
-  font-size: clamp(38px, 8vw, 74px);
+  max-width: 14ch;
+  font-size: clamp(28px, 5.2vw, 54px);
   font-style: normal;
+  overflow-wrap: anywhere;
 }
 .invite-section,
 .invite-footer {
@@ -1395,8 +1396,8 @@ canvas {
 
 .invite-timeline-row {
   display: grid;
-  grid-template-columns: clamp(120px, 14vw, 170px) minmax(0, 1fr);
-  gap: 22px;
+  grid-template-columns: clamp(180px, 18vw, 240px) minmax(0, 1fr);
+  gap: 28px;
   align-items: start;
   padding: 14px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -1408,18 +1409,20 @@ canvas {
 
 .invite-timeline-time {
   font-family: var(--invite-display);
-  font-size: clamp(34px, 5vw, 68px);
+  font-size: clamp(44px, 6vw, 84px);
   letter-spacing: 0.01em;
   color: #ffbf72;
   font-style: italic;
-  line-height: 0.84;
-  padding-top: 4px;
+  line-height: 0.82;
+  padding-top: 8px;
+  white-space: nowrap;
 }
 
 .invite-timeline-copy {
   display: grid;
-  gap: 8px;
-  padding-top: 2px;
+  gap: 10px;
+  padding-top: 10px;
+  min-width: 0;
 }
 
 .invite-timeline-copy strong {
@@ -1595,6 +1598,11 @@ canvas {
   height: 20px;
   accent-color: #ffbf72;
   flex: 0 0 auto;
+}
+
+.invite-preferences-block:has(input:disabled),
+.invite-preferences-block:has(textarea:disabled) {
+  opacity: 0.78;
 }
 
 .invite-textarea {
@@ -1877,6 +1885,11 @@ canvas {
 
   .invite-timeline-time {
     font-size: 30px;
+    padding-top: 0;
+  }
+
+  .invite-timeline-copy {
+    padding-top: 0;
   }
 
   .rsvp-actions {
