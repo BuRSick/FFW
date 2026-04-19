@@ -586,7 +586,8 @@ export class DragRaceGame {
 
     const spin = (speed * dt) / 0.55;
     for (const wheel of wheels) {
-      wheel.rotation.x -= spin;
+      const axis = wheel.userData?.spinAxis ?? 'x';
+      wheel.rotation[axis] -= spin;
     }
   }
 

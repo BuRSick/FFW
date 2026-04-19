@@ -42,6 +42,20 @@ function collectWheelMeshes(root) {
     if (!obj.isMesh) return;
 
     if (obj.userData?.isWheel || WHEEL_NAME_RE.test(obj.name)) {
+      obj.geometry?.computeBoundingBox?.();
+      const bbox = obj.geometry?.boundingBox;
+
+      if (bbox) {
+        const size = new THREE.Vector3();
+        bbox.getSize(size);
+        const entries = [
+          ['x', size.x],
+          ['y', size.y],
+          ['z', size.z]
+        ].sort((a, b) => a[1] - b[1]);
+        obj.userData.spinAxis = entries[0][0];
+      }
+
       wheels.push(obj);
     }
   });
