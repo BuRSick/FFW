@@ -100,7 +100,7 @@ async function startInviteBackgroundVideo() {
   inviteVideo.muted = false;
   inviteVideo.defaultMuted = false;
   inviteVideo.volume = 1;
-  inviteVideo.loop = true;
+  inviteVideo.loop = false;
   inviteVideo.autoplay = true;
   inviteVideo.playsInline = true;
   inviteVideo.setAttribute('playsinline', '');
@@ -139,7 +139,14 @@ function installInviteVideoGuards() {
     await startInviteBackgroundVideo();
   };
 
+  inviteVideo.addEventListener('timeupdate', () => {
+    const inviteScreen = document.getElementById('inviteScreen');
+    if (!inviteScreen?.classList.contains('active')) return;
+    video1PlaybackTime = inviteVideo.currentTime || video1PlaybackTime || 0;
+  });
+
   inviteVideo.addEventListener('ended', () => {
+    video1PlaybackTime = 0;
     inviteVideo.currentTime = 0;
     recover();
   });
