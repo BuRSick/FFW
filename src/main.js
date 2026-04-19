@@ -39,6 +39,19 @@ function warmVideoElement(id) {
   } catch {}
 }
 
+function warmVideoNode(video) {
+  if (!video) return;
+
+  video.preload = 'auto';
+  video.playsInline = true;
+  video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
+
+  try {
+    video.load();
+  } catch {}
+}
+
 function pauseIntroVideo() {
   const introVideo = getIntroVideo();
   if (!introVideo) return;
@@ -75,6 +88,7 @@ async function startInviteBackgroundVideo() {
   const inviteVideo = getInviteBackgroundVideo();
   if (!inviteVideo) return;
 
+  warmVideoNode(inviteVideo);
   inviteVideo.currentTime = video1PlaybackTime || 0;
   inviteVideo.muted = false;
   inviteVideo.volume = 1;
@@ -85,7 +99,13 @@ async function startInviteBackgroundVideo() {
 
   try {
     await inviteVideo.play();
-  } catch {}
+  } catch {
+    inviteVideo.muted = true;
+
+    try {
+      await inviteVideo.play();
+    } catch {}
+  }
 }
 
 function pauseInviteBackgroundVideo() {
@@ -100,6 +120,7 @@ function boot() {
   warmVideoElement('preRaceVideo');
   warmVideoElement('postRaceVideo');
   warmVideoElement('postConfirmVideo');
+  warmVideoNode(getInviteBackgroundVideo());
 
   initIntro(() => {
     showScreen('introScreen');

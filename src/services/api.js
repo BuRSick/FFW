@@ -11,6 +11,16 @@ export async function sendVote({ name, answer, drinkPreferences = [], foodPrefer
       _: String(Date.now())
     };
 
+    if (navigator.sendBeacon) {
+      const body = new Blob([new URLSearchParams(payload).toString()], {
+        type: 'application/x-www-form-urlencoded;charset=UTF-8'
+      });
+
+      if (navigator.sendBeacon(endpoint, body)) {
+        return { ok: true, dispatched: true, transport: 'beacon' };
+      }
+    }
+
     await submitWithHiddenForm(endpoint, payload);
     return { ok: true, dispatched: true, transport: 'iframe-form' };
   } catch (error) {

@@ -28,7 +28,7 @@ html, body, #app {
   overflow: hidden;
   background: var(--bg);
   color: var(--white);
-  font-family: Manrope, Inter, Arial, sans-serif;
+  font-family: 'FF Title', 'Cormorant Garamond', Georgia, serif;
 }
 
 .screen {
@@ -226,18 +226,15 @@ html, body, #app {
 }
 
 .invite-bg::before {
-  background:
-    linear-gradient(125deg, rgba(255, 255, 255, 0.04) 0 5%, transparent 5% 14%, rgba(255, 255, 255, 0.02) 14% 20%, transparent 20% 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.54));
-  opacity: 0.58;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.34));
+  opacity: 0.4;
   mix-blend-mode: screen;
 }
 
 .invite-bg::after {
   background:
-    linear-gradient(180deg, rgba(10, 7, 8, 0.08), rgba(10, 7, 8, 0.54) 58%, rgba(10, 7, 8, 0.88)),
-    linear-gradient(90deg, rgba(255, 193, 113, 0.08), transparent 20%, transparent 80%, rgba(255, 78, 69, 0.08)),
-    radial-gradient(circle at 82% 16%, rgba(255, 137, 59, 0.18), transparent 12%);
+    linear-gradient(180deg, rgba(10, 7, 8, 0.06), rgba(10, 7, 8, 0.42) 62%, rgba(10, 7, 8, 0.72)),
+    radial-gradient(circle at 82% 16%, rgba(255, 137, 59, 0.12), transparent 12%);
 }
 
 .invite-bg-video {
@@ -246,8 +243,8 @@ html, body, #app {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.14);
-  filter: brightness(0.48) saturate(0.76) contrast(1.04) blur(0.8px);
+  transform: scale(1.08);
+  filter: brightness(0.7) saturate(0.86) contrast(1.02);
 }
 
 .screen-overlay {
@@ -315,7 +312,7 @@ html, body, #app {
   font-size: clamp(32px, 6vw, 54px);
   text-transform: uppercase;
   text-shadow: 0 0 22px rgba(110, 220, 255, 0.22);
-  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-family: 'FF Title', serif;
   letter-spacing: 0.05em;
 }
 
@@ -1204,7 +1201,8 @@ canvas {
 }
 
 .invite-shell {
-  --invite-display: 'Antique Olive LT Nord Italic', Georgia, serif;
+  --invite-display: 'FF Title', 'Cormorant Garamond', Georgia, serif;
+  --invite-copy: 'FF Title', 'Cormorant Garamond', Georgia, serif;
   width: min(100%, 980px);
   margin: 0 auto;
   padding:
@@ -1237,34 +1235,15 @@ canvas {
   display: grid;
   align-content: space-between;
   gap: 28px;
+  background: rgba(14, 12, 16, 0.94);
 }
 
 .invite-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(135deg, rgba(255, 164, 84, 0.16), transparent 30%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 34%),
-    repeating-linear-gradient(
-      -48deg,
-      rgba(255, 255, 255, 0.03) 0 12px,
-      transparent 12px 36px
-    );
-  pointer-events: none;
+  content: none;
 }
 
 .invite-hero::after {
-  content: '';
-  position: absolute;
-  right: -8%;
-  bottom: -12%;
-  width: min(52vw, 420px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 154, 76, 0.24), transparent 64%);
-  filter: blur(8px);
-  pointer-events: none;
+  content: none;
 }
 
 .invite-hero-topline,
@@ -1329,6 +1308,7 @@ canvas {
   color: rgba(233, 235, 239, 0.72);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-family: var(--invite-copy);
 }
 
 .invite-headline {
@@ -1344,6 +1324,7 @@ canvas {
   font-size: clamp(16px, 2.2vw, 21px);
   line-height: 1.6;
   color: rgba(233, 236, 240, 0.82);
+  font-family: var(--invite-copy);
 }
 
 .invite-hero-meta {
@@ -1377,6 +1358,7 @@ canvas {
   font-size: clamp(18px, 2.1vw, 24px);
   line-height: 1.7;
   color: rgba(247, 240, 228, 0.88);
+  font-family: var(--invite-copy);
 }
 
 .invite-countdown-grid {
@@ -1417,6 +1399,7 @@ canvas {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(255, 217, 161, 0.68);
+  font-family: var(--invite-copy);
 }
 
 .invite-section-title {
@@ -1461,6 +1444,8 @@ canvas {
 .invite-timeline-copy strong {
   font-size: clamp(18px, 2vw, 24px);
   color: #fff4de;
+  font-family: var(--invite-copy);
+  font-weight: 700;
 }
 
 .invite-timeline-copy span,
@@ -1469,6 +1454,7 @@ canvas {
   font-size: 16px;
   line-height: 1.7;
   color: rgba(225, 229, 236, 0.78);
+  font-family: var(--invite-copy);
 }
 
 .invite-section-split {
@@ -1537,12 +1523,14 @@ canvas {
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: rgba(255, 214, 161, 0.6);
+  font-family: var(--invite-copy);
 }
 
 .invite-detail-row strong {
   font-size: 18px;
   line-height: 1.5;
   color: #fff4de;
+  font-family: var(--invite-copy);
 }
 
 .invite-rsvp-copy {
@@ -1559,7 +1547,6 @@ canvas {
 
 .invite-dress-card {
   display: grid;
-  gap: 10px;
 }
 
 .invite-dress-swatch {
@@ -1589,18 +1576,10 @@ canvas {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
 }
 
-.invite-dress-name {
-  padding: 0 6px;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: center;
-  color: rgba(248, 240, 229, 0.9);
-}
-
 .invite-community-grid {
   margin-top: 18px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
 }
 
@@ -1619,6 +1598,7 @@ canvas {
   margin: 0;
   font-size: clamp(22px, 3vw, 30px);
   color: #fff4de;
+  font-family: var(--invite-copy);
 }
 
 .invite-preferences {
@@ -1639,6 +1619,7 @@ canvas {
   margin: 8px 0 14px;
   color: rgba(225, 229, 236, 0.68);
   font-size: 14px;
+  font-family: var(--invite-copy);
 }
 
 .invite-option-row {
@@ -1648,6 +1629,7 @@ canvas {
   margin-top: 12px;
   color: rgba(248, 240, 229, 0.92);
   line-height: 1.45;
+  font-family: var(--invite-copy);
 }
 
 .invite-option-row input {
@@ -1668,6 +1650,7 @@ canvas {
   font-size: clamp(18px, 2.4vw, 26px);
   line-height: 1.5;
   color: rgba(248, 240, 229, 0.92);
+  font-family: var(--invite-copy);
 }
 
 .invite-organizer-phone {
@@ -1722,6 +1705,7 @@ canvas {
 
 .invite-rsvp-status {
   min-height: 22px;
+  font-family: var(--invite-copy);
 }
 
 .invite-footer {

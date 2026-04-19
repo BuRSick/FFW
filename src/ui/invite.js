@@ -109,7 +109,7 @@ export function initInvite({ onConfirmYes } = {}) {
     });
 
     if (result.ok) {
-      status.textContent = 'Ответ отправлен. Если таблица не обновится через несколько секунд, нужно заново опубликовать Apps Script.';
+      status.textContent = 'Ответ сохранен. Спасибо!';
       isSubmitting = false;
       updateSubmitAvailability();
       if (answer === 'yes') {
