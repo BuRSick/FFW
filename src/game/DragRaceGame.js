@@ -21,7 +21,7 @@ import { createScene } from './sceneSetup.js';
 
 const CAMERA_YAW_OFFSET = THREE.MathUtils.degToRad(260);
 const CAMERA_RADIUS_SCALE = 0.84;
-const WORLD_TRAVEL_SCALE = 0.42;
+const WORLD_TRAVEL_SCALE = 0.32;
 const WORLD_GAP_SCALE = 0.12;
 const MAX_WORLD_TRAVEL = 220;
 const VISIBLE_TRACK_LENGTH = MAX_WORLD_TRAVEL / WORLD_TRAVEL_SCALE;

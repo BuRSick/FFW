@@ -1230,7 +1230,7 @@ canvas {
 }
 
 .invite-hero {
-  min-height: min(56svh, 500px);
+  min-height: min(62svh, 620px);
   padding: clamp(28px, 4.4vw, 48px);
   border-radius: 32px;
   overflow: hidden;
@@ -1303,7 +1303,7 @@ canvas {
 
 .invite-day {
   font-size: clamp(76px, 18vw, 168px);
-  color: #fff4de;
+  color: rgba(255, 217, 161, 0.92);
   text-shadow:
     0 0 34px rgba(255, 194, 119, 0.18),
     0 6px 18px rgba(0, 0, 0, 0.34);
@@ -1316,7 +1316,7 @@ canvas {
 
 .invite-month {
   font-size: clamp(28px, 5.4vw, 56px);
-  color: #fff4de;
+  color: rgba(255, 217, 161, 0.92);
   font-style: italic;
 }
 
@@ -1335,6 +1335,7 @@ canvas {
   font-size: clamp(28px, 4.7vw, 50px);
   font-style: normal;
   overflow-wrap: anywhere;
+  color: rgba(255, 217, 161, 0.92);
 }
 .invite-section,
 .invite-footer {
@@ -1390,6 +1391,10 @@ canvas {
   font-style: normal;
 }
 
+.invite-program-title {
+  margin-bottom: 18px;
+}
+
 .invite-timeline {
   margin-top: 4px;
   display: grid;
@@ -1411,9 +1416,9 @@ canvas {
 
 .invite-timeline-time {
   font-family: var(--invite-display);
-  font-size: clamp(26px, 3.5vw, 44px);
+  font-size: clamp(24px, 3.1vw, 38px);
   letter-spacing: 0.01em;
-  color: rgba(225, 229, 236, 0.94);
+  color: rgba(255, 217, 161, 0.92);
   font-style: italic;
   line-height: 0.96;
   padding-top: 2px;
@@ -1447,15 +1452,10 @@ canvas {
   margin-bottom: 12px;
 }
 
-.invite-venue-title {
+.invite-venue-heading {
   max-width: 20ch;
-  margin-top: 20px;
-  font-size: clamp(28px, 4.8vw, 48px);
-}
-
-.invite-venue-subtitle {
   margin-top: 0;
-  font-size: clamp(24px, 3.8vw, 38px);
+  font-size: clamp(28px, 4.8vw, 48px);
 }
 
 .invite-route-link {
@@ -1666,6 +1666,13 @@ canvas {
   line-height: 1.7;
   color: rgba(225, 229, 236, 0.78);
   font-family: var(--invite-copy);
+}
+
+.invite-organizer-phone {
+  margin-top: 18px;
+  font-size: clamp(28px, 5vw, 54px);
+  color: rgba(255, 217, 161, 0.92);
+  line-height: 1;
 }
 
 .rsvp-actions {
@@ -1902,7 +1909,7 @@ canvas {
     padding-top: 0;
   }
 
-  .invite-venue-title {
+  .invite-venue-heading {
     max-width: none;
     font-size: clamp(26px, 7.2vw, 38px);
   }
