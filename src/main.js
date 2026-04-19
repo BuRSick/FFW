@@ -94,26 +94,21 @@ async function startInviteBackgroundVideo() {
   const inviteVideo = getInviteBackgroundVideo();
   if (!inviteVideo) return;
 
-  warmVideoNode(inviteVideo);
   if (Math.abs((inviteVideo.currentTime || 0) - (video1PlaybackTime || 0)) > 0.35) {
     inviteVideo.currentTime = video1PlaybackTime || 0;
   }
-  inviteVideo.muted = false;
-  inviteVideo.volume = 1;
+  inviteVideo.muted = true;
+  inviteVideo.defaultMuted = true;
+  inviteVideo.volume = 0;
   inviteVideo.loop = true;
+  inviteVideo.autoplay = true;
   inviteVideo.playsInline = true;
   inviteVideo.setAttribute('playsinline', '');
   inviteVideo.setAttribute('webkit-playsinline', '');
 
   try {
     await inviteVideo.play();
-  } catch {
-    inviteVideo.muted = true;
-
-    try {
-      await inviteVideo.play();
-    } catch {}
-  }
+  } catch {}
 }
 
 function pauseInviteBackgroundVideo() {
