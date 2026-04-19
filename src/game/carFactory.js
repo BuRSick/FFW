@@ -45,6 +45,12 @@ function collectWheelMeshes(root) {
     const materialName = sourceMaterial?.name ?? '';
 
     if (obj.userData?.isWheel || WHEEL_NAME_RE.test(obj.name) || WHEEL_NAME_RE.test(materialName)) {
+      if (car?.modelWheelSpinAxis) {
+        obj.userData.spinAxis = car.modelWheelSpinAxis;
+        wheels.push(obj);
+        return;
+      }
+
       obj.geometry?.computeBoundingBox?.();
       const bbox = obj.geometry?.boundingBox;
 
