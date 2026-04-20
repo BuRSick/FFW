@@ -13,7 +13,7 @@ export const cars = [
     shiftWindowMax: 0.845,
     maxSpeed: 306,
     modelScale: 1.04,
-    modelRotationY: Math.PI * 0.5,
+    modelRotationY: -Math.PI * 0.5,
     modelWheelSpinAxis: 'x',
     modelYOffset: 0.0,
     modelOffsetX: 0.0,
