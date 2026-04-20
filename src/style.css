@@ -1675,7 +1675,7 @@ canvas {
 
 .invite-organizer-phone {
   margin-top: 18px;
-  font-size: clamp(26px, 4.8vw, 52px);
+  font-size: clamp(24px, 4.6vw, 50px);
   color: #fff4de;
   line-height: 1;
 }
@@ -1893,7 +1893,9 @@ canvas {
   }
 
   .invite-headline {
-    max-width: 11ch;
+    max-width: 10ch;
+    font-size: clamp(25px, 6.6vw, 40px);
+    line-height: 0.97;
   }
 
   .invite-date-lockup {
