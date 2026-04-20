@@ -36,6 +36,22 @@ function applyCarMaterial(root, color) {
   });
 }
 
+function collectConfiguredWheelNodes(root, car) {
+  const names = new Set(car.wheelNodeNames ?? []);
+  if (!names.size) return null;
+
+  const wheels = [];
+  root.traverse((obj) => {
+    if (!names.has(obj.name)) return;
+    obj.userData.isWheel = true;
+    obj.userData.spinAxis = car.modelWheelSpinAxis ?? 'x';
+    wheels.push(obj);
+  });
+
+  root.userData.wheels = wheels;
+  return wheels;
+}
+
 function normalizeWheelPivot(mesh) {
   mesh.geometry?.computeBoundingBox?.();
   const bbox = mesh.geometry?.boundingBox;
@@ -235,7 +251,7 @@ export async function createCarModel(car) {
         return;
       }
 
-      if (car.id === 'charger') {
+      if (car.id === 'charger' && car.wheelHelper) {
         const sourceMaterial = Array.isArray(obj.material) ? obj.material[0] : obj.material;
         const materialName = sourceMaterial?.name ?? '';
 
@@ -247,6 +263,10 @@ export async function createCarModel(car) {
 
     applyCarMaterial(model, car.color);
     normalizeModel(model, car);
+    if (collectConfiguredWheelNodes(model, car)?.length) {
+      return model;
+    }
+
     if (car.wheelHelper) {
       attachWheelHelpers(model, car);
     } else {

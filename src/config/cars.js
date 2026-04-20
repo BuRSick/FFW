@@ -4,7 +4,7 @@ export const cars = [
   {
     id: 'charger',
     name: 'Dodge Charger',
-    modelPath: `${assetBase}assets/models/charger-lite.glb`,
+    modelPath: `${assetBase}assets/models/Charger2.glb`,
     color: 0x3e434a,
     acceleration: 0.0204,
     power: 34.2,
@@ -14,20 +14,11 @@ export const cars = [
     maxSpeed: 306,
     modelScale: 1.04,
     modelRotationY: Math.PI * 0.5,
-    modelWheelSpinAxis: 'y',
+    modelWheelSpinAxis: 'x',
     modelYOffset: 0.0,
     modelOffsetX: 0.0,
     modelOffsetZ: 0.0,
-    wheelHelper: {
-      radius: 0.31,
-      thickness: 0.18,
-      y: 0.27,
-      x: 0.84,
-      zFront: 1.19,
-      zRear: -1.14,
-      spinAxis: 'z',
-      tireRotationAxis: 'x'
-    }
+    wheelNodeNames: ['3DWheel Front L', '3DWheel Front R', '3DWheel Rear L', '3DWheel Rear R']
   },
   {
     id: 'supra',
