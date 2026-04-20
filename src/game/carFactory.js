@@ -30,8 +30,8 @@ function applyCarMaterial(root, color) {
       material.color = new THREE.Color(color);
     }
 
-    material.metalness = 0.6;
-    material.roughness = 0.3;
+    material.metalness = root.userData?.carPaintMetalness ?? 0.6;
+    material.roughness = root.userData?.carPaintRoughness ?? 0.3;
     obj.material = material;
   });
 }
@@ -284,3 +284,5 @@ export async function createCarModel(car) {
     return fallback;
   }
 }
+    model.userData.carPaintMetalness = car.paintMetalness;
+    model.userData.carPaintRoughness = car.paintRoughness;
