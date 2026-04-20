@@ -142,11 +142,13 @@ html, body, #app {
 
 #openingScreen {
   background: #000;
+  z-index: 20;
 }
 
 .opening-screen-shell {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: grid;
   align-content: center;
   justify-items: center;
@@ -154,6 +156,7 @@ html, body, #app {
   padding: 24px;
   text-align: center;
   background: #000;
+  pointer-events: auto;
 }
 
 .opening-screen-title,
@@ -172,6 +175,9 @@ html, body, #app {
 
 .opening-screen-btn {
   margin-top: 24px;
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
 }
 
 .intro-video {
