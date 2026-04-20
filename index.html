@@ -23,7 +23,7 @@
           <div class="opening-screen-title ff-title">Rostislav & Viktoriia</div>
           <div class="opening-screen-subtitle ff-title">Fast & Furious</div>
           <div class="opening-screen-subtitle ff-title">Wedding</div>
-          <button id="openInviteBtn" class="primary-btn opening-screen-btn">Открыть приглашение</button>
+          <button id="openInviteBtn" type="button" class="primary-btn opening-screen-btn" onclick="window.__openInviteFallback && window.__openInviteFallback()">Открыть приглашение</button>
         </div>
       </section>
 
@@ -459,6 +459,38 @@
         </div>
       </section>
     </div>
+    <script>
+      (function () {
+        function openInviteFallback() {
+          var openingScreen = document.getElementById('openingScreen');
+          var introScreen = document.getElementById('introScreen');
+          var introVideo = document.getElementById('introVideo');
+
+          if (openingScreen) {
+            openingScreen.classList.remove('active');
+          }
+
+          if (introScreen) {
+            introScreen.classList.add('active');
+          }
+
+          if (introVideo) {
+            introVideo.muted = false;
+            introVideo.play().catch(function () {});
+          }
+        }
+
+        window.__openInviteFallback = openInviteFallback;
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var button = document.getElementById('openInviteBtn');
+          if (!button) return;
+
+          button.addEventListener('click', openInviteFallback);
+          button.addEventListener('pointerup', openInviteFallback);
+        });
+      })();
+    </script>
   </body>
 </html>
 
