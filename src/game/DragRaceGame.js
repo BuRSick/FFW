@@ -52,7 +52,7 @@ export class DragRaceGame {
     this.bot.isBot = true;
     this.displaySpeedMax = 260;
     this.playerLane = { x: 2.6, z: 7.8 };
-    this.botLane = { x: -2.6, z: 6.2 };
+    this.botLane = { x: -2.6, z: 7.0 };
     this.playerCarModel = null;
     this.botCarModel = null;
     this.elapsed = 0;

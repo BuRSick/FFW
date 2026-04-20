@@ -1893,9 +1893,9 @@ canvas {
   }
 
   .invite-headline {
-    max-width: 10ch;
-    font-size: clamp(25px, 6.6vw, 40px);
-    line-height: 0.97;
+    max-width: 8.8ch;
+    font-size: clamp(24px, 6.1vw, 38px);
+    line-height: 0.96;
   }
 
   .invite-date-lockup {
