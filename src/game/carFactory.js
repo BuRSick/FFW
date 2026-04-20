@@ -128,7 +128,7 @@ function createFallbackCar(color) {
 function attachWheelHelpers(root, car) {
   if (!car.wheelHelper) return;
 
-  const { radius, thickness, x, y, zFront, zRear } = car.wheelHelper;
+  const { radius, thickness, x, y, zFront, zRear, spinAxis = 'x', tireRotationAxis = 'z' } = car.wheelHelper;
   const scaleComp = Math.abs(root.scale.x) > 1e-6 ? Math.abs(root.scale.x) : 1;
   const unit = 1 / scaleComp;
   const wheelMaterial = new THREE.MeshStandardMaterial({
@@ -150,13 +150,13 @@ function attachWheelHelpers(root, car) {
       const wheelGroup = new THREE.Group();
       wheelGroup.position.set(side * x * unit, y * unit, z * unit);
       wheelGroup.userData.isWheel = true;
-      wheelGroup.userData.spinAxis = 'x';
+      wheelGroup.userData.spinAxis = spinAxis;
 
       const tire = new THREE.Mesh(
         new THREE.CylinderGeometry(radius * unit, radius * unit, thickness * unit, 28),
         wheelMaterial
       );
-      tire.rotation.z = Math.PI / 2;
+      tire.rotation[tireRotationAxis] = Math.PI / 2;
       tire.castShadow = true;
       tire.receiveShadow = true;
 
@@ -164,7 +164,7 @@ function attachWheelHelpers(root, car) {
         new THREE.CylinderGeometry(radius * 0.56 * unit, radius * 0.56 * unit, thickness * 1.06 * unit, 18),
         rimMaterial
       );
-      rim.rotation.z = Math.PI / 2;
+      rim.rotation[tireRotationAxis] = Math.PI / 2;
       rim.castShadow = true;
       rim.receiveShadow = true;
 

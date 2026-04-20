@@ -24,7 +24,9 @@ export const cars = [
       y: 0.27,
       x: 0.84,
       zFront: 1.19,
-      zRear: -1.14
+      zRear: -1.14,
+      spinAxis: 'z',
+      tireRotationAxis: 'x'
     }
   },
   {
