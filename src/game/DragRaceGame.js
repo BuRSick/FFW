@@ -602,9 +602,11 @@ export class DragRaceGame {
   handleResize() {
     if (!this.scenePack) return;
     const { camera, renderer } = this.scenePack;
-    camera.aspect = window.innerWidth / window.innerHeight;
+    const width = Math.max(this.wrap?.clientWidth || window.innerWidth, 1);
+    const height = Math.max(this.wrap?.clientHeight || window.innerHeight, 1);
+    camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(width, height);
   }
 
   destroy() {

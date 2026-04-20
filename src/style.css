@@ -1348,8 +1348,8 @@ canvas {
   color: #fff4de;
 }
 
-.invite-headline-break {
-  display: none;
+.invite-headline-line {
+  display: block;
 }
 .invite-section,
 .invite-footer {
@@ -1901,13 +1901,13 @@ canvas {
   }
 
   .invite-headline {
-    max-width: 11.2ch;
-    font-size: clamp(24px, 6.2vw, 38px);
+    max-width: none;
+    font-size: clamp(23px, 5.8vw, 36px);
     line-height: 0.96;
   }
 
-  .invite-headline-break {
-    display: block;
+  .invite-headline-line {
+    white-space: nowrap;
   }
 
   .invite-date-lockup {

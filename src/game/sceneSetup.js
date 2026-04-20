@@ -419,9 +419,11 @@ export function createScene(rendererWrap) {
   scene.background = new THREE.Color(0xe6f4ff);
   scene.fog = null;
 
+  const viewWidth = Math.max(rendererWrap?.clientWidth || window.innerWidth, 1);
+  const viewHeight = Math.max(rendererWrap?.clientHeight || window.innerHeight, 1);
   const camera = new THREE.PerspectiveCamera(
     44,
-    window.innerWidth / window.innerHeight,
+    viewWidth / viewHeight,
     0.1,
     500
   );
@@ -436,7 +438,7 @@ export function createScene(rendererWrap) {
   });
 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(viewWidth, viewHeight);
   renderer.setClearColor(0xe6f4ff, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
