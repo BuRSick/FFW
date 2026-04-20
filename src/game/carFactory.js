@@ -261,6 +261,8 @@ export async function createCarModel(car) {
       }
     });
 
+    model.userData.carPaintMetalness = car.paintMetalness;
+    model.userData.carPaintRoughness = car.paintRoughness;
     applyCarMaterial(model, car.color);
     normalizeModel(model, car);
     if (collectConfiguredWheelNodes(model, car)?.length) {
@@ -284,5 +286,3 @@ export async function createCarModel(car) {
     return fallback;
   }
 }
-    model.userData.carPaintMetalness = car.paintMetalness;
-    model.userData.carPaintRoughness = car.paintRoughness;
