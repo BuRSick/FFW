@@ -5,7 +5,7 @@ export const cars = [
     id: 'charger',
     name: 'Dodge Charger',
     modelPath: `${assetBase}assets/models/Charger2.glb`,
-    color: 0x8b919b,
+    color: 0xb3b8c0,
     acceleration: 0.0204,
     power: 34.2,
     grip: 0.984,
