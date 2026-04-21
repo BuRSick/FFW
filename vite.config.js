@@ -1,8 +1,10 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig(({ command }) => {
-  const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? '';
-  const base = command === 'build' && repoName ? `/${repoName}/` : '/';
+  // Use relative asset paths in production build so the site works both:
+  // - on a custom domain at /
+  // - on GitHub Pages project sites (e.g. https://user.github.io/repo/)
+  const base = command === 'build' ? './' : '/';
 
   return {
     base,
