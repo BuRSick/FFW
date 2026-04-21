@@ -59,6 +59,22 @@ html, body, #app {
     linear-gradient(180deg, #91cfff 0%, #e1f3ff 38%, #e7d4a4 39%, #d9bf87 100%);
 }
 
+/* Ensure the 3D canvas always fills the whole screen, especially on mobile. */
+#gameCanvasWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+#gameCanvasWrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none;
+}
+
 .game-backplates {
   position: absolute;
   inset: 0;

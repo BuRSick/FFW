@@ -194,8 +194,7 @@ function boot() {
         showScreen('postRaceVideoScreen');
         await nextPaint();
         await playVideoOverlay({
-          videoId: 'postRaceVideo',
-          skipButtonId: 'postRaceVideoSkipBtn'
+          videoId: 'postRaceVideo'
         });
         showScreen('inviteScreen');
         await nextPaint();
@@ -207,8 +206,7 @@ function boot() {
     const preparePromise = currentGame.prepare();
     await nextPaint();
     await playVideoOverlay({
-      videoId: 'preRaceVideo',
-      skipButtonId: 'preRaceVideoSkipBtn'
+      videoId: 'preRaceVideo'
     });
     showScreen('gameScreen');
     await preparePromise;

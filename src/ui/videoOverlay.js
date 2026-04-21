@@ -1,6 +1,5 @@
-export function playVideoOverlay({ videoId, skipButtonId }) {
+export function playVideoOverlay({ videoId }) {
   const video = document.getElementById(videoId);
-  const skipBtn = document.getElementById(skipButtonId);
 
   if (!video) {
     return Promise.resolve();
@@ -14,7 +13,6 @@ export function playVideoOverlay({ videoId, skipButtonId }) {
       video.currentTime = 0;
       video.removeEventListener('ended', handleEnd);
       video.removeEventListener('error', handleEnd);
-      skipBtn?.removeEventListener('click', handleSkip);
     };
 
     const finish = () => {
@@ -25,7 +23,6 @@ export function playVideoOverlay({ videoId, skipButtonId }) {
     };
 
     const handleEnd = () => finish();
-    const handleSkip = () => finish();
 
     video.currentTime = 0;
     video.playsInline = true;
@@ -38,7 +35,6 @@ export function playVideoOverlay({ videoId, skipButtonId }) {
 
     video.addEventListener('ended', handleEnd, { once: true });
     video.addEventListener('error', handleEnd, { once: true });
-    skipBtn?.addEventListener('click', handleSkip);
 
     try {
       video.load();
